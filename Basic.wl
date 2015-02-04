@@ -35,7 +35,7 @@ ValidTemplateQ[template_] :=
   And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ template);
 
 RuleTemplateVars[ruletemplate_] := 
-  Union[Cases[ruletemplate, _Symbol, Infinity]]
+  SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
 TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=
   With[{neighbourhoodCount = k^(2 r + 1)},
