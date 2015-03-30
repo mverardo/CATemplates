@@ -30,11 +30,15 @@ RawTemplate::usage="RawTemplate[t_List]: Receives a template t, and drops any sp
 ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a template t, and returns all of the expressions of the form x \[Element] {__}.";
 
 
+ValueRestrictions::usage = "ValueRestrictions[imprisonmentExpression_]: Returns an expression that represents the value restricions dictated by an ImprisonmentExpression. Example: ValueRestrictions[x1 \[Element] {0,1}] -> x1 == 0 || x1 == 1";
+
+
 Begin["`Private`"];
 
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
@@ -100,6 +104,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
   RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -122,6 +127,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 
@@ -136,6 +142,10 @@ RawTemplate[template_]:= template /. Element[x_,set_] -> x;
 
 
 ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Infinity]
+
+
+ValueRestrictions[imprisonmentExpression_]:=
+ Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
 
 End[];
