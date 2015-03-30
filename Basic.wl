@@ -24,11 +24,18 @@ RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourho
 PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
 
 
+RawTemplate::usage="RawTemplate[t_List]: Receives a template t, and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
+
+
+ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a template t, and returns all of the expressions of the form x \[Element] {__}.";
+
+
 Begin["`Private`"];
 
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
 ValidTemplateQ[template_] :=
@@ -92,6 +99,7 @@ AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
 RuleTable[rnum_Integer, k_Integer: 2, r_: 1] := 
   RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -113,6 +121,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 
@@ -121,6 +130,12 @@ PossibleStateReplacements[k_Integer: 2] :=
     {permuts = Permutations[Range[0, k - 1]]},
     MapThread[Thread[#1 -> #2] &, {Table[First@permuts, {Length[permuts] - 1}], Rest@permuts}]
   ];
+
+
+RawTemplate[template_]:= template /. Element[x_,set_] -> x;
+
+
+ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Infinity]
 
 
 End[];
