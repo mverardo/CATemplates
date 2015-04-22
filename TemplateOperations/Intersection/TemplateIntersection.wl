@@ -1,25 +1,16 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateOperations`TemplateIntersection`", "CATemplates`Basic`"];
+BeginPackage[
+  "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
+  {
+    "CATemplates`Basic`", 
+    "CATemplates`TemplateOperations`Intersection`Common`"}];
 
 
 TemplateIntersection::usage= "TemplateIntersection[t1_List, t2_List]: Receives two templates t1 and t2, and finds a third template that represents their intersection.";
 
 
 Begin["`Private`"];
-
-
-Equations::usage="Equations[t1_List, t2_List]: Receives two templates, t1 and t2, and returns an equation system in which every slot of t1 is equal to the corresponding slot in t2.";
-Equations[template1_List,template2_List]:=
-  Equal @@ # & /@ Transpose[{template1, template2}];
-
-
-ReplacementRules::usage = "ReplacementRules[t1_List, t2_List]: Takes two templates t1 and t2, and returns the replacement rules that could be applied to t1 or t2 in order to find an intersection of both.";
-ReplacementRules[template1_, template2_]:=
-  With[{
-      templateVars = Union[Flatten[RuleTemplateVars[#] & /@ {template1, template2}, 1]]
-    },
-    Quiet[Solve[Equations[template1, template2], templateVars]]];
 
 
 RawTemplateIntersection::usage= "RawTemplateIntersection[t1_List, t2_List]: Receives two templates t1 and t2, and finds a third template that represents their intersection. Both arguments should be raw templates, i.e. templates that don't have special sintax constructs.";
