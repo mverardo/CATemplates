@@ -7,3 +7,6 @@ Get["CATemplates`TemplateOperations`TemplateIntersection`"]
 
 
 Get["CATemplates`TemplateOperations`ExceptionTemplates`"]
+
+
+Get["CATemplates`TemplateOperations`ComplementTemplates`"]
