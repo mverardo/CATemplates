@@ -19,6 +19,7 @@ KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
 RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
+ExceptionTemplates::usage= "Put documentation here";
 
 
 PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
@@ -38,6 +39,7 @@ Begin["`Private`"];
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 
 
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
@@ -105,6 +107,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -128,6 +131,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_In
   Extract[kAryRuleTable, {
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 
@@ -146,6 +150,10 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 
 ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
+
+
+ExceptionTemplates[k_Integer:2,r_:1,intemplate_]:=
+MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((BaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
 
 End[];
