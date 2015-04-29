@@ -19,7 +19,36 @@ KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
 RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
-ExceptionTemplates::usage= "Put documentation here";
+
+ExceptionTemplates::usage= "ExceptionTemplates[\!\(\*
+StyleBox[\"k\", \"TI\"]\), \!\(\*
+StyleBox[
+StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\), \!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)] generate all the templates with variable assignments that make the \!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\) with \!\(\*
+StyleBox[\"k\", \"TI\"]\) colors and \!\(\*
+StyleBox[
+StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\) range invalid.
+ExceptionTemplates[\!\(\*
+StyleBox[\"k\", \"TI\"]\), \!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)] generate all the templates with variable assignments that make the \!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\) with \!\(\*
+StyleBox[\"k\", \"TI\"]\) colors and range 1 invalid.
+ExceptionTemplates[\!\(\*
+StyleBox[\"t\",\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)] generate all the templates with variable assignments that make the elementar \*
+StyleBox[\(\!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)\)] invalid.";
 
 
 PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
@@ -39,6 +68,7 @@ Begin["`Private`"];
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 
 
 
@@ -108,6 +138,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -129,6 +160,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
+
 
 
 

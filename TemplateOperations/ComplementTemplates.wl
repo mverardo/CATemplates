@@ -3,21 +3,34 @@
 BeginPackage["CATemplates`TemplateOperations`ComplementTemplates`","CATemplates`Basic`"];
 
 
-ComplementTemplates::usage= "Put documentation here";
+ComplementTemplates::usage= "ComplementTemplates[\!\(\*
+StyleBox[
+StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\), \*
+StyleBox[\(\!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)\)]] generate a set of templates that represent the completary rules of the \*
+StyleBox[\(\!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)\)]\!\(\*
+StyleBox[\"  \", \"TI\"]\)with the \!\(\*
+StyleBox[
+StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\" \", \"TI\"]\)radius.
+ComplementTemplates[\*
+StyleBox[\(\!\(\*
+StyleBox[\"t\",\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)\)]] generate a set of templates that represent the completary rules of the \*
+StyleBox[\(\!\(\*
+StyleBox[
+StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
+StyleBox[\"emplate\", \"TI\"]\)\)]\!\(\*
+StyleBox[\"  \", \"TI\"]\)with the radius 1\!\(\*
+StyleBox[\";\", \"TI\"]\)";
 
 
 Begin["`Private`"];
-
-
-(*GetEquation::usage= "Put documentation here";
-GetEquation[r_:1,t_]:=Select[MapThread[If[#1===#2,"X",#1==#2]&,{BaseTemplate[2,r],t}],Not[#==="X"]&];*)
-
-
-(*GetEquationComplements::usage= "Put documentation here";
-GetEquationComplements[r_:1,t_]:=Apply[Or,#&/@Map[Part[#,1]==1-(Part[#,2])&,GetEquation[r,t]]];*)
-
-
-(*ComplementTemplates[r_:1,t_]:=Join[BaseTemplate[2,r]/.Solve[GetEquationComplements[r,t]],MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[2,r],#}]&/@ExceptionTemplates[2, r, t]];*)
 
 
 ComplementTemplates[r_:1,t_]:=
