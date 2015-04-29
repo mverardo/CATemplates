@@ -3,31 +3,8 @@
 BeginPackage["CATemplates`TemplateOperations`ComplementTemplates`","CATemplates`Basic`"];
 
 
-ComplementTemplates::usage= "ComplementTemplates[\!\(\*
-StyleBox[
-StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\), \*
-StyleBox[\(\!\(\*
-StyleBox[
-StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
-StyleBox[\"emplate\", \"TI\"]\)\)]] generate a set of templates that represent the completary rules of the \*
-StyleBox[\(\!\(\*
-StyleBox[
-StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
-StyleBox[\"emplate\", \"TI\"]\)\)]\!\(\*
-StyleBox[\"  \", \"TI\"]\)with the \!\(\*
-StyleBox[
-StyleBox[\"r\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
-StyleBox[\" \", \"TI\"]\)radius.
-ComplementTemplates[\*
-StyleBox[\(\!\(\*
-StyleBox[\"t\",\nFontSlant->\"Italic\"]\)\!\(\*
-StyleBox[\"emplate\", \"TI\"]\)\)]] generate a set of templates that represent the completary rules of the \*
-StyleBox[\(\!\(\*
-StyleBox[
-StyleBox[\"t\", \"TI\"],\nFontSlant->\"Italic\"]\)\!\(\*
-StyleBox[\"emplate\", \"TI\"]\)\)]\!\(\*
-StyleBox[\"  \", \"TI\"]\)with the radius 1\!\(\*
-StyleBox[\";\", \"TI\"]\)";
+ComplementTemplates::usage= "ComplementTemplates[r, t] generate a set of templates that represent the completary rules of the binary template t with the r radius.
+ComplementTemplates[t] generate a set of templates that represent the completary rules of the binary template t with the radius 1.";
 
 
 Begin["`Private`"];
