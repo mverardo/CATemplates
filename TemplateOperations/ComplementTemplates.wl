@@ -16,7 +16,7 @@ complementEquation = Apply[Or,#&/@Map[Part[#,1]==1-(Part[#,2])&,Select[MapThread
 baseTemplate = BaseTemplate[2,r]
 },
 
-Join[baseTemplate/.Solve[complementEquation],MapThread[If[#2=== _,#1,#2]&,{baseTemplate,#}]&/@ExceptionTemplates[2, r, t]]
+Join[If[Solve[complementEquation]==={},{},baseTemplate/.Solve[complementEquation]],MapThread[If[#2=== _,#1,#2]&,{baseTemplate,#}]&/@ExceptionTemplates[2, r, t]]
 ];
 
 
