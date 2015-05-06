@@ -20,9 +20,7 @@ RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to 
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
 RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
 
-ExceptionTemplates::usage= "ExceptionTemplates[k, r, t] generate all the templates with variable assignments that make the template t with k colors and r range invalid.
-ExceptionTemplates[k, t] generate all the templates with variable assignments that make the template t with k colors and range 1 invalid.
-ExceptionTemplates[t] generate all the templates with variable assignments that make the elementar template t invalid.";
+ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Integer:2] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
 
 
 PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
@@ -42,6 +40,7 @@ Begin["`Private`"];
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 
 
 
@@ -117,6 +116,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -144,6 +144,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_In
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 
@@ -164,8 +165,8 @@ ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
 
-ExceptionTemplates[k_Integer:2,r_:1,intemplate_]:=
-MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((BaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
+  MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((BaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
 
 End[];

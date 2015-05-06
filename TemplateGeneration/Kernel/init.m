@@ -16,3 +16,6 @@ Get["CATemplates`TemplateGeneration`SymmetricTemplate`"]
 
 
 Get["CATemplates`TemplateGeneration`TotalisticTemplate`"]
+
+
+Get["CATemplates`TemplateGeneration`ComplementaryTemplates`"]
