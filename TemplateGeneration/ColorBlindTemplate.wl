@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`", "CATemplates`Basic`", "CATemplates`TemplateOperations`Intersection`TemplateIntersection`"];
+BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`", "CATemplates`Basic`", "CATemplates`TemplateOperations`Intersection`ModularTemplateIntersection`"];
 
 
 ColorBlindTemplate::usage="Generates a template representative of all the color blind rules of a given space (defined by k and r).";
@@ -43,7 +43,7 @@ FindVarRelationships[varSet_List, f_Function]:=
 ColorBlindTemplate[k_Integer: 2, r_Integer: 1] :=
   With[
     {cbTemplates = ColorBlindTemplate[#, k, r] & /@ PossibleStateReplacements[k]},
-    Fold[TemplateIntersection, cbTemplates[[1]], Drop[cbTemplates,1]]
+    Fold[ModularTemplateIntersection[#2, #1, k]&, cbTemplates[[1]], Rest[cbTemplates]]
   ];
 
 ColorBlindTemplate[permutation_List, k_Integer: 2, r_Integer: 1] :=
