@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[    133502,       3440]
-NotebookOptionsPosition[    121923,       3024]
-NotebookOutlinePosition[    122257,       3039]
-CellTagsIndexPosition[    122214,       3036]
+NotebookDataLength[    112125,       2886]
+NotebookOptionsPosition[    102289,       2530]
+NotebookOutlinePosition[    102623,       2545]
+CellTagsIndexPosition[    102580,       2542]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1910,500 +1910,6 @@ Cell["Template Generation", "Title",
 
 Cell[CellGroupData[{
 
-Cell["SymmetricTemplate", "Chapter",
- CellChangeTimes->{{3.6255935345279503`*^9, 3.625593536848427*^9}}],
-
-Cell[BoxData[{
- RowBox[{
-  RowBox[{
-   RowBox[{"EqualTransitionCount", "::", "usage"}], "=", 
-   "\"\<Finds out the quantity of shared transitions between two k-ary rule \
-tables.\>\""}], ";"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"EqualTransitionCount", "[", 
-    RowBox[{"karyRuleTableA_", ",", "karyRuleTableB_"}], "]"}], ":=", 
-   RowBox[{"Plus", "@@", 
-    RowBox[{"MapThread", "[", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"#1", "\[Equal]", "#2"}], ",", "1", ",", "0"}], "]"}], "&"}],
-       ",", 
-      RowBox[{"{", 
-       RowBox[{"karyRuleTableA", ",", "karyRuleTableB"}], "}"}]}], "]"}]}]}], 
-  "\[IndentingNewLine]"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"SymmetryValues", "::", "usage"}], "=", 
-   "\"\<Finds the internal symmetry values according to one of the \
-transformations.\>\""}], ";"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"SymmetryValues", "[", 
-    RowBox[{"transformation_", ",", 
-     RowBox[{"initRuleTables_List:", " ", 
-      RowBox[{"{", "}"}]}]}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{
-      "transformedRuleTables", ",", "both", ",", "bothValues", ",", 
-       "ruleTables"}], "}"}], ",", 
-     RowBox[{
-      RowBox[{"ruleTables", "=", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{
-          RowBox[{"Length", "[", "initRuleTables", "]"}], "\[Equal]", "0"}], 
-         ",", 
-         RowBox[{"Tuples", "[", 
-          RowBox[{
-           RowBox[{"{", 
-            RowBox[{"0", ",", "1"}], "}"}], ",", "8"}], "]"}], ",", 
-         "initRuleTables"}], "]"}]}], ";", "\[IndentingNewLine]", 
-      RowBox[{"transformedRuleTables", "=", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"KAryFromRuleTable", "[", 
-          RowBox[{"transformation", "[", 
-           RowBox[{"RuleTableFromKAry", "[", "#", "]"}], "]"}], "]"}], "&"}], 
-        "/@", "ruleTables"}]}], ";", "\[IndentingNewLine]", 
-      RowBox[{"both", "=", 
-       RowBox[{"Transpose", "[", 
-        RowBox[{"{", 
-         RowBox[{"ruleTables", ",", "transformedRuleTables"}], "}"}], "]"}]}],
-       ";", "\[IndentingNewLine]", 
-      RowBox[{"bothValues", "=", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"#", "[", 
-            RowBox[{"[", "1", "]"}], "]"}], ",", 
-           RowBox[{"#", "[", 
-            RowBox[{"[", "2", "]"}], "]"}], ",", 
-           RowBox[{"EqualTransitionCount", "[", 
-            RowBox[{
-             RowBox[{"#", "[", 
-              RowBox[{"[", "1", "]"}], "]"}], ",", 
-             RowBox[{"#", "[", 
-              RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], "}"}], "&"}], "/@", 
-        "both"}]}], ";", "\[IndentingNewLine]", "bothValues"}]}], "]"}]}], 
-  "\[IndentingNewLine]"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"RulesWithSymmetry", "::", "usage"}], "=", 
-   "\"\<Finds the rules that have a given value for symmetry\>\""}], 
-  ";"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"RulesWithSymmetry", "[", 
-    RowBox[{"transformations_List", ",", "value_"}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", "symmetryValues", "}"}], ",", 
-     RowBox[{
-      RowBox[{"symmetryValues", "=", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          RowBox[{
-           RowBox[{"#", "[", 
-            RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", 
-          RowBox[{"Select", "[", 
-           RowBox[{
-            RowBox[{"SymmetryValues", "[", "#", "]"}], ",", 
-            RowBox[{"(", 
-             RowBox[{
-              RowBox[{
-               RowBox[{"Last", "[", "#", "]"}], "\[Equal]", "value"}], "&"}], 
-             ")"}]}], "]"}]}], "&"}], "/@", "transformations"}]}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"Apply", "[", 
-       RowBox[{"Intersection", ",", "symmetryValues"}], "]"}]}]}], "]"}]}], 
-  ";"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"RulesWithSymmetry", "[", 
-    RowBox[{"transformation_", ",", "value_"}], "]"}], ":=", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"#", "[", 
-      RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", 
-    RowBox[{"Select", "[", 
-     RowBox[{
-      RowBox[{"SymmetryValues", "[", "transformation", "]"}], ",", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"Last", "[", "#", "]"}], "\[Equal]", "value"}], "&"}]}], 
-     "]"}]}]}], ";"}]}], "Input",
- CellChangeTimes->{{3.625593537658431*^9, 3.625593537659225*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWTransform", ",", "2"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWTransform", ",", "2"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.6255935466132793`*^9, 3.625593546613617*^9}, 
-   3.626173233106312*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.625593547186708*^9, {3.626173226029173*^9, 3.626173253451071*^9}, 
-   3.636722421164817*^9, 3.636722452874064*^9, 3.636723520642853*^9, {
-   3.636723565069735*^9, 3.63672357919627*^9}, {3.636723670292454*^9, 
-   3.63672371578024*^9}, 3.636723991611273*^9, {3.636724391163245*^9, 
-   3.636724422635581*^9}, 3.636725486640909*^9, 3.636733673616508*^9, 
-   3.636734083645822*^9, 3.6386450611947412`*^9, 3.63865129341963*^9, 
-   3.638651386197588*^9, 3.6386557970821743`*^9, 3.6386602376500683`*^9, 
-   3.638660938752083*^9, 3.640008785706863*^9, 3.640017701341208*^9, 
-   3.640025946555118*^9, 3.640025998673765*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWTransform", ",", "4"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWTransform", ",", "4"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.62559355084966*^9, 3.6255935508500013`*^9}, 
-   3.626173260103245*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255935518135757`*^9, {3.626173257641987*^9, 3.6261732604931917`*^9}, 
-   3.636722421237013*^9, 3.6367224529629517`*^9, 3.636723520731138*^9, {
-   3.636723565150571*^9, 3.636723579282971*^9}, {3.636723670431881*^9, 
-   3.636723715859144*^9}, 3.636723991701961*^9, {3.636724391249755*^9, 
-   3.636724422874393*^9}, 3.63672548672383*^9, 3.636733673704583*^9, 
-   3.6367340838113623`*^9, 3.638645061243021*^9, 3.638651293487794*^9, 
-   3.638651386253695*^9, 3.638655797137628*^9, 3.638660237684498*^9, 
-   3.638660938804743*^9, 3.640008785758892*^9, 3.640017701443244*^9, 
-   3.640025946585362*^9, 3.640025998709751*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWTransform", ",", "6"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWTransform", ",", "6"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.6255935550044327`*^9, 3.625593556954681*^9}, 
-   3.6261732635638857`*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.625593618100172*^9, {3.626173257735948*^9, 3.626173264896756*^9}, 
-   3.636722421308073*^9, 3.636722453047102*^9, 3.636723520813467*^9, {
-   3.636723565280686*^9, 3.636723579360372*^9}, {3.636723670513283*^9, 
-   3.636723715942832*^9}, 3.636723991775378*^9, {3.6367243913254147`*^9, 
-   3.636724422961399*^9}, 3.6367254867961683`*^9, 3.6367336737878227`*^9, 
-   3.636734084122841*^9, 3.638645061276187*^9, 3.6386512935463543`*^9, 
-   3.638651386315566*^9, 3.6386557971902037`*^9, 3.638660237715877*^9, 
-   3.6386609389611073`*^9, 3.6400087857992973`*^9, 3.64001770149555*^9, 
-   3.6400259466164*^9, 3.640025998737483*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWTransform", ",", "8"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWTransform", ",", "8"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.625593558273467*^9, 3.625593558273795*^9}, 
-   3.6261732670465117`*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936182213182`*^9, {3.62617325777874*^9, 3.6261732685342693`*^9}, 
-   3.6367224213656178`*^9, 3.636722453105022*^9, 3.63672352087639*^9, {
-   3.636723565345077*^9, 3.636723579425612*^9}, {3.636723670611331*^9, 
-   3.636723716043454*^9}, 3.6367239918426237`*^9, {3.636724391395137*^9, 
-   3.636724423036253*^9}, 3.636725486865726*^9, 3.636733673856544*^9, 
-   3.636734084217401*^9, 3.638645061310417*^9, 3.6386512935932693`*^9, 
-   3.638651386541218*^9, 3.638655797238016*^9, 3.638660237743252*^9, 
-   3.638660939018229*^9, 3.640008785835555*^9, 3.6400177015444603`*^9, 
-   3.6400259466436853`*^9, 3.6400259987662077`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"LRTransform", ",", "2"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"LRTransform", ",", "2"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.625593560367837*^9, 3.625593560369087*^9}, 
-   3.626173270604024*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936182701683`*^9, {3.626173257818285*^9, 3.626173270962317*^9}, 
-   3.636722421420128*^9, 3.636722453160966*^9, 3.636723520929536*^9, {
-   3.63672356540252*^9, 3.636723579483646*^9}, {3.636723670694171*^9, 
-   3.636723716124977*^9}, 3.636723991939931*^9, {3.6367243914544153`*^9, 
-   3.636724423121201*^9}, 3.636725486937129*^9, 3.636733673926567*^9, 
-   3.6367340843022203`*^9, 3.638645061339676*^9, 3.638651293626886*^9, 
-   3.63865138660604*^9, 3.638655797282753*^9, 3.638660237769414*^9, 
-   3.6386609390693197`*^9, 3.640008785868307*^9, 3.640017701589107*^9, 
-   3.640025946666238*^9, 3.640025998792574*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"LRTransform", ",", "4"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"LRTransform", ",", "4"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.625593563253892*^9, 3.6255935632542477`*^9}, 
-   3.626173272841008*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.62559361834006*^9, {3.626173257859274*^9, 3.626173273193275*^9}, 
-   3.63672242149013*^9, 3.636722453269836*^9, 3.6367235210036592`*^9, {
-   3.636723565475095*^9, 3.636723579554634*^9}, {3.636723670775529*^9, 
-   3.6367237162048683`*^9}, 3.636723992020789*^9, {3.636724391535219*^9, 
-   3.6367244232084017`*^9}, 3.636725487012999*^9, 3.6367336740027237`*^9, 
-   3.636734084389134*^9, 3.6386450613697557`*^9, 3.6386512936570253`*^9, 
-   3.638651386660672*^9, 3.6386557973656*^9, 3.638660237804336*^9, 
-   3.638660939134359*^9, 3.6400087859071617`*^9, 3.640017701643365*^9, 
-   3.640025946694331*^9, 3.6400259988246603`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"LRTransform", ",", "6"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"LRTransform", ",", "6"}], "]"}]}]], "Input",
- CellChangeTimes->{3.6261732755760927`*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936184125643`*^9, {3.62617325790446*^9, 3.626173276090685*^9}, 
-   3.636722421573633*^9, 3.636722453362076*^9, 3.636723521087503*^9, {
-   3.636723565562675*^9, 3.6367235797246723`*^9}, {3.636723671055587*^9, 
-   3.636723716298855*^9}, 3.636723992104967*^9, {3.6367243916302357`*^9, 
-   3.636724423332939*^9}, 3.636725487181356*^9, 3.636733674115039*^9, 
-   3.636734084535267*^9, 3.638645061405867*^9, 3.638651293689337*^9, 
-   3.638651386854205*^9, 3.638655797444244*^9, 3.638660237843577*^9, 
-   3.638660939305176*^9, 3.6400087859551077`*^9, 3.6400177017618027`*^9, 
-   3.6400259467303*^9, 3.640025998864482*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"LRTransform", ",", "8"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"LRTransform", ",", "8"}], "]"}]}]], "Input",
- CellChangeTimes->{3.6261732781434917`*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936184508667`*^9, {3.626173257933174*^9, 3.62617327858917*^9}, 
-   3.636722421648283*^9, 3.636722453433195*^9, 3.636723521213992*^9, {
-   3.636723565634467*^9, 3.6367235797926893`*^9}, {3.636723671137669*^9, 
-   3.636723716422447*^9}, 3.636723992180109*^9, {3.63672439178837*^9, 
-   3.6367244234121647`*^9}, 3.636725487258724*^9, 3.6367336741952972`*^9, 
-   3.6367340846463823`*^9, 3.638645061444347*^9, 3.638651293746595*^9, 
-   3.6386513869316463`*^9, 3.6386557975067873`*^9, 3.638660237877945*^9, 
-   3.6386609393719893`*^9, 3.6400087859956617`*^9, 3.640017701811429*^9, 
-   3.6400259467599287`*^9, 3.640025998896503*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWLRTransform", ",", "2"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWLRTransform", ",", "2"}], "]"}]}]], "Input",
- CellChangeTimes->{3.625593587248114*^9, 3.62617328107411*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.625593618490355*^9, 3.626173296026486*^9, 3.636722421769929*^9, 
-   3.636722453538128*^9, 3.636723521329371*^9, {3.636723565746099*^9, 
-   3.6367235798925953`*^9}, {3.636723671242695*^9, 3.636723716529497*^9}, 
-   3.6367239922952757`*^9, {3.636724391964532*^9, 3.636724423523817*^9}, 
-   3.6367254873784847`*^9, 3.636733674304207*^9, 3.636734084846795*^9, 
-   3.638645061488591*^9, 3.638651293828219*^9, 3.638651387007555*^9, 
-   3.6386557976273737`*^9, 3.6386602379227953`*^9, 3.638660939442162*^9, 
-   3.6400087860728903`*^9, 3.640017701871669*^9, 3.640025946798604*^9, 
-   3.6400259989396973`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWLRTransform", ",", "4"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWLRTransform", ",", "4"}], "]"}]}]], "Input",
- CellChangeTimes->{3.625593588933505*^9, 3.626173283757668*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.625593618577533*^9, 3.6261732961534767`*^9, 3.636722421874485*^9, 
-   3.63672245365166*^9, 3.636723521443623*^9, {3.636723565860999*^9, 
-   3.636723580002049*^9}, {3.636723671364028*^9, 3.636723716642645*^9}, 
-   3.636723992412388*^9, {3.636724392077752*^9, 3.636724423643157*^9}, 
-   3.6367254875038977`*^9, 3.636733674566374*^9, 3.636734085255323*^9, 
-   3.6386450615653887`*^9, 3.638651294094268*^9, 3.6386513871855717`*^9, 
-   3.6386557976946993`*^9, 3.6386602379645863`*^9, 3.6386609395103903`*^9, 
-   3.640008786131328*^9, 3.640017701967442*^9, 3.64002594684175*^9, 
-   3.640025998983871*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWLRTransform", ",", "6"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWLRTransform", ",", "6"}], "]"}]}]], "Input",
- CellChangeTimes->{3.625593597014843*^9, 3.626173285966083*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.62559361864966*^9, 3.626173296217514*^9, 3.636722421980563*^9, 
-   3.636722453848775*^9, 3.6367235215562162`*^9, {3.636723565956634*^9, 
-   3.636723580110868*^9}, {3.636723671503807*^9, 3.636723716752297*^9}, 
-   3.636723992520273*^9, {3.6367243921904907`*^9, 3.636724423821713*^9}, 
-   3.636725487610609*^9, 3.63673367468944*^9, 3.63673408538092*^9, 
-   3.6386450616083508`*^9, 3.638651294226111*^9, 3.638651387276306*^9, 
-   3.638655797769845*^9, 3.638660238010736*^9, 3.638660939713542*^9, 
-   3.640008786180272*^9, 3.640017702046694*^9, 3.640025946878851*^9, 
-   3.6400259990302677`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sort", "[", 
-   RowBox[{"ExpandTemplate", "[", 
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWLRTransform", ",", "8"}], "]"}], "]"}], "]"}], "\[Equal]", 
-  RowBox[{"RulesWithSymmetry", "[", 
-   RowBox[{"BWLRTransform", ",", "8"}], "]"}]}]], "Input",
- CellChangeTimes->{3.625593598509461*^9, 3.626173288630713*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936187165613`*^9, 3.62617329627393*^9, 3.636722422112418*^9, 
-   3.636722453938945*^9, 3.636723521655531*^9, {3.6367235660904016`*^9, 
-   3.636723580227859*^9}, {3.636723671608308*^9, 3.636723716865591*^9}, 
-   3.636723992621419*^9, {3.6367243922900467`*^9, 3.6367244239195623`*^9}, 
-   3.63672548770889*^9, 3.63673367480752*^9, 3.636734085522143*^9, 
-   3.638645061643615*^9, 3.63865129437973*^9, 3.638651387416071*^9, 
-   3.638655797845791*^9, 3.638660238056426*^9, 3.638660939848857*^9, 
-   3.640008786225333*^9, 3.640017702099534*^9, 3.640025946912719*^9, 
-   3.6400259990700493`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"SymmetricTemplate", "[", 
-   RowBox[{"BWLRTransform", ",", "4", ",", "2", ",", "1", ",", "5"}], "]"}], 
-  "\[Equal]", 
-  RowBox[{
-   RowBox[{"SymmetricTemplate", "[", 
-    RowBox[{"BWLRTransform", ",", "4", ",", "2", ",", "1"}], "]"}], "[", 
-   RowBox[{"[", 
-    RowBox[{"1", ";;", "5"}], "]"}], "]"}]}]], "Input",
- CellChangeTimes->{3.625593610483477*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.625593618756043*^9, 3.626173296305586*^9, 3.636722422153997*^9, 
-   3.6367224539739513`*^9, 3.6367235217074213`*^9, {3.6367235661344643`*^9, 
-   3.6367235802655087`*^9}, {3.636723671666214*^9, 3.6367237169331827`*^9}, 
-   3.636723992675301*^9, {3.636724392328693*^9, 3.636724423982601*^9}, 
-   3.636725487770965*^9, 3.636733674862743*^9, 3.6367340856500893`*^9, 
-   3.6386450616523113`*^9, 3.638651294411586*^9, 3.6386513875281754`*^9, 
-   3.638655797884733*^9, 3.638660238068079*^9, 3.6386609400388727`*^9, 
-   3.640008786244594*^9, 3.640017702128173*^9, 3.640025946923183*^9, 
-   3.64002599908278*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"SymmetricTemplate", "[", 
-   RowBox[{"BWLRTransform", ",", "4", ",", "2", ",", "1", ",", 
-    RowBox[{"{", "5", "}"}]}], "]"}], "\[Equal]", 
-  RowBox[{"{", 
-   RowBox[{
-    RowBox[{"SymmetricTemplate", "[", 
-     RowBox[{"BWLRTransform", ",", "4", ",", "2", ",", "1"}], "]"}], "[", 
-    RowBox[{"[", "5", "]"}], "]"}], "}"}]}]], "Input",
- CellChangeTimes->{3.625593611554882*^9}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{
-  3.6255936188003807`*^9, 3.626173296337215*^9, 3.6367224222035217`*^9, 
-   3.6367224540204144`*^9, 3.636723521772973*^9, {3.6367235661848927`*^9, 
-   3.636723580324676*^9}, {3.636723671731077*^9, 3.636723716979382*^9}, 
-   3.636723992739304*^9, {3.636724392378407*^9, 3.6367244240434437`*^9}, 
-   3.636725487839101*^9, 3.636733674928993*^9, 3.6367340857727118`*^9, 
-   3.6386450616617193`*^9, 3.638651294443677*^9, 3.638651387578651*^9, 
-   3.638655797934771*^9, 3.638660238079239*^9, 3.638660940081851*^9, 
-   3.640008786262315*^9, 3.6400177021552467`*^9, 3.640025946938202*^9, 
-   3.6400259990937223`*^9}]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
 Cell["Complementary Templates", "Chapter",
  CellChangeTimes->{{3.640008887624301*^9, 3.640008894466031*^9}}],
 
@@ -3313,125 +2819,65 @@ Cell[74021, 1893, 462, 7, 32, "Output"]
 Cell[CellGroupData[{
 Cell[74544, 1907, 102, 1, 96, "Title"],
 Cell[CellGroupData[{
-Cell[74671, 1912, 104, 1, 69, "Chapter"],
-Cell[74778, 1915, 4405, 126, 539, "Input"],
+Cell[74671, 1912, 108, 1, 69, "Chapter"],
 Cell[CellGroupData[{
-Cell[79208, 2045, 383, 9, 32, "Input"],
-Cell[79594, 2056, 669, 10, 32, "Output"]
+Cell[74804, 1917, 156, 2, 65, "Subchapter"],
+Cell[CellGroupData[{
+Cell[74985, 1923, 294, 8, 32, "Input"],
+Cell[75282, 1933, 167, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[80300, 2071, 382, 9, 32, "Input"],
-Cell[80685, 2082, 673, 10, 32, "Output"]
+Cell[75486, 1940, 776, 20, 55, "Input"],
+Cell[76265, 1962, 142, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[81395, 2097, 385, 9, 32, "Input"],
-Cell[81783, 2108, 677, 10, 32, "Output"]
+Cell[76444, 1969, 1181, 31, 143, "Input"],
+Cell[77628, 2002, 191, 4, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[82497, 2123, 383, 9, 32, "Input"],
-Cell[82883, 2134, 680, 10, 32, "Output"]
+Cell[77856, 2011, 718, 20, 55, "Input"],
+Cell[78577, 2033, 143, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[83600, 2149, 381, 9, 32, "Input"],
-Cell[83984, 2160, 672, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[84693, 2175, 383, 9, 32, "Input"],
-Cell[85079, 2186, 678, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[85794, 2201, 333, 8, 32, "Input"],
-Cell[86130, 2211, 673, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[86840, 2226, 333, 8, 32, "Input"],
-Cell[87176, 2236, 684, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[87897, 2251, 356, 8, 32, "Input"],
-Cell[88256, 2261, 656, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[88949, 2276, 357, 8, 32, "Input"],
-Cell[89309, 2286, 654, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[90000, 2301, 357, 8, 32, "Input"],
-Cell[90360, 2311, 647, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[91044, 2326, 357, 8, 32, "Input"],
-Cell[91404, 2336, 648, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[92089, 2351, 391, 10, 32, "Input"],
-Cell[92483, 2363, 659, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[93179, 2378, 414, 10, 32, "Input"],
-Cell[93596, 2390, 660, 10, 32, "Output"]
+Cell[78757, 2040, 1297, 30, 148, "Input"],
+Cell[80057, 2072, 146, 2, 32, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[94305, 2406, 108, 1, 69, "Chapter"],
+Cell[80252, 2080, 81, 1, 65, "Subchapter"],
 Cell[CellGroupData[{
-Cell[94438, 2411, 156, 2, 65, "Subchapter"],
-Cell[CellGroupData[{
-Cell[94619, 2417, 294, 8, 32, "Input"],
-Cell[94916, 2427, 167, 2, 32, "Output"]
+Cell[80358, 2085, 795, 15, 77, "Input"],
+Cell[81156, 2102, 143, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[95120, 2434, 776, 20, 55, "Input"],
-Cell[95899, 2456, 142, 2, 32, "Output"]
+Cell[81336, 2109, 2277, 41, 231, "Input"],
+Cell[83616, 2152, 144, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[96078, 2463, 1181, 31, 143, "Input"],
-Cell[97262, 2496, 191, 4, 32, "Output"]
+Cell[83797, 2159, 3158, 57, 319, "Input"],
+Cell[86958, 2218, 196, 4, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[97490, 2505, 718, 20, 55, "Input"],
-Cell[98211, 2527, 143, 2, 32, "Output"]
+Cell[87191, 2227, 2159, 39, 187, "Input"],
+Cell[89353, 2268, 144, 2, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[98391, 2534, 1297, 30, 148, "Input"],
-Cell[99691, 2566, 146, 2, 32, "Output"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[99886, 2574, 81, 1, 65, "Subchapter"],
-Cell[CellGroupData[{
-Cell[99992, 2579, 795, 15, 77, "Input"],
-Cell[100790, 2596, 143, 2, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[100970, 2603, 2277, 41, 231, "Input"],
-Cell[103250, 2646, 144, 2, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[103431, 2653, 3158, 57, 319, "Input"],
-Cell[106592, 2712, 196, 4, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[106825, 2721, 2159, 39, 187, "Input"],
-Cell[108987, 2762, 144, 2, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[109168, 2769, 9103, 154, 614, "Input"],
-Cell[118274, 2925, 144, 2, 32, "Output"]
+Cell[89534, 2275, 9103, 154, 614, "Input"],
+Cell[98640, 2431, 144, 2, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[118479, 2934, 96, 1, 69, "Chapter"],
-Cell[118578, 2937, 847, 20, 143, "Input"],
-Cell[119428, 2959, 534, 14, 55, "Input"],
+Cell[98845, 2440, 96, 1, 69, "Chapter"],
+Cell[98944, 2443, 847, 20, 143, "Input"],
+Cell[99794, 2465, 534, 14, 55, "Input"],
 Cell[CellGroupData[{
-Cell[119987, 2977, 335, 7, 32, "Input"],
-Cell[120325, 2986, 730, 10, 32, "Output"]
+Cell[100353, 2483, 335, 7, 32, "Input"],
+Cell[100691, 2492, 730, 10, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[121092, 3001, 691, 15, 32, "Input"],
-Cell[121786, 3018, 97, 1, 32, "Output"]
+Cell[101458, 2507, 691, 15, 32, "Input"],
+Cell[102152, 2524, 97, 1, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
