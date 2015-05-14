@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[    112125,       2886]
-NotebookOptionsPosition[    102289,       2530]
-NotebookOutlinePosition[    102623,       2545]
-CellTagsIndexPosition[    102580,       2542]
+NotebookDataLength[    108282,       2782]
+NotebookOptionsPosition[     98836,       2439]
+NotebookOutlinePosition[     99170,       2454]
+CellTagsIndexPosition[     99127,       2451]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2434,97 +2434,6 @@ Cell[BoxData["True"], "Output",
   3.640025947042989*^9, 3.640025999219665*^9}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["ColorBlind", "Chapter",
- CellChangeTimes->{{3.62617299254699*^9, 3.6261729940312357`*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"TestTable", "[", 
-   RowBox[{"karyTable_", ",", " ", "permutation_", ",", "k_"}], "]"}], ":=", 
-  "\[IndentingNewLine]", 
-  RowBox[{"Module", "[", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"{", "ruleTable", "}"}], ",", "\[IndentingNewLine]", 
-    RowBox[{
-     RowBox[{"ruleTable", " ", "=", " ", 
-      RowBox[{"RuleTableFromKAry", "[", 
-       RowBox[{"karyTable", ",", "k"}], "]"}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{"Reverse", "[", 
-       RowBox[{"Sort", "[", 
-        RowBox[{"(", 
-         RowBox[{"ruleTable", " ", "/.", " ", "permutation"}], ")"}], "]"}], 
-       "]"}], " ", "\[Equal]", " ", "ruleTable"}]}]}], "\[IndentingNewLine]", 
-   "]"}]}]], "Input",
- CellChangeTimes->{{3.626133883762051*^9, 3.626134009178391*^9}, {
-  3.626135810010543*^9, 3.626135815674865*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"TestAllPermutations", "[", 
-   RowBox[{"ruleTable_", ",", "k_"}], "]"}], ":=", "\[IndentingNewLine]", 
-  RowBox[{"And", " ", "@@", 
-   RowBox[{"(", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"TestTable", "[", 
-       RowBox[{"ruleTable", ",", "#", ",", "3"}], "]"}], "&"}], " ", "/@", 
-     " ", 
-     RowBox[{"PossibleStateReplacements", "[", "k", "]"}]}], 
-    ")"}]}]}]], "Input",
- CellChangeTimes->{{3.6261703149735603`*^9, 3.626170393241413*^9}, {
-  3.626170461223406*^9, 3.626170497644582*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"{", 
-   RowBox[{"ColorBlindTemplate", "[", "2", "]"}], "}"}], " ", "\[Equal]", " ", 
-  RowBox[{"SymmetricTemplate", "[", 
-   RowBox[{"BWTransform", ",", " ", "8"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.6261730440555468`*^9, 3.626173059908894*^9}, {
-  3.626173317547358*^9, 3.626173320804015*^9}}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{{3.626173047182756*^9, 3.6261730606355057`*^9}, {
-   3.6261733020113983`*^9, 3.626173321266479*^9}, 3.626173374710339*^9, 
-   3.6367224222566347`*^9, 3.6367224541532927`*^9, 3.636723521855772*^9, {
-   3.6367235662542353`*^9, 3.636723580401004*^9}, {3.6367236718318853`*^9, 
-   3.636723717114789*^9}, 3.636723992806088*^9, {3.636724392453964*^9, 
-   3.63672442411572*^9}, 3.636725487928713*^9, 3.636733675023138*^9, 
-   3.636734085855981*^9, 3.6386450618105783`*^9, 3.638651294752371*^9, 
-   3.638651387877151*^9, 3.638655798186946*^9, 3.6386602383308*^9, 
-   3.6386609401969833`*^9, 3.6400087870815563`*^9, 3.6400177027277517`*^9, 
-   3.640025947072837*^9, 3.640025999245823*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"And", "@@", 
-  RowBox[{"(", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"TestAllPermutations", "[", 
-      RowBox[{"#", ",", "3"}], "]"}], " ", "&"}], "/@", " ", 
-    RowBox[{"ExpandTemplateModK", "[", 
-     RowBox[{
-      RowBox[{"ColorBlindTemplate", "[", "3", "]"}], ",", "3"}], "]"}]}], 
-   ")"}]}]], "Input",
- CellChangeTimes->{{3.626170478737908*^9, 3.626170490003488*^9}, {
-  3.626170521087123*^9, 3.626170553844308*^9}, {3.626172406320735*^9, 
-  3.626172414852666*^9}, {3.626172999622517*^9, 3.626173002109083*^9}, {
-  3.640016452367919*^9, 3.640016457868116*^9}, {3.6400172698071413`*^9, 
-  3.6400172728653383`*^9}, {3.64002595051449*^9, 3.6400259512660522`*^9}}],
-
-Cell[BoxData["True"], "Output",
- CellChangeTimes->{{3.640025990382361*^9, 3.640025999319417*^9}}]
-}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
@@ -2865,19 +2774,6 @@ Cell[CellGroupData[{
 Cell[89534, 2275, 9103, 154, 614, "Input"],
 Cell[98640, 2431, 144, 2, 32, "Output"]
 }, Open  ]]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[98845, 2440, 96, 1, 69, "Chapter"],
-Cell[98944, 2443, 847, 20, 143, "Input"],
-Cell[99794, 2465, 534, 14, 55, "Input"],
-Cell[CellGroupData[{
-Cell[100353, 2483, 335, 7, 32, "Input"],
-Cell[100691, 2492, 730, 10, 32, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[101458, 2507, 691, 15, 32, "Input"],
-Cell[102152, 2524, 97, 1, 32, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
