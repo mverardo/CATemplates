@@ -22,5 +22,17 @@ Restart Mathematica, and run:
 
 The package should be loaded.
 
-If you don't want to clone the repository directly inside $UserBaseDirectory, you can clone it to another place and add a SymLink to the $UserBaseDirectory/Applications.
+If you don't want to clone the repository directly inside $UserBaseDirectory, you can clone it to another place and add a SymLink to $UserBaseDirectory/Applications.
+
+#Running unit tests
+
+Give execution permission to the "test" script inside the project's root:
+
+    $ chmod +x test
+
+Run the script:
+
+    $ ./test
+
+It checks for every .m file in the "/Tests" directory, and runs it as a mathematica script.
 
