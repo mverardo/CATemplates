@@ -44,11 +44,15 @@ CorrespondsToNeighborhoodQ::usage = "CorrespondsToNeighborhoodQ[freeVariable_Sym
 PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template_]: Receives a template and returns true if the template preserver the index-variable diality.";
 
 
+ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
+
+
 Begin["`Private`"];
 
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
 
 
 
@@ -128,6 +132,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -149,6 +154,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
+
 
 
 
@@ -190,6 +196,13 @@ CorrespondsToNeighborhoodQ[symbol_, nbIndex_] :=
 
 PreservesIndexVariableDualityQ[template_] :=
   And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
+
+
+ConstantsToVariables[replacementRules_List] := 
+  Module[{freeVariableReplacementRules},
+    freeVariableReplacementRules = Reverse /@ Select[replacementRules, MatchQ[#,Rule[_Symbol, C[_]]]&];
+	replacementRules /. freeVariableReplacementRules
+  ]
 
 
 End[];

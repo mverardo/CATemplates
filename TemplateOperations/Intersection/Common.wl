@@ -3,9 +3,6 @@
 BeginPackage["CATemplates`TemplateOperations`Intersection`Common`", "CATemplates`Basic`"];
 
 
-ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of expressions, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
-
-
 EquationSystem::usage="EquationSystem[t1_List, t2_List]: Receives two templates, t1 and t2, and returns an equation system in which every slot of t1 is equal to the corresponding slot in t2. Ex: EquationSystem[{x1, x0}, {1, x0}] results in {x1 == 1, x0 == x0}.";
 
 
@@ -16,13 +13,6 @@ ReplacementRules[t1_List, t2_List, k_Integer]: Takes two templates t1 and t2, an
 
 
 Begin["`Private`"];
-
-
-ConstantsToVariables[replacementRules_List] := 
-  Module[{freeVariableReplacementRules},
-    freeVariableReplacementRules = Reverse /@ Select[replacementRules, MatchQ[#,Rule[_Symbol, C[_]]]&];
-	replacementRules /. freeVariableReplacementRules
-  ]
 
 
 EquationSystem[template1_List,template2_List]:=
