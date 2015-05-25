@@ -13,7 +13,7 @@ TestTable[karyTable_, permutation_, k_] :=
 
 
 TestAllPermutations[ruleTable_, k_] :=
-  And @@ (TestTable[ruleTable, #, 3] & /@ PossibleStateReplacements[k]);
+  And @@ (TestTable[ruleTable, #, k] & /@ PossibleStateReplacements[k]);
 
 
 
