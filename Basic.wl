@@ -61,6 +61,7 @@ BaseTemplate[k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
 ValidTemplateQ[template_] :=
@@ -133,6 +134,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -154,6 +156,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
+
 
 
 
@@ -200,7 +203,7 @@ PreservesIndexVariableDualityQ[template_] :=
 
 ConstantsToVariables[replacementRules_List] := 
   Module[{freeVariableReplacementRules},
-    freeVariableReplacementRules = Reverse /@ Select[replacementRules, MatchQ[#,Rule[_Symbol, C[_]]]&];
+	freeVariableReplacementRules = Reverse /@ Select[Sort[replacementRules], MatchQ[#,Rule[_Symbol, C[_]]]&];
 	replacementRules /. freeVariableReplacementRules
   ]
 
