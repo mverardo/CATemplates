@@ -3,13 +3,13 @@
 BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`", "CATemplates`Basic`"]
 
 
-BFConservationTemplate::usage="Generates a template representative of all the conservative rules of a given space (defined by k and r)."
+StateConservingTemplate::usage="Generates a template representative of all the conservative rules of a given space (defined by k and r)."
 
 
 Begin["`Private`"];
 
 
-BFConservationTemplate[k_Integer: 2,r_: 1]:=
+StateConservingTemplate[k_Integer: 2,r_: 1]:=
 Module[{basetemplate,vars,relevantNeighbourhoods,equations},
 basetemplate=BaseTemplate[k,r];
 relevantNeighbourhoods=Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]];

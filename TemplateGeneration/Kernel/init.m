@@ -1,6 +1,9 @@
 (* ::Package:: *)
 
-Get["CATemplates`TemplateGeneration`BFConservationTemplate`"]
+Get["CATemplates`TemplateGeneration`StateConservingTemplate`"]
+
+
+Get["CATemplates`TemplateGeneration`ModNStateConservingTemplate`"]
 
 
 Get["CATemplates`TemplateGeneration`CaptiveTemplate`"]

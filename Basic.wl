@@ -35,11 +35,25 @@ ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a temp
 ValueRestrictions::usage = "ValueRestrictions[imprisonmentExpression_]: Returns an expression that represents the value restricions dictated by an ImprisonmentExpression. Example: ValueRestrictions[x1 \[Element] {0,1}] -> x1 == 0 || x1 == 1";
 
 
+FreeVariableQ::usage = "FreeVariableQ[expression_]: Receives an expression, and returns true if the expression is a free variable and false otherwise.";
+
+
+CorrespondsToNeighborhoodQ::usage = "CorrespondsToNeighborhoodQ[freeVariable_Symbol, nbIndex_Integer]: Receives a free variable expression and a neighborhood index, and returns true if the variable's index corresponds to the received nb index.";
+
+
+PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template_]: Receives a template and returns true if the template preserver the index-variable diality.";
+
+
+ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
+
+
 Begin["`Private`"];
 
 
 BaseTemplate[k_Integer: 2, r_: 1] := 
   Symbol["x" <> ToString[#]] & /@ Range[(
+
+
 
 
 
@@ -117,6 +131,8 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 
 
+
+
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] := 
@@ -138,6 +154,8 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   Extract[kAryRuleTable, {
+
+
 
 
 
@@ -167,6 +185,24 @@ ValueRestrictions[imprisonmentExpression_]:=
 
 ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
   MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((BaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+
+
+FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
+
+
+CorrespondsToNeighborhoodQ[symbol_, nbIndex_] := 
+  (FromDigits[StringDrop[SymbolName[symbol], 1]] === nbIndex);
+
+
+PreservesIndexVariableDualityQ[template_] :=
+  And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
+
+
+ConstantsToVariables[replacementRules_List] := 
+  Module[{freeVariableReplacementRules},
+    freeVariableReplacementRules = Reverse /@ Select[replacementRules, MatchQ[#,Rule[_Symbol, C[_]]]&];
+	replacementRules /. freeVariableReplacementRules
+  ]
 
 
 End[];
