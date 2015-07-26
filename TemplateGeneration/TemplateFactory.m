@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateGeneration`TemplateFactory`", "CATemplates`Basic`"]
+BeginPackage["CATemplates`TemplateGeneration`TemplateFactory`"];
 
 
 BuildTemplate::usage=
@@ -15,7 +15,7 @@ Begin["`Private`"];
 
 
 BuildTemplate[k_Integer, r_Real, rawList_List, expansion_] :=
-  Association["k" -> k, "r" -> r, "rawList" -> rawList, "expansionFunction" -> expansion];
+    Association["k" -> k, "r" -> r, "rawList" -> rawList, "expansionFunction" -> expansion];
 
 
 BuildTemplate[k_Integer, r_Real, rawList_List, expansion_, N_Integer] :=
