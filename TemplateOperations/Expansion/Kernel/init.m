@@ -6,3 +6,5 @@
 Get["CATemplates`TemplateOperations`Expansion`RawExpansion`"];
 
 Get["CATemplates`TemplateOperations`Expansion`FilteredExpansion`"];
+
+Get["CATemplates`TemplateOperations`Expansion`ModNExpansion`"];
