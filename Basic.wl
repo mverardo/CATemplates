@@ -67,6 +67,9 @@ BaseTemplate[k_Integer: 2, r_: 1] :=
 ValidTemplateQ[template_] :=
   And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ template);
 
+RuleTemplateVars[ruletemplate_Association] :=
+    RuleTemplateVars[ruletemplate[["rawList"]]];
+
 RuleTemplateVars[ruletemplate_] := 
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
