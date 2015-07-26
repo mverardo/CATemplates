@@ -26,12 +26,7 @@ RawExpansion[template_Association, i_Integer] :=
     ];
 
 RawExpansion[template_Association] :=
-    With[
-      {
-        substitutionRange = Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1]
-      },
-      RawExpansion[template, #] & /@ substitutionRange
-    ];
+    RawExpansion[template, #] & /@ SubstitutionRange[template];
 
 End[];
 EndPackage[];
