@@ -3,6 +3,8 @@
 BeginPackage["CATemplates`Basic`"];
 
 
+Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f."
+
 BaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
 ValidTemplateQ::usage = "Determines if a template has avalid form.";
 RuleTemplateVars::usage = "Extracts the variable names used in a rule template and returns them in a list. The names are given in lexicographical order; for instance, RuleTemplateVars[MaxSymmTemplate[{BWLR, BW, LR}, 2, 1]] returns {x2, x1, x0}. If the template is in the k-ary form, the function returns {}.";
@@ -46,23 +48,14 @@ PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template
 
 ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
 
-
 Begin["`Private`"];
 
+ClearAll@Partial;
+SetAttributes[Partial, HoldAll];
+Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 
-BaseTemplate[k_Integer: 2, r_: 1] := 
-  Symbol["x" <> ToString[#]] & /@ Range[(
-
-
-
-
-
-
-
-
-
-
-\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
+BaseTemplate[k_Integer: 2, r_: 1] :=
+  Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
 ValidTemplateQ[template_] :=
   And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ template);
