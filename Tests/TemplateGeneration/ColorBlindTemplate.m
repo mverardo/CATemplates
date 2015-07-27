@@ -1,6 +1,7 @@
 (* ::Package:: *)
 
-<< CATemplates`
+<< CATemplates`;
+<< CATemplates`TemplateOperations`ExpandTemplate`;
 
 
 TestTable[karyTable_, permutation_, k_] :=
