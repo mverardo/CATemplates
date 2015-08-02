@@ -4,10 +4,10 @@ BeginPackage["CATemplates`TemplateGeneration`TemplateFactory`"];
 
 
 BuildTemplate::usage=
-"BuildTemplate[rawList_List, k_Integer, r_Real, expansion_Function]
+"BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function]
   Builds a template that represents the subspace of the CA space given by k and r, described by the variables in <rawList>.
   <expansion> is the function used by ExpandTemplate to expand the built template.
-BuildTemplate[rawList_List, k_Integer, r_Real, expansion_Function, N_Integer]
+BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function, N_Integer]
   <N> is the value of modulus used by the template generator to create <rawList>.";
 
 

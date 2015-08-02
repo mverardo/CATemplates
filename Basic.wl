@@ -3,7 +3,7 @@
 BeginPackage["CATemplates`Basic`"];
 
 
-Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f."
+Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
 
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
 
@@ -52,7 +52,6 @@ ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives
 
 Begin["`Private`"];
 
-ClearAll@Partial;
 SetAttributes[Partial, HoldAll];
 Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 
