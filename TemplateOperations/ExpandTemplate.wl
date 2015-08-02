@@ -55,9 +55,6 @@ VarConstraintExpansion[expansion_List] :=
     ]
   ]
 
-FunctionDefinitionExpansion[expansion_List] :=
-    If[MatchQ[#, _Colon], First[#] /. Last[#], #] & /@ expansion;
-
 ExpandTemplate[templateSet_ /; MatchQ[templateSet, {{___} ..}], k_Integer: 2] :=
   Select[Flatten[ExpandTemplate[#, k] & /@ templateSet, 1], Length[#] != 0 &];
 

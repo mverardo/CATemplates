@@ -1,6 +1,7 @@
 (* ::Package:: *)
 
-<<CATemplates`
+<< CATemplates`;
+<< CATemplates`TemplateOperations`ExpandTemplate`;
 
 
 Print[ExpandTemplateModK[{}, 2] === {}]

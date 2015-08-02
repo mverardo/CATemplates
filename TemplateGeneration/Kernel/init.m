@@ -1,5 +1,8 @@
 (* ::Package:: *)
 
+Get["CATemplates`TemplateGeneration`TemplateFactory`"]
+
+
 Get["CATemplates`TemplateGeneration`StateConservingTemplate`"]
 
 

@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
-<< CATemplates`
-
+<< CATemplates`;
+<< CATemplates`TemplateOperations`ExpandTemplate`;
 
 Print[ExpandTemplate[{}] === {}]
 
