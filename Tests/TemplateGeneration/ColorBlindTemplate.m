@@ -19,7 +19,7 @@ TestAllPermutations[ruleTable_, k_] :=
 
 
 Print[
-  {ColorBlindTemplate[2]} === SymmetricTemplate[BWTransform, 8]
+  ColorBlindTemplate[2] === SymmetricTemplate[BWTransform, 8][[1]][["rawList"]]
 ]
 
 
