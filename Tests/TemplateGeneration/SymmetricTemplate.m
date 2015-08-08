@@ -1,7 +1,6 @@
 (* ::Package:: *)
 
 << CATemplates`;
-<< CATemplates`TemplateOperations`ExpandTemplate`;
 
 
 EqualTransitionCount::usage = 
@@ -30,70 +29,70 @@ RulesWithSymmetry[transformation_, value_] := #[[1]] & /@
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWTransform, 2]]] === RulesWithSymmetry[BWTransform, 2]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWTransform, 2])] === RulesWithSymmetry[BWTransform, 2]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWTransform, 4]]] === RulesWithSymmetry[BWTransform, 4]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWTransform, 4])] === RulesWithSymmetry[BWTransform, 4]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWTransform, 6]]] === RulesWithSymmetry[BWTransform, 6]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWTransform, 6])] === RulesWithSymmetry[BWTransform, 6]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWTransform, 8]]] == RulesWithSymmetry[BWTransform, 8]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWTransform, 8])] == RulesWithSymmetry[BWTransform, 8]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[LRTransform, 2]]] == RulesWithSymmetry[LRTransform, 2]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[LRTransform, 2])] == RulesWithSymmetry[LRTransform, 2]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[LRTransform, 4]]] == RulesWithSymmetry[LRTransform, 4]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[LRTransform, 4])] == RulesWithSymmetry[LRTransform, 4]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[LRTransform, 6]]] == RulesWithSymmetry[LRTransform, 6]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[LRTransform, 6])] == RulesWithSymmetry[LRTransform, 6]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[LRTransform, 8]]] == RulesWithSymmetry[LRTransform, 8]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[LRTransform, 8])] == RulesWithSymmetry[LRTransform, 8]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWLRTransform, 2]]] == RulesWithSymmetry[BWLRTransform, 2]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWLRTransform, 2])] == RulesWithSymmetry[BWLRTransform, 2]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWLRTransform, 4]]] == RulesWithSymmetry[BWLRTransform, 4]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWLRTransform, 4])] == RulesWithSymmetry[BWLRTransform, 4]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWLRTransform, 6]]] == RulesWithSymmetry[BWLRTransform, 6]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWLRTransform, 6])] == RulesWithSymmetry[BWLRTransform, 6]
 ]
 
 
 Print[
-  Sort[ExpandTemplate[SymmetricTemplate[BWLRTransform, 8]]] == RulesWithSymmetry[BWLRTransform, 8]
+  Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWLRTransform, 8])] == RulesWithSymmetry[BWLRTransform, 8]
 ]
 
 
-Print[
-  SymmetricTemplate[BWLRTransform, 4, 2, 1, 5] == SymmetricTemplate[BWLRTransform, 4, 2, 1][[1 ;; 5]]
-]
+(*Print[*)
+  (*SymmetricTemplate[BWLRTransform, 4, 2, 1, 5] == SymmetricTemplate[BWLRTransform, 4, 2, 1][[1 ;; 5]]*)
+(*]*)
 
 
-Print[
-  SymmetricTemplate[BWLRTransform, 4, 2, 1, {5}] == {SymmetricTemplate[BWLRTransform, 4, 2, 1][[5]]}
-]
+(*Print[*)
+  (*SymmetricTemplate[BWLRTransform, 4, 2, 1, {5}] == {SymmetricTemplate[BWLRTransform, 4, 2, 1][[5]]}*)
+(*]*)
