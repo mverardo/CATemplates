@@ -49,7 +49,7 @@ ColorBlindTemplate[k_Integer: 2, r_Integer: 1] :=
 ColorBlindTemplate[permutation_List, k_Integer: 2, r_Integer: 1] :=
   Module[
     {basetemplate, neighbourhoods, invariantValues, invariantNeighborhoods, invariantReplacementRules, neighbourhoodEquivalences, polyFunction, templateVarEquivalences, replacementRules},
-    basetemplate = BaseTemplate[k, r];
+    basetemplate = OldBaseTemplate[k, r];
     neighbourhoods = Reverse[AllNeighbourhoods[k, r]];
     (*Detecto quais s\[ATilde]o os valores invariantes da permuta\[CCedilla]\[ATilde]o.*)
     invariantValues = Cases[List@@#&/@permutation, {x_,x_} -> x];

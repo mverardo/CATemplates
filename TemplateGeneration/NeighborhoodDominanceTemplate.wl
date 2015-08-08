@@ -29,7 +29,7 @@ NDTemplate[value_Integer, k_Integer: 2, r_Integer: 1] :=
    maxND, subsets, unequalComplements, baseTemplateCommonest, 
    equations, inequations, systems},
   neighbourhoods = AllNeighbourhoods[k, r];
-  baseTemplate = BaseTemplate[k, r];
+  baseTemplate = OldBaseTemplate[k, r];
   maxND = Plus @@ (NBWeight[#] & /@ neighbourhoods);
   commonest = First[Commonest[#]] & /@ neighbourhoods;
   baseTemplateCommonest = 

@@ -11,8 +11,8 @@ Begin["`Private`"];
 
 ComplementaryTemplates[t_List, r_Integer:1]:=
   With[{
-      complementEquation = Apply[Or,#&/@Map[Part[#,1]==1-(Part[#,2])&,Select[MapThread[If[#1===#2,"X",#1==#2]&,{BaseTemplate[2,r],t}],Not[#==="X"]&]]],
-      baseTemplate = BaseTemplate[2,r]
+      complementEquation = Apply[Or,#&/@Map[Part[#,1]==1-(Part[#,2])&,Select[MapThread[If[#1===#2,"X",#1==#2]&,{OldBaseTemplate[2,r],t}],Not[#==="X"]&]]],
+      baseTemplate = OldBaseTemplate[2,r]
     },
     Join[If[Solve[complementEquation]==={},{},baseTemplate/.Solve[complementEquation]],MapThread[If[#2=== _,#1,#2]&,{baseTemplate, #}]& /@ ExceptionTemplates[t, 2, r]]
   ];
