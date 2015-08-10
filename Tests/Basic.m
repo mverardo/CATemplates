@@ -6,7 +6,7 @@
 Print["RawTemplate"]
 
 
-Print[RawTemplate[BaseTemplate[]] === BaseTemplate[]]
+Print[RawTemplate[OldBaseTemplate[]] === OldBaseTemplate[]]
 
 
 Print[RawTemplate[{x8, 0, x6, 0, x4, 0, x2, 0}] === {x8, 0, x6, 0, x4, 0, x2, 0}]

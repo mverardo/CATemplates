@@ -17,7 +17,7 @@ BFEquations[template_, k_, r_, relevantNBs_]:= (Equal @@ #) & /@ ({RuleOutputFro
 
  ModNStateConservingTemplate[N_Integer, k_Integer:2, r_:1] :=
    Module[{basetemplate,vars,relevantNeighbourhoods,equations, solutions, replacementRules},
-      basetemplate = BaseTemplate[k,r];
+      basetemplate = OldBaseTemplate[k,r];
       relevantNeighbourhoods = Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]];
       vars = Reverse[RuleTemplateVars[basetemplate]];
       equations = BFEquations[basetemplate, k, r, relevantNeighbourhoods];

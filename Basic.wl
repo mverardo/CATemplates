@@ -7,7 +7,7 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
 
-BaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
+OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
 ValidTemplateQ::usage = "Determines if a template has avalid form.";
 RuleTemplateVars::usage = "Extracts the variable names used in a rule template and returns them in a list. The names are given in lexicographical order; for instance, RuleTemplateVars[MaxSymmTemplate[{BWLR, BW, LR}, 2, 1]] returns {x2, x1, x0}. If the template is in the k-ary form, the function returns {}.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
@@ -58,7 +58,7 @@ Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 SubstitutionRange[template_Association] :=
     Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1];
 
-BaseTemplate[k_Integer: 2, r_: 1] :=
+OldBaseTemplate[k_Integer: 2, r_: 1] :=
   Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
 ValidTemplateQ[template_] :=
@@ -187,7 +187,7 @@ ValueRestrictions[imprisonmentExpression_]:=
 
 
 ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
-  MapThread[If[#2=== _,#1,#2]&,{BaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((BaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+  MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
