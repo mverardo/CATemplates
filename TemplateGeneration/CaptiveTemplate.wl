@@ -8,16 +8,16 @@ CaptiveTemplate::usage="Generates a template representative of all the captive r
 
 Begin["`Private`"];
 
+CaptiveNeighborhood[nb_List, k_Integer] :=
+    With[{nbRange = Union[nb]},
+      Which[
+        Length[nbRange] == 1       , First[nbRange],
+        nbRange === Range[0, k - 1], TemplateVarFromNeighbourhood[nb, k],
+        True                       , TemplateVarFromNeighbourhood[nb, k] \[Element] nbRange]];
+
 
 CaptiveTemplate[k_Integer: 2, r_Integer: 1] :=
- With[
-	{range = Union[#]},
-    If[range === Range[0, k - 1],
-		TemplateVarFromNeighbourhood[#, k],
-		If[Length[range] == 1,
-			First[range],
-			TemplateVarFromNeighbourhood[#, k] \[Element] range]]
-	] & /@ AllNeighbourhoods[k, r];
+ CaptiveNeighborhood[#, k] & /@ AllNeighbourhoods[k, r];
 
 
 End[];
