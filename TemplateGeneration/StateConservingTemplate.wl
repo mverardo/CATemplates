@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`", "CATemplates`Basic`"]
+BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`", {"CATemplates`Basic`", "CATemplates`TemplateGeneration`TemplateFactory`", "CATemplates`TemplateOperations`Expansion`FilteredExpansion`"}];
 
 
 StateConservingTemplate::usage="Generates a template representative of all the conservative rules of a given space (defined by k and r)."
@@ -8,19 +8,33 @@ StateConservingTemplate::usage="Generates a template representative of all the c
 
 Begin["`Private`"];
 
+BFCondition[nb_, template_, k_Integer, r_Real] :=
+    {
+      RuleOutputFromNeighbourhood[nb, template, k, r],
+      First[nb] +
+          Sum[(RuleOutputFromNeighbourhood[Join[Table[0,{i}],Take[nb,{2,2r-i+2}]], template, k, r]
+              - RuleOutputFromNeighbourhood[Join[Table[0,{i}],Take[nb,{1,2r-i+1}]], template, k, r]),
+            {i, 1, 2r}]};
 
-StateConservingTemplate[k_Integer: 2,r_: 1]:=
-Module[{basetemplate,vars,relevantNeighbourhoods,equations},
-basetemplate=OldBaseTemplate[k,r];
-relevantNeighbourhoods=Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]];
-vars=TemplateVarFromNeighbourhood[#,k]& /@ relevantNeighbourhoods;
-equations = (Equal @@ #) & /@ ({RuleOutputFromNeighbourhood[#, 
-        basetemplate, k, r],
-       First[#] + \!\(
-\*UnderoverscriptBox[\(\[Sum]\), \(i = 1\), \(2  r\)]\((RuleOutputFromNeighbourhood[Join[Table[0, {i}], Take[#, {2, 2  r - i + 2}]], basetemplate, k, r] - RuleOutputFromNeighbourhood[Join[Table[0, {i}], Take[#, {1, 2  r - i + 1}]], basetemplate, k, r])\)\)} & /@ 
-     						relevantNeighbourhoods);
-First[basetemplate /. Quiet[Solve[equations, vars]]]];
+BFEquations[template_, k_, r_, relevantNBs_]:=
+    (Equal @@ #) & /@ (BFCondition[#, template, k, r] & /@ relevantNBs);
 
+BFSolutions[k_Integer: 2, r_Real: 1.0] :=
+    Module[{
+      basetemplate = OldBaseTemplate[k,r],
+      relevantNeighbourhoods = Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]],
+      vars, equations, solutions},
+      vars = TemplateVarFromNeighbourhood[#,k] & /@ relevantNeighbourhoods;
+      equations = BFEquations[basetemplate, k, r, relevantNeighbourhoods];
+      solutions = Quiet[Solve[equations, vars]]
+    ];
+
+StateConservingTemplate[k_Integer: 2,r_Real: 1.0]:=
+    Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
+      solutions = BFSolutions[k, r];
+      replacementRules = ConstantsToVariables[First[solutions]];
+      BuildTemplate[k, r, basetemplate /. replacementRules, FilteredExpansion]
+    ];
 
 End[];
 EndPackage[];
