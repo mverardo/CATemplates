@@ -185,10 +185,69 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
+RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
+ Module[{listToRemove, result},
+  listToRemove = ContainsAll[#, subSet] && subSet =!= # & /@ allSubSet;
+  result = MapThread[If[! #2, #1, ## &[]] &, {allSubSet, listToRemove}]
+]
 
-ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
+MinimizeSets[subSets_List] :=
+ Module[{result, p0, p1},
+  result = subSets;
+  If[Length[result]===1,result,
+    p0 = And @@ # & /@ (Or @@ Map[If[#[[2]] === 0, \[Not] #[[1]], #[[1]]] &,
+          result,
+          {2}
+        ]);
+    p1 = BooleanMinimize[p0];
+    result = Which[Head[p1] === Not, {{p1[[1]] -> 0}},Head[p1] === Symbol,{{p1 -> 1}},
+            Head[p1] === And,
+            {Map[Function[v, Which[Head[v] === Symbol, v -> 1,
+            Head[v] === Not, v[[1]] -> 0]], p1]},
+            Head[p1]===Or,
+            Map[
+              Which[
+                Head[#] === Symbol, {# -> 1},
+                Head[#] === Not, {#[[1]] -> 0},
+                Head[#] === And,
+                Map[Function[u, Which[Head[u] === Symbol, u -> 1,Head[u] === Not, u[[1]] -> 0]], #]
+              ] &, p1, {1}
+            ]
+      ]/. And -> List /. Or -> List
+  ]
+]
+
+OldExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
   MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
+ExceptionTemplates[intemplate_, k_Integer: 2, r_Integer: 1] := 
+ Module[{invalidSubsSets, filteredInvalidSubsSets, result},
+  invalidSubsSets = Union[
+   SortBy[
+    (#[[1]] & /@ 
+      (Cases[{#[[2]], #[[1]] /. #[[2]]} & /@ 
+        Flatten[Outer[List, {#[[1]]}, #[[2]], 1] & /@
+          ({#[[2]], MapThread[#1 -> #2 &, {#[[1]], #[[2]]}] & /@ 
+            #[[1]]} & /@
+              ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]} & /@
+                ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]} & /@
+                  ({RuleTemplateVars[{#}], #} & /@
+                    Select[intemplate, (Depth[#] > 1) &])))), 2], {_, 
+       x_ /; \[Not] MemberQ[Range[0, k - 1], x]}])), Total]];
+  If[invalidSubsSets === {},{},
+    filteredInvalidSubsSets =
+      If[k===2,
+      MinimizeSets[invalidSubsSets],
+      If[Length[invalidSubsSets[[1]]] =!= Length[invalidSubsSets[[-1]]],
+              Fold[RemoveContainedSubsSets, invalidSubsSets, 
+                Select[invalidSubsSets, Length[#] < Length[invalidSubsSets[[-1]]] &]
+              ],
+              invalidSubsSets
+            ];];
+
+    result = (OldBaseTemplate[k, r] /. #) & /@ filteredInvalidSubsSets
+]
+]
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
 
