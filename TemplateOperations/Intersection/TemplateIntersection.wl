@@ -4,21 +4,15 @@ BeginPackage[
   "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
   {
     "CATemplates`Basic`", 
-    "CATemplates`TemplateOperations`Intersection`Common`"}];
+    "CATemplates`TemplateOperations`Intersection`Common`",
+    "CATemplates`TemplateOperations`Intersection`RawIntersection`"
+  }];
 
 
 TemplateIntersection::usage= "TemplateIntersection[t1_List, t2_List]: Receives two templates t1 and t2, and finds a third template that represents their intersection.";
 
 
 Begin["`Private`"];
-
-
-RawTemplateIntersection::usage= "RawTemplateIntersection[t1_List, t2_List]: Receives two templates t1 and t2, and finds a third template that represents their intersection. Both arguments should be raw templates, i.e. templates that don't have special sintax constructs.";
-RawTemplateIntersection[template1_, template2_] :=
-  With[{replacementRules = ReplacementRules[template1, template2]},
-    If[replacementRules == {},
-      {},
-      Union[template1 /.replacementRules, template2 /. replacementRules]]];
 
 
 VarAssignmentsToImprisonmentExpressions::usage="ToImprisonmentExpression[varAssignments_List]: Receives a list of assignments for a template's variables and returns the equivalent ImprisonmentExpressions."
@@ -41,7 +35,7 @@ RestrictedTemplateIntersection[rawTemplate1_List, rawTemplate2_List, imprisonmen
       Return[{}];
     ];
     varReplacementRules = ImprisonmentExpressionsToReplacementRules[VarAssignmentsToImprisonmentExpressions[varAssignments]];
-	rawTemplate1 /. rawReplacementRules /. varReplacementRules
+	  rawTemplate1 /. rawReplacementRules /. varReplacementRules
  ]
 
 
@@ -51,7 +45,7 @@ TemplateIntersection[template1_, template2_] :=
     rawTemplate2 = RawTemplate[template2],
     imprisonmentExpressions = Join[ImprisonmentExpressions[template1], ImprisonmentExpressions[template2]]},
     If[imprisonmentExpressions === {}, 
-      RawTemplateIntersection[rawTemplate1, rawTemplate2],
+      RawIntersection[rawTemplate1, rawTemplate2],
       RestrictedTemplateIntersection[rawTemplate1, rawTemplate2, imprisonmentExpressions]]];
 
 
