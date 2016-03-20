@@ -1,7 +1,6 @@
 (* ::Package:: *)
 
 << CATemplates`;
-<< CATemplates`TemplateOperations`ExpandTemplate`;
 
 TestTable[karyTable_, permutation_, k_] :=
   Module[
@@ -15,8 +14,8 @@ TestAllPermutations[ruleTable_, k_] :=
 
 report = TestReport[
   {
-    VerificationTest[ColorBlindTemplate[2] === SymmetricTemplate[BWTransform, 8][[1]][["rawList"]]],
-    VerificationTest[And @@ (TestAllPermutations[#, 3] & /@ ExpandTemplateModK[ColorBlindTemplate[3], 3]) === True]
+    VerificationTest[ColorBlindTemplate[2][["rawList"]] === SymmetricTemplate[BWTransform, 8][[1]][["rawList"]]],
+    VerificationTest[And @@ (TestAllPermutations[#, 3] & /@ ExpandTemplate[ColorBlindTemplate[3]]) === True]
   }];
 
 Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
