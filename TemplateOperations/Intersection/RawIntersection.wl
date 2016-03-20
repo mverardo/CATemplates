@@ -10,6 +10,6 @@ RawIntersection[templateList1_, templateList2_] :=
     With[{replacementRules = ReplacementRules[templateList1, templateList2]},
       If[replacementRules == {},
         {},
-        Union[templateList1 /.replacementRules, templateList2 /. replacementRules]]];
+        First[Union[templateList1 /.replacementRules, templateList2 /. replacementRules]]]];
 
 EndPackage[];
