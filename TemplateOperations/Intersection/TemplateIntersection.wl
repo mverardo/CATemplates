@@ -3,7 +3,8 @@
 BeginPackage[
   "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
   {
-    "CATemplates`Basic`", 
+    "CATemplates`Basic`",
+    "CATemplates`TemplateGeneration`TemplateFactory`",
     "CATemplates`TemplateOperations`Intersection`Common`",
     "CATemplates`TemplateOperations`Intersection`RawIntersection`",
     "CATemplates`TemplateOperations`Intersection`RestrictedTemplateIntersection`"
@@ -14,18 +15,21 @@ TemplateIntersection::usage= "TemplateIntersection[t1_List, t2_List]: Receives t
 
 Begin["`Private`"];
 
-TemplateIntersection[template1_, template2_] :=
+TemplateIntersection[template1_Association, template2_Association] :=
   With[{
-    rawTemplate1 = RawTemplate[template1],
-    rawTemplate2 = RawTemplate[template2],
-    imprisonmentExpressions = Join[ImprisonmentExpressions[template1], ImprisonmentExpressions[template2]]},
+    k = template1[["k"]],
+    r = template1[["r"]],
+    expansion = template1[["expansionFunction"]],
+    rawTemplate1 = RawTemplate[template1[["rawList"]]],
+    rawTemplate2 = RawTemplate[template2[["rawList"]]],
+    imprisonmentExpressions = Join[ImprisonmentExpressions[template1[["rawList"]]], ImprisonmentExpressions[template2[["rawList"]]]]},
     If[imprisonmentExpressions === {}, 
-      RawIntersection[rawTemplate1, rawTemplate2],
-      RestrictedTemplateIntersection[rawTemplate1, rawTemplate2, imprisonmentExpressions]]];
+      BuildTemplate[k, r, RawIntersection[rawTemplate1, rawTemplate2], expansion],
+      BuildTemplate[k, r, RestrictedTemplateIntersection[rawTemplate1, rawTemplate2, imprisonmentExpressions], expansion]]];
 
 
 (* The intersection between two sets of templates is given by the outer product of the intersection over the sets. *)
-TemplateIntersection[x_ /; MatchQ[x, {{__} ..}], y_ /; MatchQ[y, {{__} ..}]] :=
+TemplateIntersection[x_List, y_List] :=
   Select[Flatten[TemplateIntersection[#[[1]], #[[2]]] & /@ Flatten[Outer[{#1, #2} &, x, y, 1], 1], 1], (# != {} && ValidTemplateQ[#]) &];
 
 
