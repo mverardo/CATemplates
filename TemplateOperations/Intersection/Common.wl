@@ -21,7 +21,7 @@ EquationSystem[template1_List,template2_List]:=
 
 ReplacementRules[template1_, template2_, k_Integer:0]:=
   With[{
-      templateVars = SortBy[Union[Flatten[RuleTemplateVars[#] & /@ {template1, template2}, 1]], FromDigits[StringDrop[SymbolName[#],1]]&]
+      templateVars = SortBy[Union[Flatten[RuleTemplateVars[#] & /@ {template1, template2}, 1]], FromDigits[StringDrop[SymbolName[#],1]] &]
     },
     If[k === 0,
       Quiet[Solve[EquationSystem[template1, template2], templateVars]],

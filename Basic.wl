@@ -5,6 +5,8 @@ BeginPackage["CATemplates`Basic`"];
 
 Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
 
+PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
+
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
 
 OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
@@ -266,6 +268,12 @@ ConstantsToVariables[replacementRules_List] :=
 	replacementRules /. freeVariableReplacementRules
   ]
 
+
+PrintTestResults[testReport_] :=
+    Module[{},
+      Print["Suceeded: " <> ToString[testReport["TestsSucceededCount"]]];
+      Print["Failed: " <> ToString[testReport["TestsFailedCount"]]];
+    ]
 
 End[];
 EndPackage[];
