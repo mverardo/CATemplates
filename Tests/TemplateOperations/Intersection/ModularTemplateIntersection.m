@@ -7,17 +7,17 @@ report = TestReport[
     VerificationTest[
       With[{
         t1 = BuildTemplate[3, 1.0, {x1, x0}, RawExpansion]},
-        TemplateIntersection[t1, t1] === t1]],
+        ModularTemplateIntersection[t1, t1] === t1]],
     VerificationTest[
       With[{
         t1 = BuildTemplate[3, 1.0, {x1, x0}, RawExpansion],
         t2 = BuildTemplate[3, 1.0, {1, x0}, RawExpansion]},
-        TemplateIntersection[t1, t2] === t2]],
+        ModularTemplateIntersection[t1, t2] === t2]],
     VerificationTest[
       With[{
         t1 = BuildTemplate[3, 1.0, {x2, 1, x0}, RawExpansion],
         t2 = BuildTemplate[3, 1.0, {x2, x1, x0}, RawExpansion]},
-        TemplateIntersection[t1, t2] === t1]],
+        ModularTemplateIntersection[t1, t2] === t1]],
     VerificationTest[
       With[{
         t1 = BuildTemplate[3, 1.0, {x1, x0}, RawExpansion],
