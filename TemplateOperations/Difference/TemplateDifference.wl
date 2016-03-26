@@ -6,37 +6,28 @@ BeginPackage[
     "CATemplates`Basic`",
     "CATemplates`TemplateGeneration`TemplateFactory`",
     "CATemplates`TemplateOperations`Difference`Common`",
-    "CATemplates`TemplateOperations`Intersection`Common`",
+    "CATemplates`TemplateOperations`Difference`RawDifference`",
     "CATemplates`TemplateOperations`Intersection`RawIntersection`"}
 ];
 
 
 TemplateDifference::usage = "bl1";
-DualEquationSystem::usage = "bl2";
-DifferenceReplacementRules::usage = "bl3";
 
 Begin["`Private`"];
 
-TemplateDifference[template1_List, template2_List, radius_ : 1] :=
-    Module[{templateIntersection, exceptionTemplates, templateDifferenceP1, templateDifferenceP2, templateDifference, replacementRules, replacementRulesFinal},
-      templateIntersection = RawIntersection[template1, template2]//Flatten;
-      If[!ValidTemplateQ[templateIntersection] || templateIntersection === {},
-        template1,
-        replacementRules = DifferenceReplacementRules[template1, templateIntersection];
-        replacementRulesFinal = Select[replacementRules, FreeQ[#, _Rational] &];(*ATENÇÃO: Aqui remove todas as regras que contenham números racionais*)
-
-
-        If[replacementRulesFinal == {}, {},
-          templateDifferenceP1 = template1 /. replacementRulesFinal;(*Apply*)
-          exceptionTemplates = ExceptionTemplates[templateIntersection, 2, radius];
-          templateDifferenceP2 = RawIntersection[template1, #] & /@ exceptionTemplates;
-          templateDifference = Join[templateDifferenceP1, templateDifferenceP2]
-        (*cleanTemplateDifference = DeleteCases[Union[templateDifference], template1]*)
-        ]
+TemplateDifference[template1_Association, template2_Association] :=
+    With[{
+      k = template1[["k"]],
+      r = template1[["r"]],
+      expansion = template1[["expansionFunction"]],
+      rawTemplate1 = RawTemplate[template1[["rawList"]]],
+      rawTemplate2 = RawTemplate[template2[["rawList"]]],
+      imprisonmentExpressions = Join[ImprisonmentExpressions[template1[["rawList"]]], ImprisonmentExpressions[template2[["rawList"]]]]},
+      If[imprisonmentExpressions === {},
+        BuildTemplate[k, r, #, expansion]& /@ RawDifference[rawTemplate1, rawTemplate2],
+        Throw["Error", "validateError"]
       ]
     ];
-
-
 
 End[];
 EndPackage[];
