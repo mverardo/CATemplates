@@ -2,3 +2,4 @@ TemplateOperations/*.nb
 TemplateGeneration/*.nb
 .DS_Store
 .idea/*
+*.iml
