@@ -33,8 +33,8 @@ DifferenceReplacementRules[template1_, template2_, modulus_Integer : 0] :=
       dualEquationSystem = DualEquationSystem[template1, template2];
       If[dualEquationSystem =!= False,
         If[modulus === 0,
-          Quiet[Solve[DualEquationSystem[template1, template2], templateVars]] // Union,
-          Quiet[Solve[DualEquationSystem[template1, template2], Reverse[templateVars], Modulus -> modulus]] // Union
+          Union[Quiet[Solve[DualEquationSystem[template1, template2], templateVars]]],
+          Union[Quiet[Solve[DualEquationSystem[template1, template2], Reverse[templateVars], Modulus -> modulus]]]
         ], {}
       ]
     ];

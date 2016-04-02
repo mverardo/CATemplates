@@ -16,7 +16,7 @@ Begin["`Private`"];
 
 RawDifference[template1_List, template2_List, radius_ : 1] :=
     Module[{templateIntersection, exceptionTemplates, templateDifferenceP1, templateDifferenceP2, templateDifference, replacementRules, replacementRulesFinal},
-      templateIntersection = RawIntersection[template1, template2] // Flatten;
+      templateIntersection = Flatten[RawIntersection[template1, template2]];
       If[!ValidTemplateQ[templateIntersection] || templateIntersection === {},
         template1,
         replacementRules = DifferenceReplacementRules[template1, templateIntersection];
