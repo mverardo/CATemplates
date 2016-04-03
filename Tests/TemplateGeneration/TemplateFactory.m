@@ -51,3 +51,4 @@ report = TestReport[  {
       BaseTemplate[2, 2.0] === expectedTemplate]]
 }];
 
+PrintTestResults[report];
