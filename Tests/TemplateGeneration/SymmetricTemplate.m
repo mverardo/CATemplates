@@ -3,29 +3,29 @@
 << CATemplates`;
 
 
-EqualTransitionCount::usage = 
-  "Finds out the quantity of shared transitions between two k-ary rule tables.";
-EqualTransitionCount[karyRuleTableA_, karyRuleTableB_] := 
- Plus @@ MapThread[If[#1 == #2, 1, 0] &, {karyRuleTableA, karyRuleTableB}]
+EqualTransitionCount::usage =
+    "Finds out the quantity of shared transitions between two k-ary rule tables.";
+EqualTransitionCount[karyRuleTableA_, karyRuleTableB_] :=
+    Plus @@ MapThread[If[#1 == #2, 1, 0] &, {karyRuleTableA, karyRuleTableB}]
 
-SymmetryValues::usage = 
-  "Finds the internal symmetry values according to one of the transformations.";
-SymmetryValues[transformation_, initRuleTables_List: {}] := 
- Module[{transformedRuleTables, both, bothValues, ruleTables}, 
-  ruleTables = If[Length[initRuleTables] == 0, Tuples[{0, 1}, 8], initRuleTables];
-  transformedRuleTables = KAryFromRuleTable[transformation[RuleTableFromKAry[#]]] & /@ ruleTables;
-  both = Transpose[{ruleTables, transformedRuleTables}];
-  bothValues = {#[[1]], #[[2]], EqualTransitionCount[#[[1]], #[[2]]]} & /@ both;
-  bothValues]
+SymmetryValues::usage =
+    "Finds the internal symmetry values according to one of the transformations.";
+SymmetryValues[transformation_, initRuleTables_List : {}] :=
+    Module[{transformedRuleTables, both, bothValues, ruleTables},
+      ruleTables = If[Length[initRuleTables] == 0, Tuples[{0, 1}, 8], initRuleTables];
+      transformedRuleTables = KAryFromRuleTable[transformation[RuleTableFromKAry[#]]] & /@ ruleTables;
+      both = Transpose[{ruleTables, transformedRuleTables}];
+      bothValues = {#[[1]], #[[2]], EqualTransitionCount[#[[1]], #[[2]]]} & /@ both;
+      bothValues]
 
 RulesWithSymmetry::usage = "Finds the rules that have a given value for symmetry";
-RulesWithSymmetry[transformations_List, value_] := 
-  Module[{symmetryValues}, 
-   symmetryValues = #[[1]] & /@ Select[SymmetryValues[#], (Last[#] == value &)] & /@ transformations;
-   Apply[Intersection, symmetryValues]];
+RulesWithSymmetry[transformations_List, value_] :=
+    Module[{symmetryValues},
+      symmetryValues = #[[1]] & /@ Select[SymmetryValues[#], (Last[#] == value &)] & /@ transformations;
+      Apply[Intersection, symmetryValues]];
 
-RulesWithSymmetry[transformation_, value_] := #[[1]] & /@ 
-   Select[SymmetryValues[transformation], Last[#] == value &];
+RulesWithSymmetry[transformation_, value_] := #[[1]] & /@
+    Select[SymmetryValues[transformation], Last[#] == value &];
 
 
 report = TestReport[{

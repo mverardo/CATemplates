@@ -25,7 +25,6 @@ report = TestReport[{
   VerificationTest[
     With[
       {T = BuildTemplate[2, 1.0, {x7, 1, 0, 1, 0, 1, 0, x0}, RawExpansion]},
-      Sort[ExpandTemplate[T]] === Sort[{{0, 1, 0, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 1, 0, 0}, {1, 1, 0, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 0, 1, 0, 0}}]]]
-}];
+      Sort[ExpandTemplate[T]] === Sort[{{0, 1, 0, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 1, 0, 0}, {1, 1, 0, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 0, 1, 0, 0}}]]]}];
 
 PrintTestResults[report];
