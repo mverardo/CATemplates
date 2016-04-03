@@ -17,5 +17,4 @@ report = TestReport[
       ExpandTemplate[BuildTemplate[3, 1.0, {0, 2, x1 \[Element] {0, 1}, 0, 1}, RestrictedExpansion]] === {{0, 2, 0, 0, 1}, {0, 2, 1, 0, 1}}]
   }];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
+PrintTestResults[report];

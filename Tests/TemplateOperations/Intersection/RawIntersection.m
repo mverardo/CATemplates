@@ -44,5 +44,4 @@ report = TestReport[
         RawIntersection[t1, t2] === result]]
   }];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
+PrintTestResults[report];

@@ -40,5 +40,4 @@ report = TestReport[
   }
 ];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
+PrintTestResults[report];

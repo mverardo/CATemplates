@@ -68,5 +68,4 @@ report = TestReport[
           x7, x6 \[Element] {0, 2}, x5, x4 \[Element] {0, 1},
           x3 \[Element] {0, 1}, x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, 0}, RestrictedExpansion]]}];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
+PrintTestResults[report];

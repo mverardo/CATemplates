@@ -58,5 +58,4 @@ report = TestReport[{
       RestrictedTemplateIntersection[t1, t2, restrictions] === {0, 1, 1}]]
 }];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
+PrintTestResults[report];
