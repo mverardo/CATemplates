@@ -3,6 +3,7 @@
 BeginPackage["CATemplates`Basic`"];
 
 
+MinimizeSets::usage = "Minimize a subset boolean expression";
 Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
@@ -69,7 +70,7 @@ ValidTemplateQ[template_] :=
 RuleTemplateVars[ruletemplate_Association] :=
     RuleTemplateVars[ruletemplate[["rawList"]]];
 
-RuleTemplateVars[ruletemplate_] := 
+RuleTemplateVars[ruletemplate_] :=
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
 TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=
@@ -121,11 +122,11 @@ BWLRTransform[parameter_] :=
 LRBWTransform[parameter_] :=
   BWTransform[LRTransform[parameter]]
 
-AllNeighbourhoods[k_Integer : 2, r_ : 1] := 
+AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
   Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]];
 
-RuleTable[rnum_Integer, k_Integer: 2, r_: 1] := 
-  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 
+RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
+  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k],
 
 
 
@@ -139,7 +140,7 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
-KAryFromRuleTable[ruleTable_] := 
+KAryFromRuleTable[ruleTable_] :=
   #[[2]] & /@ ruleTable;
 
 RuleTableFromKAry[kAryRuleTable_, k_Integer: 2, r_: 1] :=
@@ -153,7 +154,7 @@ RuleOutputFromNeighbourhood[neighbourhood_List, rnum_Integer, k_Integer: 2, r_: 
 RuleOutputFromNeighbourhood[neighbourhood_List, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   RuleOutputFromNeighbourhood[FromDigits[neighbourhood, k], kAryRuleTable, k, r];
 
-RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer: 2, r_: 1] := 
+RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer: 2, r_: 1] :=
   RuleOutputFromNeighbourhood[neighbourhoodindex, KAryFromRuleTable[RuleTable[rnum, k, r]], k, r];
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
@@ -193,55 +194,68 @@ RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
   result = MapThread[If[! #2, #1, ## &[]] &, {allSubSet, listToRemove}]
 ]
 
+SubSetsToBooleanExpression[subSets_List] :=
+    Map[And @@ # &,
+      (
+        Apply[
+          Or,
+          Map[
+            If[#[[2]] === 0,\[Not] #[[1]],#[[1]]] &,
+            subSets,
+            {2}
+          ]
+        ]
+      )
+    ];
+
+BooleanExpressionToSubSets[minimizeBooleanExpression_] :=
+    Which[
+      Head[minimizeBooleanExpression] === Not, {{minimizeBooleanExpression[[1]] -> 0}},
+      Head[minimizeBooleanExpression] === Symbol, {{minimizeBooleanExpression -> 1}},
+      Head[minimizeBooleanExpression] === And, {Map[Function[v, Which[Head[v] === Symbol, v -> 1, Head[v] === Not, v[[1]] -> 0]], minimizeBooleanExpression]},
+      Head[minimizeBooleanExpression] === Or,
+      Map[
+        Which[
+          Head[#] === Symbol, {# -> 1},
+          Head[#] === Not, {#[[1]] -> 0},
+          Head[#] === And, Map[Function[u, Which[Head[u] === Symbol, u -> 1, Head[u] === Not, u[[1]] -> 0]], #]
+        ] &, minimizeBooleanExpression, {1}
+      ]
+    ] /. And -> List /. Or -> List;
+
 MinimizeSets[subSets_List] :=
- Module[{result, p0, p1},
-  result = subSets;
-  If[Length[result]===1,result,
-    p0 = And @@ # & /@ (Or @@ Map[If[#[[2]] === 0, \[Not] #[[1]], #[[1]]] &,
-          result,
-          {2}
-        ]);
-    p1 = BooleanMinimize[p0];
-    result = Which[Head[p1] === Not, {{p1[[1]] -> 0}},Head[p1] === Symbol,{{p1 -> 1}},
-            Head[p1] === And,
-            {Map[Function[v, Which[Head[v] === Symbol, v -> 1,
-            Head[v] === Not, v[[1]] -> 0]], p1]},
-            Head[p1]===Or,
-            Map[
-              Which[
-                Head[#] === Symbol, {# -> 1},
-                Head[#] === Not, {#[[1]] -> 0},
-                Head[#] === And,
-                Map[Function[u, Which[Head[u] === Symbol, u -> 1,Head[u] === Not, u[[1]] -> 0]], #]
-              ] &, p1, {1}
-            ]
-      ]/. And -> List /. Or -> List
-  ]
-]
+    Module[{result, booleanExpression, minimizeBooleanExpression},
+      result = subSets;
+      If[Length[result] === 1, result,
+        booleanExpression = SubSetsToBooleanExpression[result];
+        minimizeBooleanExpression = BooleanMinimize[booleanExpression];
+        result = BooleanExpressionToSubSets[minimizeBooleanExpression]
+      ]
+    ];
 
 OldExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
   MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
-ExceptionTemplates[intemplate_, k_Integer: 2, r_Integer: 1] := 
+ExceptionTemplates[intemplate_, k_Integer: 2, r_Integer: 1] :=
  Module[{invalidSubsSets, filteredInvalidSubsSets, result},
   invalidSubsSets = Union[
    SortBy[
-    (#[[1]] & /@ 
-      (Cases[{#[[2]], #[[1]] /. #[[2]]} & /@ 
+    (#[[1]] & /@
+      (Cases[{#[[2]], #[[1]] /. #[[2]]} & /@
         Flatten[Outer[List, {#[[1]]}, #[[2]], 1] & /@
-          ({#[[2]], MapThread[#1 -> #2 &, {#[[1]], #[[2]]}] & /@ 
+          ({#[[2]], MapThread[#1 -> #2 &, {#[[1]], #[[2]]}] & /@
             #[[1]]} & /@
               ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]} & /@
                 ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]} & /@
                   ({RuleTemplateVars[{#}], #} & /@
-                    Select[intemplate, (Depth[#] > 1) &])))), 2], {_, 
+                    Select[intemplate, (Depth[#] > 1) &])))), 2], {_,
        x_ /; \[Not] MemberQ[Range[0, k - 1], x]}])), Total]];
   If[invalidSubsSets === {},{},
     filteredInvalidSubsSets =
       If[k===2,
       MinimizeSets[invalidSubsSets],
       If[Length[invalidSubsSets[[1]]] =!= Length[invalidSubsSets[[-1]]],
-              Fold[RemoveContainedSubsSets, invalidSubsSets, 
+              Fold[RemoveContainedSubsSets, invalidSubsSets,
                 Select[invalidSubsSets, Length[#] < Length[invalidSubsSets[[-1]]] &]
               ],
               invalidSubsSets
@@ -254,7 +268,7 @@ ExceptionTemplates[intemplate_, k_Integer: 2, r_Integer: 1] :=
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
 
 
-CorrespondsToNeighborhoodQ[symbol_, nbIndex_] := 
+CorrespondsToNeighborhoodQ[symbol_, nbIndex_] :=
   (FromDigits[StringDrop[SymbolName[symbol], 1]] === nbIndex);
 
 
@@ -262,7 +276,7 @@ PreservesIndexVariableDualityQ[template_] :=
   And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
 
 
-ConstantsToVariables[replacementRules_List] := 
+ConstantsToVariables[replacementRules_List] :=
   Module[{freeVariableReplacementRules},
 	freeVariableReplacementRules = Reverse /@ Select[Sort[replacementRules], MatchQ[#,Rule[_Symbol, C[_]]]&];
 	replacementRules /. freeVariableReplacementRules
