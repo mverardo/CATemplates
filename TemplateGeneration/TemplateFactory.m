@@ -17,6 +17,10 @@ BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template 
 Begin["`Private`"];
 
 
+BuildTemplate[k_Integer, r_Real, rawList_List] :=
+    BuildTemplate[k, r, rawList, RawExpansion];
+
+
 BuildTemplate[k_Integer, r_Real, rawList_List, expansion_] :=
     Association["k" -> k, "r" -> r, "rawList" -> rawList, "expansionFunction" -> expansion];
 
