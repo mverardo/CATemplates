@@ -1,9 +1,17 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`", {"CATemplates`Basic`", "CATemplates`TemplateGeneration`TemplateFactory`", "CATemplates`TemplateOperations`Expansion`FilteredExpansion`"}];
+BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`",
+  {
+    "CATemplates`Basic`",
+    "CATemplates`TemplateGeneration`TemplateFactory`",
+    "CATemplates`TemplateOperations`Expansion`FilteredExpansion`",
+    "CATemplates`TemplateOperations`Expansion`ModNExpansion`"
+  }];
 
 
-StateConservingTemplate::usage="Generates a template representative of all the conservative rules of a given space (defined by k and r)."
+StateConservingTemplate::usage="Generates a template representative of all the conservative rules of a given space (defined by k and r).";
+
+ModNStateConservingTemplate::usage="Generates a template representative of all the conservative rules Mod N of a given space (defined by k and r).";
 
 
 Begin["`Private`"];
@@ -19,7 +27,7 @@ BFCondition[nb_, template_, k_Integer, r_Real] :=
 BFEquations[template_, k_, r_, relevantNBs_]:=
     (Equal @@ #) & /@ (BFCondition[#, template, k, r] & /@ relevantNBs);
 
-BFSolutions[k_Integer: 2, r_Real: 1.0] :=
+BFSolutions[k_Integer: 2, r_Real: 1.0, solveFunction_Function] :=
     Module[{
       basetemplate = OldBaseTemplate[k,r],
       relevantNeighbourhoods = Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]],
@@ -29,11 +37,24 @@ BFSolutions[k_Integer: 2, r_Real: 1.0] :=
       solutions = Quiet[Solve[equations, vars]]
     ];
 
-StateConservingTemplate[k_Integer: 2,r_Real: 1.0]:=
+DefaultSolve[] :=
+    Function[{equations, vars}, Solve[equations, vars]];
+
+ModularSolve[N_Integer] :=
+    Function[{equations, vars}, Solve[equations, vars, Module->N]];
+
+StateConservingTemplate[k_Integer: 2, r_Real: 1.0] :=
     Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
-      solutions = BFSolutions[k, r];
+      solutions = BFSolutions[k, r, DefaultSolve[]];
       replacementRules = ConstantsToVariables[First[solutions]];
       BuildTemplate[k, r, basetemplate /. replacementRules, FilteredExpansion]
+    ];
+
+ModNStateConservingTemplate[N_Integer: 2, k_Integer: 2, r_Real: 1.0] :=
+    Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
+      solutions = BFSolutions[k, r, ModularSolve[N]];
+      replacementRules = ConstantsToVariables[First[solutions]];
+      BuildTemplate[k, r, basetemplate /. replacementRules, ModNExpansion, N]
     ];
 
 End[];

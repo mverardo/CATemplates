@@ -1,21 +1,18 @@
 (* ::Package:: *)
 
-Get["CATemplates`TemplateGeneration`TemplateFactory`"]
+Get["CATemplates`TemplateGeneration`TemplateFactory`"];
 
 
-Get["CATemplates`TemplateGeneration`StateConservingTemplate`"]
+Get["CATemplates`TemplateGeneration`StateConservingTemplate`"];
 
 
-Get["CATemplates`TemplateGeneration`ModNStateConservingTemplate`"]
+Get["CATemplates`TemplateGeneration`CaptiveTemplate`"];
 
 
-Get["CATemplates`TemplateGeneration`CaptiveTemplate`"]
+Get["CATemplates`TemplateGeneration`ColorBlindTemplate`"];
 
 
-Get["CATemplates`TemplateGeneration`ColorBlindTemplate`"]
+Get["CATemplates`TemplateGeneration`SymmetricTemplate`"];
 
 
-Get["CATemplates`TemplateGeneration`SymmetricTemplate`"]
-
-
-Get["CATemplates`TemplateGeneration`TotalisticTemplate`"]
+Get["CATemplates`TemplateGeneration`TotalisticTemplate`"];
