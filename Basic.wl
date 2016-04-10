@@ -213,8 +213,9 @@ ConstantsToVariables[replacementRules_List] :=
 PrintTestResults[testReport_] :=
     Module[{},
       Print["Suceeded: " <> ToString[testReport["TestsSucceededCount"]]];
-      Print["Failed: " <> ToString[testReport["TestsFailedCount"]]];
-    ]
+      If[testReport["TestsFailedCount"] > 0,
+        Print["Failed: " <> ToString[testReport["TestsFailedCount"]]]];
+    ];
 
 End[];
 EndPackage[];
