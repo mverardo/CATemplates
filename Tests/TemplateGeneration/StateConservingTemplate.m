@@ -2,7 +2,6 @@
 
 << CATemplates`;
 
-
 report = TestReport[{
   VerificationTest[
     StateConservingTemplate[] === BuildTemplate[2, 1.0, {1,1+x2-x3,1-x2,1-x1-x2,x3,x2,x1,0}, FilteredExpansion]],
@@ -11,7 +10,13 @@ report = TestReport[{
   VerificationTest[
     StateConservingTemplate[2,2.0] === BuildTemplate[2, 2.0, {1,1+x14-x15,1+x13-x14+x6-x7,1+x12-x14+x6-x7,1+x11-x13+x2-x3+x5-x6,1+x10-x13+x2-x3+x5-x6,1-x12+x2-x3+x4-x6+x9,1-x12+x2-x3+x4-x6+x8,1-x11-x2+x3-x5+x7,1-x11-x2+x3-x5+x6,1-x10,1-x10+x4-x5,1-x2+x3-x4-x9,1-x4-x9,1-x2-x4-x8,1-x1-x2-x4-x8,x15,x14,x13,x12,x11,x10,x9,x8,x7,x6,x5,x4,x3,x2,x1,0}, FilteredExpansion]],
   VerificationTest[
-    ExpandTemplate[StateConservingTemplate[]]=={{1,1,1,1,0,0,0,0},{1,1,1,0,0,0,1,0},{1,0,1,1,1,0,0,0},{1,0,1,0,1,0,1,0},{1,1,0,0,1,1,0,0}}]
+    ExpandTemplate[StateConservingTemplate[]]=={{1,1,1,1,0,0,0,0},{1,1,1,0,0,0,1,0},{1,0,1,1,1,0,0,0},{1,0,1,0,1,0,1,0},{1,1,0,0,1,1,0,0}}],
+  VerificationTest[
+    Sort[FromDigits[#, 2] & /@ ExpandTemplate[ModNStateConservingTemplate[2]]] == {132, 150, 170, 184, 204, 222, 226, 240}],
+  VerificationTest[
+    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[2][["rawList"]]]],
+  VerificationTest[
+    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[3][["rawList"]]]]
 }];
 
 PrintTestResults[report];
