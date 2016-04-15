@@ -233,37 +233,54 @@ MinimizeSets[subSets_List] :=
       ]
     ];
 
-OldExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
-  MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+InvalidSubSets[intemplate_, k_Integer:2] :=
+    Map[#[[1]] &,
+      Cases[
+        Map[{#[[2]], #[[1]] /. #[[2]]} &,
+          Flatten[
+            Map[Outer[List, {#[[1]]}, #[[2]], 1] &,
+              Map[{
+                #[[2]],
+                Map[
+                  MapThread[#1 -> #2 &, {#[[1]], #[[2]]}] &,
+                  #[[1]]
+                ]
+              } &,
+                Map[
+                  {First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]} &,
+                  Map[
+                    {#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]} &,
+                    Map[{RuleTemplateVars[{#}], #} &, Select[intemplate, (Depth[#] > 1) &]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            , 2
+          ]
+        ],
+        {_, x_ /; \[Not] MemberQ[Range[0, k - 1], x]}
+      ]
+    ];
 
-ExceptionTemplates[intemplate_, k_Integer: 2, r_Integer: 1] :=
- Module[{invalidSubsSets, filteredInvalidSubsSets, result},
-  invalidSubsSets = Union[
-   SortBy[
-    (#[[1]] & /@
-      (Cases[{#[[2]], #[[1]] /. #[[2]]} & /@
-        Flatten[Outer[List, {#[[1]]}, #[[2]], 1] & /@
-          ({#[[2]], MapThread[#1 -> #2 &, {#[[1]], #[[2]]}] & /@
-            #[[1]]} & /@
-              ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]} & /@
-                ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]} & /@
-                  ({RuleTemplateVars[{#}], #} & /@
-                    Select[intemplate, (Depth[#] > 1) &])))), 2], {_,
-       x_ /; \[Not] MemberQ[Range[0, k - 1], x]}])), Total]];
-  If[invalidSubsSets === {},{},
-    filteredInvalidSubsSets =
-      If[k===2,
-      MinimizeSets[invalidSubsSets],
-      If[Length[invalidSubsSets[[1]]] =!= Length[invalidSubsSets[[-1]]],
-              Fold[RemoveContainedSubsSets, invalidSubsSets,
-                Select[invalidSubsSets, Length[#] < Length[invalidSubsSets[[-1]]] &]
-              ],
-              invalidSubsSets
-            ];];
+ExceptionTemplates[intemplate_] :=
+    ExceptionTemplates[intemplate, 2, 1];
 
-    result = (OldBaseTemplate[k, r] /. #) & /@ filteredInvalidSubsSets
-]
-]
+ExceptionTemplates[intemplate_, k_ /; k === 2, r_Integer : 1] :=
+    Module[{invalidSubsSets, filteredInvalidSubsSets, result = {}},
+      invalidSubsSets = Union[
+        SortBy[InvalidSubSets[intemplate, k], Total]
+      ];
+      If[invalidSubsSets =!= {},
+        filteredInvalidSubsSets = MinimizeSets[invalidSubsSets];
+        result = (OldBaseTemplate[k, r] /. #) & /@ filteredInvalidSubsSets;
+      ];
+      result
+    ];
+
+ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
+    MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
 
@@ -287,7 +304,8 @@ PrintTestResults[testReport_] :=
     Module[{},
       Print["Suceeded: " <> ToString[testReport["TestsSucceededCount"]]];
       If[testReport["TestsFailedCount"] > 0,
-        Print["Failed: " <> ToString[testReport["TestsFailedCount"]]]];
+        Print["Failed: " <> ToString[testReport["TestsFailedCount"]] <> "; Indices:" <> ToString[testReport["TestsFailedIndices"]]];
+      ];
     ];
 
 End[];
