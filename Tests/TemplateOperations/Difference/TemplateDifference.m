@@ -85,8 +85,4 @@ report = TestReport[
     ]
   }];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
-If[report["TestsFailedCount"] != 0,
-  Print["Indices:" <> ToString[report["TestsFailedIndices"]]]
-];
+PrintTestResults[report];

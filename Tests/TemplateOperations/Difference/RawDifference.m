@@ -64,8 +64,4 @@ report = TestReport[
         RawDifference[t1, t2] === result]]
   }];
 
-Print["Suceeded: " <> ToString[report["TestsSucceededCount"]]];
-Print["Failed: " <> ToString[report["TestsFailedCount"]]];
-If[report["TestsFailedCount"]!=0,
-  Print["Indices:" <> ToString[report["TestsFailedIndices"]]]
-];
+PrintTestResults[report];
