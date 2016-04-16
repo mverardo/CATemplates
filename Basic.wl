@@ -126,19 +126,7 @@ AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
   Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]];
 
 RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
-  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k],
-
-
-
-
-
-
-
-
-
-
-
-\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
+  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
 KAryFromRuleTable[ruleTable_] :=
   #[[2]] & /@ ruleTable;
@@ -158,19 +146,7 @@ RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer:
   RuleOutputFromNeighbourhood[neighbourhoodindex, KAryFromRuleTable[RuleTable[rnum, k, r]], k, r];
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
-  Extract[kAryRuleTable, {
-
-
-
-
-
-
-
-
-
-
-\!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
-
+  Extract[kAryRuleTable, {\!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 PossibleStateReplacements[k_Integer: 2] :=
   With[
@@ -208,20 +184,18 @@ SubSetsToBooleanExpression[subSets_List] :=
       )
     ];
 
-BooleanExpressionToSubSets[minimizeBooleanExpression_] :=
-    Which[
-      Head[minimizeBooleanExpression] === Not, {{minimizeBooleanExpression[[1]] -> 0}},
-      Head[minimizeBooleanExpression] === Symbol, {{minimizeBooleanExpression -> 1}},
-      Head[minimizeBooleanExpression] === And, {Map[Function[v, Which[Head[v] === Symbol, v -> 1, Head[v] === Not, v[[1]] -> 0]], minimizeBooleanExpression]},
-      Head[minimizeBooleanExpression] === Or,
-      Map[
-        Which[
-          Head[#] === Symbol, {# -> 1},
-          Head[#] === Not, {#[[1]] -> 0},
-          Head[#] === And, Map[Function[u, Which[Head[u] === Symbol, u -> 1, Head[u] === Not, u[[1]] -> 0]], #]
-        ] &, minimizeBooleanExpression, {1}
-      ]
-    ] /. And -> List /. Or -> List;
+BooleanExpressionToSubSetsV2[minimizeBooleanExpression_] := Module[{RootExpressionToSubSet, ExpressionToSubSet, LeafExpressionToSubSet},
+  RootExpressionToSubSet[expr_ /; Head[expr] === Or] := Map[ExpressionToSubSet, expr, {1}] /. And -> List /. Or -> List;
+  RootExpressionToSubSet[expr_] := {ExpressionToSubSet[expr]} /. And -> List /. Or -> List;
+
+  ExpressionToSubSet[expr_ /; Head[expr] === And] := Map[LeafExpressionToSubSet, expr];
+  ExpressionToSubSet[expr_] := {LeafExpressionToSubSet[expr]};
+
+  LeafExpressionToSubSet[expr_ /; Head[expr] === Symbol] := expr -> 1;
+  LeafExpressionToSubSet[expr_ /; Head[expr] === Not] := expr[[1]] -> 0;
+
+  result = RootExpressionToSubSet[minimizeBooleanExpression]
+];
 
 MinimizeSets[subSets_List] :=
     Module[{result, booleanExpression, minimizeBooleanExpression},
