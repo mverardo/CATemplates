@@ -23,10 +23,11 @@ TemplateDifference[template1_Association, template2_Association] :=
       rawTemplate1 = RawTemplate[template1[["rawList"]]],
       rawTemplate2 = RawTemplate[template2[["rawList"]]],
       imprisonmentExpressions = Join[ImprisonmentExpressions[template1[["rawList"]]], ImprisonmentExpressions[template2[["rawList"]]]]},
-      If[imprisonmentExpressions === {},
-        BuildTemplate[k, r, #, expansion]& /@ RawDifference[rawTemplate1, rawTemplate2],
-        Throw["Error", "validateError"]
-      ]
+      If[imprisonmentExpressions =!= {},
+        TemplateDifference::imprisonmentExpressions = "The result doesn't consider the 'imprisonmentExpressions' because 'TemplateDifference' function still doesn't support that";
+        Message[TemplateDifference::imprisonmentExpressions];
+      ];
+      BuildTemplate[k, r, #, expansion]& /@ RawDifference[rawTemplate1, rawTemplate2]
     ];
 
 End[];
