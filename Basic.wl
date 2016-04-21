@@ -164,12 +164,6 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
-RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
- Module[{listToRemove, result},
-  listToRemove = ContainsAll[#, subSet] && subSet =!= # & /@ allSubSet;
-  result = MapThread[If[! #2, #1, ## &[]] &, {allSubSet, listToRemove}]
-]
-
 SubSetsToBooleanExpression[subSets_List] :=
     Map[And @@ # &,
       (
