@@ -3,6 +3,12 @@
 BeginPackage["CATemplates`Basic`"];
 
 
+BooleanFromRule::usage="Transforms a rule into boolean form.";
+
+ConjunctionToRuleSet::usage="Transforms a rule set into a boolean conjunction";
+
+DNFFromRuleSet::usage="Transforms a set of set of rules into a DNF form boolean expression";
+
 MinimizeSets::usage = "Minimize a subset boolean expression";
 Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
 
@@ -162,7 +168,7 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 
 
 ValueRestrictions[imprisonmentExpression_]:=
- Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
+ Apply[Or, imprisonmentExpression[[1]] == # & /@ imprisonmentExpression[[2]]];
 
 RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
  Module[{listToRemove, result},
@@ -170,19 +176,17 @@ RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
   result = MapThread[If[! #2, #1, ## &[]] &, {allSubSet, listToRemove}]
 ]
 
-SubSetsToBooleanExpression[subSets_List] :=
-    Map[And @@ # &,
-      (
-        Apply[
-          Or,
-          Map[
-            If[#[[2]] === 0,\[Not] #[[1]],#[[1]]] &,
-            subSets,
-            {2}
-          ]
-        ]
-      )
-    ];
+BooleanFromRule[x_ /; x[[2]] == 0] := Not[x[[1]]];
+BooleanFromRule[x_ /; x[[2]] == 1] := x[[1]];
+
+ConjunctionToRuleSet[ruleSet_List] :=
+    Apply[And, Map[BooleanFromRule, ruleSet]];
+
+DNFFromRuleSet[ruleSet_List] :=
+    Apply[Or, Map[ConjunctionToRuleSet, ruleSet]];
+
+MinimizedRuleSets[ruleSets_List] :=
+    BooleanExpressionToSubSets[BooleanMinimize[DNFFromRuleSet[ruleSets]]];
 
 BooleanExpressionToSubSetsV2[minimizeBooleanExpression_] := Module[{RootExpressionToSubSet, ExpressionToSubSet, LeafExpressionToSubSet},
   RootExpressionToSubSet[expr_ /; Head[expr] === Or] := Map[ExpressionToSubSet, expr, {1}] /. And -> List /. Or -> List;
@@ -197,15 +201,6 @@ BooleanExpressionToSubSetsV2[minimizeBooleanExpression_] := Module[{RootExpressi
   result = RootExpressionToSubSet[minimizeBooleanExpression]
 ];
 
-MinimizeSets[subSets_List] :=
-    Module[{result, booleanExpression, minimizeBooleanExpression},
-      result = subSets;
-      If[Length[result] === 1, result,
-        booleanExpression = SubSetsToBooleanExpression[result];
-        minimizeBooleanExpression = BooleanMinimize[booleanExpression];
-        result = BooleanExpressionToSubSets[minimizeBooleanExpression]
-      ]
-    ];
 
 InvalidSubSets[intemplate_, k_Integer:2] :=
     Map[#[[1]] &,

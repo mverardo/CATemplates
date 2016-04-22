@@ -12,6 +12,37 @@ rawTemplateReport = TestReport[{
 
 PrintTestResults[rawTemplateReport];
 
+Print["BooleanFromRule"];
+
+report = TestReport[{
+  VerificationTest[BooleanFromRule[x1->0] == Not[x1]],
+  VerificationTest[BooleanFromRule[x1->1] == x1],
+  VerificationTest[BooleanFromRule[y->1] == y]
+}];
+
+PrintTestResults[report];
+
+Print["ConjunctionFromRuleSet"];
+
+report = TestReport[{
+  VerificationTest[ConjunctionFromRuleSet[{}] == True],
+  VerificationTest[ConjunctionFromRuleSet[{x1->0}] == Not[x1]],
+  VerificationTest[ConjunctionFromRuleSet[{x1->0, x2 -> 1}] == (Not[x1] && x2)]
+}];
+
+PrintTestResults[report];
+
+Print["DNFFromRuleSet"];
+
+report = TestReport[{
+  VerificationTest[DNFFromRuleSet[{{}}] == True],
+  VerificationTest[DNFFromRuleSet[{{x1->0}}] == Not[x1]],
+  VerificationTest[DNFFromRuleSet[{{x1->0, x2 -> 1}}] == (Not[x1] && x2)],
+  VerificationTest[DNFFromRuleSet[{{x1->0, x2 -> 1}, {x1->1}, {x0->0}}] == ((Not[x1] && x2) || x1 || Not[x0])]
+}];
+
+PrintTestResults[report];
+
 Print["ImprisonmentExpressions"];
 
 imprisonmentExpressionsReport = TestReport[{
