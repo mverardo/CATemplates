@@ -21,8 +21,11 @@ substitutionRangeVar = TestReport[{
 PrintTestResults[substitutionRangeVar];
 
 Print["ExpandVar"]
-(*How to test (##) &[]*)
+(*How to test (##) &[]?*)
 expandVar = TestReport[{
+  VerificationTest[ExpandVar[x2 + x1, 0] === (##) &[]],
+  VerificationTest[ExpandVar[x2 + x1, 1] === (##) &[]],
+  VerificationTest[ExpandVar[x2 + x1, 2] === (##) &[]],
   VerificationTest[ExpandVar[x2 + x1, 3] === {x1 -> 1, x2 -> 1}],
   VerificationTest[ExpandVar[1-x1, 1] === {}]
 }];
