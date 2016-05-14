@@ -6,6 +6,7 @@ BeginPackage[
     "CATemplates`Basic`",
     "CATemplates`TemplateGeneration`TemplateFactory`",
     "CATemplates`TemplateOperations`Difference`Common`",
+    "CATemplates`TemplateOperations`Difference`ExceptionTemplates`",
     "CATemplates`TemplateOperations`Intersection`RawIntersection`"}
 ];
 

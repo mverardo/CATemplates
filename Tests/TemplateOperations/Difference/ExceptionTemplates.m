@@ -38,8 +38,9 @@ invalidSubSets = TestReport[{
 }];
 PrintTestResults[invalidSubSets];
 
-
+Print["ExceptionTemplates"]
 exceptionTemplatesReport = TestReport[{
+  VerificationTest[ExceptionTemplates[{0, 0, 0, 0, 0, 0, 0, 0, 0}] === {}],
   VerificationTest[ExceptionTemplates[{x7, x6, x5, x4, x3, x2, x1, x0}] === {}],
   VerificationTest[ExceptionTemplates[{x7, x6, x5, x4, x3, x2, x1, x2 - x1}] === {{x7, x6, x5, x4, x3, 0, 1, x0}}],
   VerificationTest[ExceptionTemplates[{x7, x6, x5, x4, x3, x2, 1 - x1, x2 - x1}] === {{x7, x6, x5, x4, x3, 0, 1, x0}}],
