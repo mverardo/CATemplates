@@ -1,6 +1,10 @@
 # CATemplates
 
-A Mathematica package that enables the use of [Cellular Automaton](http://en.wikipedia.org/wiki/Cellular_automaton) templates, as described first in [Representing Families of Cellular Automata Rules](http://www.mathematica-journal.com/2014/08/representing-families-of-cellular-automata-rules/).
+CATemplates is a Mathematica package that enables the use of [Cellular Automaton](http://en.wikipedia.org/wiki/Cellular_automaton) (CA) templates, as first described in [Representing Families of Cellular Automata Rules](http://www.mathematica-journal.com/2014/08/representing-families-of-cellular-automata-rules/).
+
+A Cellular Automaton template allows one to represent potentially huge CA sets through a lightweight data structure, and defer their enumeration to a moment when the rules are really needed.
+
+The `CATemplates` package provides ways to create user-defined raw templates, along with built-in generator functions able to create templates for rule sets which share a given static property. It also includes operations capable of manipulating templates and enumerating the sets they represent.
 
 # Installation
 
