@@ -86,3 +86,389 @@ report = TestReport[
   }];
 
 PrintTestResults[report];
+
+
+
+captT   = <|"k" -> 2, "r" -> 1., "rawList" -> {1, x6, x5, x4, x3, x2, x1, 0}, "expansionFunction" -> FilteredExpansion|>;
+colorBT = <|"k" -> 2, "r" -> 1., "rawList" -> {1 - x0, 1 - x1, 1 - x2, 1 - x3, x3, x2, x1, x0}, "expansionFunction" -> FilteredExpansion|>;
+stateCT = <|"k" -> 2, "r" -> 1., "rawList" -> {1, 1 + x2 - x3, 1 - x2, 1 - x1 - x2, x3, x2, x1, 0}, "expansionFunction" -> FilteredExpansion|>;
+totalT  = <|"k" -> 2, "r" -> 1., "rawList" -> {x7, x3, x3, x1, x3, x1, x1, x0}, "expansionFunction" -> FilteredExpansion|>;
+outTotT = <|"k" -> 2, "r" -> 1., "rawList" -> {x7, x3, x5, x1, x3, x2, x1, x0}, "expansionFunction" -> FilteredExpansion|>;
+baseT   = <|"k" -> 2, "r" -> 1., "rawList" -> {x7, x6, x5, x4, x3, x2, x1, x0}, "expansionFunction" -> FilteredExpansion|>;
+(*captT   = CaptiveTemplate[];*)
+(*colorBT = ColorBlindTemplate[];*)
+(*stateCT = StateConservingTemplate[];*)
+(*totalT  = TotalisticTemplate[];*)
+(*outTotT = OuterTotalisticTemplate[];*)
+
+Print["CaptiveTemplate DiffTest"];
+captTDiffTest = TestReport[
+  {
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = captT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa
+    ]]
+  }];
+PrintTestResults[captTDiffTest];
+
+Print["ColorBlindTemplate DiffTest"];
+colorBTDiffTest = TestReport[
+  {
+
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = colorBT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]]
+  }];
+PrintTestResults[colorBTDiffTest];
+
+Print["StateConservingTemplate DiffTest"];
+stateCTDiffTest = TestReport[
+  {
+
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = stateCT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]]
+  }];
+PrintTestResults[stateCTDiffTest];
+
+Print["TotalisticTemplate DiffTest"];
+totalTDiffTest = TestReport[
+  {
+
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = totalT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]]
+  }];
+PrintTestResults[totalTDiffTest];
+
+Print["OuterTotalisticTemplate DiffTest"];
+outTotTDiffTest = TestReport[
+  {
+
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa;
+        ra = ExpandTemplate /@ diffa;
+        rb = ExpandTemplate /@ diffb;
+        fra = Sort[DeleteDuplicates[Join@@ra]];
+        frb = Sort[DeleteDuplicates[Join@@rb]];
+        (*Print[fra];*)
+        (*Print[frb];*)
+        fra === frb]],
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = outTotT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]]
+  }];
+PrintTestResults[outTotTDiffTest];
+
+Print["OldBaseTemplate DiffTest"];
+baseTDiffTest = TestReport[
+  {
+
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = captT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = colorBT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = stateCT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = totalT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = outTotT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]],
+    VerificationTest[
+      With[{
+        t1 = baseT,
+        t2 = baseT
+      },
+        diffa = TemplateDifference[t1, t2];
+        diffb = TemplateDifferenceB[t1, t2];
+        diffb === diffa]]
+  }];
+PrintTestResults[baseTDiffTest];
