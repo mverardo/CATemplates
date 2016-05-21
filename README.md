@@ -4,7 +4,47 @@ CATemplates is a Mathematica package that enables the use of [Cellular Automaton
 
 A Cellular Automaton template allows one to represent potentially huge CA sets through a lightweight data structure, and defer their enumeration to a moment when the rules are really needed.
 
-The `CATemplates` package provides ways to create user-defined raw templates, along with built-in generator functions able to create templates for rule sets which share a given static property. It also includes operations capable of manipulating templates and enumerating the sets they represent.
+The `CATemplates` package provides ways to create user-defined raw templates, along with built-in generator functions able to create templates for rule sets which share a given static property. It also includes operations capable of manipulating templates and enumerating the sets they represent. 
+# Usage
+
+```Mathematica
+(* Import the CATemplates package after installation *)
+In[0] = <<CATemplates`;
+
+(* Generate a template for all elementary colorblind CAs *)
+In[1] = tColorblind = ColorBlindTemplate[2, 1.0];
+
+(* Expand tColorblind to get all of the 16 colorblind elementary CA's rule tables (in k-ary form)*)
+In[2] = ExpandTemplate[tColorblind]
+Out[2] = {{1,1,1,1,0,0,0,0},{0,1,1,1,0,0,0,1},{1,0,1,1,0,0,1,0},{0,0,1,1,0,0,1,1},{1,1,0,1,0,1,0,0},{0,1,0,1,0,1,0,1},{1,0,0,1,0,1,1,0},{0,0,0,1,0,1,1,1},{1,1,1,0,1,0,0,0},{0,1,1,0,1,0,0,1},{1,0,1,0,1,0,1,0},{0,0,1,0,1,0,1,1},{1,1,0,0,1,1,0,0},{0,1,0,0,1,1,0,1},{1,0,0,0,1,1,1,0},{0,0,0,0,1,1,1,1}}
+
+(* Generate a template for all elementary totalistic rules *)
+In[3] = tTotalistic = TotalisticTemplate[2, 1.0];
+
+(* Expand tTotalistic to get all of the 16 totalistic elementary CAs*)
+In[4] = ExpandTemplate[tTotalistic]
+Out[4] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,1},{0,0,0,1,0,1,1,0},{0,0,0,1,0,1,1,1},{0,1,1,0,1,0,0,0},{0,1,1,0,1,0,0,1},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0},{1,0,0,0,0,0,0,1},{1,0,0,1,0,1,1,0},{1,0,0,1,0,1,1,1},{1,1,1,0,1,0,0,0},{1,1,1,0,1,0,0,1},{1,1,1,1,1,1,1,0},{1,1,1,1,1,1,1,1}}
+
+(* Intersect both templates *)
+In[5] = tTotalisticAndColorblind = TemplateIntersection[tColorblind, tTotalistic];
+
+(* Expanding the intersection template renders only the elementary rules which are both totalistic and colorblind *)
+In[6] = ExpandTemplate[tTotalisticAndColorblind]
+Out[6] = {{1,1,1,0,1,0,0,0},{0,1,1,0,1,0,0,1},{1,0,0,1,0,1,1,0},{0,0,0,1,0,1,1,1}}
+
+(* Here is where things get fun!
+   We can generate templates for bigger (potentially huge) spaces.
+   Lets try to increase r a little: *)
+In[7] = tr5 = With[{k=2, r=5.0}, TemplateIntersection[ColorBlindTemplate[k, r], TotalisticTemplate[k, r]]];
+
+(* Note we just found templates representatives of all binary radius 5.0 colorblind rules,
+   did the same for totalistic rules and intersected the sets.
+   All of this executed in 4.52314 seconds on my notebook. 
+   Remeber there are 2^32 = 4,294,967,296 binary, radius 5.0 CAs. 
+   Given the new template, all we have to do is a new Expansion to find out how many rules are both totalistic and coloblind in this huge space. *)
+In[8] = Length[ExpandTemplate[tr5]]
+Out[8]= 64 (* Only 64 of the 2^32 rules are both colorblind and totalistic. *)
+```
 
 # Installation
 
