@@ -110,48 +110,79 @@ captTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]
+      ]],
     VerificationTest[
       With[{
         t1 = captT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = captT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = captT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = captT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = captT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]
     ]]
   }];
 PrintTestResults[captTDiffTest];
@@ -166,62 +197,78 @@ colorBTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = colorBT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = colorBT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = colorBT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = colorBT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = colorBT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]]
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]]
   }];
 PrintTestResults[colorBTDiffTest];
 
@@ -235,62 +282,78 @@ stateCTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = stateCT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = stateCT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = stateCT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = stateCT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = stateCT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]]
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]]
   }];
 PrintTestResults[stateCTDiffTest];
 
@@ -304,55 +367,78 @@ totalTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = totalT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = totalT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = totalT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = totalT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = totalT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]]
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]]
   }];
 PrintTestResults[totalTDiffTest];
 
@@ -366,55 +452,78 @@ outTotTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = outTotT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = outTotT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa;
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
         ra = ExpandTemplate /@ diffa;
-        rb = ExpandTemplate /@ diffb;
-        fra = Sort[DeleteDuplicates[Join@@ra]];
-        frb = Sort[DeleteDuplicates[Join@@rb]];
-        (*Print[fra];*)
-        (*Print[frb];*)
-        fra === frb]],
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = outTotT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = outTotT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = outTotT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]]
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]]
   }];
 PrintTestResults[outTotTDiffTest];
 
@@ -428,47 +537,77 @@ baseTDiffTest = TestReport[
         t2 = captT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = baseT,
         t2 = colorBT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = baseT,
         t2 = stateCT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = baseT,
         t2 = totalT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = baseT,
         t2 = outTotT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]],
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]],
     VerificationTest[
       With[{
         t1 = baseT,
         t2 = baseT
       },
         diffa = TemplateDifference[t1, t2];
-        diffb = TemplateDifferenceB[t1, t2];
-        diffb === diffa]]
+        rules1 = ExpandTemplate[t1];
+        rules2 = ExpandTemplate[t2];
+        expected = Complement[rules1,rules2];
+        expectedr=Sort[FromDigits[#, 2] & /@ expected];
+        ra = ExpandTemplate /@ diffa;
+        fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
+        ContainsExactly[fra,expectedr]]]
   }];
 PrintTestResults[baseTDiffTest];
