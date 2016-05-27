@@ -211,10 +211,10 @@ ConstantsToVariables[replacementRules_List] :=
 
 
 PrintTestResults[testReport_] :=
-    Module[{},
-      Print["Suceeded: " <> ToString[testReport["TestsSucceededCount"]]];
+    Module[{red = "\033[0;31m", green = "\033[0;32m", noColor = "\033[0m"},
+      Print[green <> "Suceeded: " <> ToString[testReport["TestsSucceededCount"]] <> noColor];
       If[testReport["TestsFailedCount"] > 0,
-        Print["Failed: " <> ToString[testReport["TestsFailedCount"]]]];
+        Print[red <> "Failed: " <> ToString[testReport["TestsFailedCount"]] <> noColor]];
     ];
 
 End[];
