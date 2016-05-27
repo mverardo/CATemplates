@@ -15,15 +15,21 @@ ImprisonmentExpressionsToReplacementRules[imprisonmentExpressions_List] :=
 
 
 RestrictedTemplateIntersection[rawTemplate1_List, rawTemplate2_List, imprisonmentExpressions_List]:=
-    Module[{rawReplacementRules, valueRestrictions, varAssignments, varReplacementRules},
-      rawReplacementRules = First[ReplacementRules[rawTemplate1, rawTemplate2]];
-      valueRestrictions = (ValueRestrictions /@ imprisonmentExpressions) /. rawReplacementRules;
+    Module[{rawReplacementRules, firstSolution, valueRestrictions, varAssignments, varReplacementRules},
+      rawReplacementRules = ReplacementRules[rawTemplate1, rawTemplate2];
+      (* If rawReplacementRules === {}, the system obtained by equating rawTemplate1 and rawTemplate2 has no solution. Thus there is no intersection.*)
+      If[rawReplacementRules === {},
+        Return[{}];
+      ];
+      firstSolution = First[rawReplacementRules];
+      valueRestrictions = (ValueRestrictions /@ imprisonmentExpressions) /. firstSolution;
       varAssignments = Quiet[Solve[valueRestrictions]];
-      If[rawReplacementRules === {} || varAssignments === {},
+      (* If varAssignments === {}, variable restrictions can't be satisfied on both templates (the system has no solution). Thus, no intersection. *)
+      If[varAssignments === {},
         Return[{}];
       ];
       varReplacementRules = ImprisonmentExpressionsToReplacementRules[VarAssignmentsToImprisonmentExpressions[varAssignments]];
-      rawTemplate1 /. rawReplacementRules /. varReplacementRules
+      rawTemplate1 /. firstSolution /. varReplacementRules
     ];
 
 End[]; (* `Private` *)
