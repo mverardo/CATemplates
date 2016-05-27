@@ -4,6 +4,12 @@ report = TestReport[{
   VerificationTest[
     With[{
       t1 = {x2, x1, x0},
+      restrictions = {x2 \[Element] {0, 2}},
+      result = {x2 \[Element] {0, 2}, x1, x0}},
+      RestrictedTemplateIntersection[t1, t1, restrictions] === result]],
+  VerificationTest[
+    With[{
+      t1 = {x2, x1, x0},
       t2 = {x2, x0, x0},
       restrictions = {x2 \[Element] {0, 2}},
       result = {x2 \[Element] {0, 2}, x0, x0}},

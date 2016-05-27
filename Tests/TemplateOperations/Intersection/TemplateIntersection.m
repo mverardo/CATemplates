@@ -45,6 +45,10 @@ report = TestReport[{
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
     With[{
+      t1 = BuildTemplate[2, 1.0, {x2 \[Element] {0, 2}, x1, x0}, RestrictedExpansion]},
+      TemplateIntersection[t1, t1] === t1]],
+  VerificationTest[
+    With[{
       t1 = BuildTemplate[2, 1.0, {x2 \[Element] {0, 2}, x1, x0}, RawExpansion],
       t2 = BuildTemplate[2, 1.0, {x2, x0, x0}, RawExpansion],
       result = BuildTemplate[2, 1.0, {x2 \[Element] {0, 2}, x0, x0}, RawExpansion]},
