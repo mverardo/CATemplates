@@ -4,8 +4,9 @@ BeginPackage[
   "CATemplates`TemplateOperations`Intersection`ModularTemplateIntersection`",
   {
     "CATemplates`Basic`",
-    "CATemplates`TemplateGeneration`TemplateFactory`",
-    "CATemplates`TemplateOperations`Intersection`Common`"}];
+    "CATemplates`CATemplate`",
+    "CATemplates`TemplateOperations`Intersection`Common`"
+  }];
 
 
 ModularTemplateIntersection::usage = "TemplateIntersection[template1_Association, template2_Association]: Receives two modular templates template1 and template2, and finds a third template that represents their intersection.";

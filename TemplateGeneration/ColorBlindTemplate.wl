@@ -3,7 +3,7 @@
 BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
   {
     "CATemplates`Basic`",
-    "CATemplates`TemplateGeneration`TemplateFactory`",
+    "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Intersection`ModularTemplateIntersection`",
     "CATemplates`TemplateOperations`Expansion`ModKExpansion`"
   }];
