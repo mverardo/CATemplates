@@ -3,7 +3,7 @@
 BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`",
   {
     "CATemplates`Basic`",
-    "CATemplates`TemplateGeneration`TemplateFactory`",
+    "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Expansion`FilteredExpansion`",
     "CATemplates`TemplateOperations`Expansion`ModNExpansion`"
   }];
