@@ -4,7 +4,7 @@
 
 report = TestReport[{
   VerificationTest[
-    CaptiveTemplate[2, 1.0] === BuildTemplate[2, 1.0, {1, x6, x5, x4, x3, x2, x1, 0}, RestrictedExpansion]],
+    CaptiveTemplate[2, 1.0] === BuildTemplate[2, 1.0, {1, x6, x5, x4, x3, x2, x1, 0}, FilterNotAllowed @* FilterOutOfRange]],
   VerificationTest[
     CaptiveTemplate[3, 1.0] === BuildTemplate[3, 1.0, {2, x25 \[Element] {1, 2},
       x24 \[Element] {0, 2}, x23 \[Element] {1, 2}, x22 \[Element] {1, 2},
@@ -13,7 +13,7 @@ report = TestReport[{
       x14 \[Element] {1, 2}, 1, x12 \[Element] {0, 1}, x11,
       x10 \[Element] {0, 1}, x9 \[Element] {0, 1}, x8 \[Element] {0, 2},
       x7, x6 \[Element] {0, 2}, x5, x4 \[Element] {0, 1},
-      x3 \[Element] {0, 1}, x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, 0}, RestrictedExpansion]],
+      x3 \[Element] {0, 1}, x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, 0}, FilterNotAllowed @* FilterOutOfRange]],
   VerificationTest[
     CaptiveTemplate[3, 2.0] === BuildTemplate[3, 2.0,
       {2, x241 \[Element] {1, 2},
@@ -65,6 +65,6 @@ report = TestReport[{
         x13 \[Element] {0, 1}, x12 \[Element] {0, 1}, x11,
         x10 \[Element] {0, 1}, x9 \[Element] {0, 1}, x8 \[Element] {0, 2},
         x7, x6 \[Element] {0, 2}, x5, x4 \[Element] {0, 1},
-        x3 \[Element] {0, 1}, x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, 0}, RestrictedExpansion]]}];
+        x3 \[Element] {0, 1}, x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, 0}, FilterNotAllowed @* FilterOutOfRange]]}];
 
 PrintTestResults[report];
