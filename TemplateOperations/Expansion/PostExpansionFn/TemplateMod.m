@@ -1,6 +1,6 @@
 BeginPackage["CATemplates`TemplateOperations`Expansion`PostExpansionFn`TemplateMod`", {"CATemplates`CATemplate`"}];
 
-TemplateMod::usage="Performs a mod N on every element of the expansion (N being a template property).";
+TemplateMod::usage="TemplateMod[t_, expansion_] = Performs a mod N on every element of the expansion (N being a template property).";
 
 Begin["`Private`"];
 

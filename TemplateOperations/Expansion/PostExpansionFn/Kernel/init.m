@@ -5,6 +5,8 @@
 
 Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`"];
 
-Get["CATemplates`TemplateOperations`Expansion``PostExpansionFn`ModK`"];
+Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterNotAllowed`"];
 
-Get["CATemplates`TemplateOperations`Expansion``PostExpansionFn`TemplateMod`"];
+Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`"];
+
+Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`TemplateMod`"];

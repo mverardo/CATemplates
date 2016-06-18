@@ -1,6 +1,6 @@
 BeginPackage["CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`", {"CATemplates`CATemplate`"}];
 
-ModK::usage="Performs a mod K on every element of the expansion.";
+ModK::usage="ModK[t_, expansion_] = Performs a mod K on every element of the expansion.";
 
 Begin["`Private`"];
 

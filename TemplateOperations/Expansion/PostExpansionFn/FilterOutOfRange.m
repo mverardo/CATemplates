@@ -1,13 +1,11 @@
-(* Mathematica source file  *)
-(* Created by IntelliJ IDEA *)
-(* :Author: mverardo *)
-(* :Date: 25/07/15 *)
-
 BeginPackage["CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`", {"CATemplates`CATemplate`"}];
 
 FilterOutOfRange::usage="FilterOutOfRange[template_, expansion_] := Returns expansion if it has only elements inside of Range[0, k-1]. Otherwise, returns the vanishing function (##) & []";
 
 Begin["`Private`"];
+
+(* Propagates the Vanish function upwards if it receives one. *)
+FilterOutOfRange[template_Association, Sequence[]] := (##) & [];
 
 FilterOutOfRange[template_Association, expansion_List] :=
   If[SubsetQ[Range[0, k[template] - 1], Union[Cases[expansion, x_Integer, 2]]],
