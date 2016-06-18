@@ -121,3 +121,40 @@ modKReport = TestReport[{
 
 Print["ExpandTemplate + ModK"];
 PrintTestResults[modKReport];
+
+TemplateModReport = TestReport[{
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0,1,0,1,0,1,0,1}, TemplateMod, 2]},
+      ExpandTemplate[T] === {{0,1,0,1,0,1,0,1}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0,1,0,1,0,1,0,x0}, TemplateMod, 2]},
+      Sort @ ExpandTemplate[T] === Sort @ {{0,1,0,1,0,1,0,1}, {0,1,0,1,0,1,0,0}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0,1,0,1,0,1,0,x0}, TemplateMod, 2]},
+      ExpandTemplate[T, 0] === {0,1,0,1,0,1,0,0}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0,1,0,1,0,1,0,x0}, TemplateMod, 2]},
+      ExpandTemplate[T, 1] === {0,1,0,1,0,1,0,1}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {x7,1,0,1,0,1,0,x0}, TemplateMod, 2]},
+      Sort[ExpandTemplate[T]] === Sort[{{0,1,0,1,0,1,0,1}, {0,1,0,1,0,1,0,0}, {1,1,0,1,0,1,0,1}, {1,1,0,1,0,1,0,0}}]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0,1,0,1,0,1,0,1+x0}, TemplateMod, 2]},
+      Sort @ ExpandTemplate[T] === Sort @ {{0, 1, 0, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 1, 0, 0}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[3, 1.0, {1 + x7, 0, 1, 0, 0, 1, 0, 0}, TemplateMod, 3]},
+      Sort @ ExpandTemplate[T] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 0}, {2, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 0}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {1 + x7, 0, 1, 0, 0, 1, 0, 1 - x0}, TemplateMod, 2]},
+      Sort @ ExpandTemplate[T] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 0, 0}}]]}];
+
+Print["ExpandTemplate + TemplateMod"];
+PrintTestResults[TemplateModReport];

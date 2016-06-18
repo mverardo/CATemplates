@@ -1,5 +1,4 @@
-BeginPackage["CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`", {"CATemplates`CATemplate`"}]
-(* Exported symbols added here with SymbolName::usage *)
+BeginPackage["CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`", {"CATemplates`CATemplate`"}];
 
 ModK::usage="Performs a mod K on every element of the expansion.";
 

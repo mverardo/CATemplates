@@ -23,6 +23,8 @@ expansionFunction::usage="expansionFunction[t_] = Gets the expansion function us
 
 postExpansionFn::usage="postExpansionFn[t_] = Gets the post expansion function used by template t.";
 
+templateMod::usage="templateMod[t_] = Gets a templateMod number used by template t.";
+
 Begin["`Private`"];
 
 BuildTemplate[k_Integer, r_Real, rawList_List] :=
@@ -41,6 +43,8 @@ BaseTemplate[k_Integer, r_Real] :=
 k[t_Association] := t[["k"]];
 
 r[t_Association] := t[["r"]];
+
+templateMod[t_Association] := t[["N"]];
 
 kAryRuleTemplate[t_Association] := t[["rawList"]];
 
