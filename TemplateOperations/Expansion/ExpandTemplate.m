@@ -18,20 +18,20 @@ ExpandTemplate[T_Template, i_Integer] := performs the ith expansion on template 
 
 Begin["`Private`"];
 
-Substition[i_, k_, variables_] :=
+Substitution[i_, k_, variables_] :=
     Reverse[IntegerDigits[i, k, Length[variables]]];
 
 TransformationRules[variables_, substitution_] :=
     MapThread[#1 -> #2 &, {variables, substitution}];
 
 Expansion[template_Association, i_Integer] :=
-    With[{k = k[template], variables = RuleTemplateVars[template]},
-      kAryRuleTemplate[template] /. TransformationRules[variables, Substitution[i, k, variables]]];
+    With[{variables = RuleTemplateVars[template]},
+      kAryRuleTemplate[template] /. TransformationRules[variables, Substitution[i, k[template], variables]]];
 
 ExpandTemplate[template_Association, i_Integer] :=
-    If[postExpansionFn[t] === Null,
+    If[MissingQ[postExpansionFn[template]],
       Expansion[template, i],
-      postExpansionFn[t] @ Expansion[template, i]];
+      Partial[postExpansionFn[template], template] @ Expansion[template, i]];
 
 ExpandTemplate[template_Association] :=
     ExpandTemplate[template, #] & /@ SubstitutionRange[template];

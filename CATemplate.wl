@@ -26,13 +26,13 @@ postExpansionFn::usage="postExpansionFn[t_] = Gets the post expansion function u
 Begin["`Private`"];
 
 BuildTemplate[k_Integer, r_Real, rawList_List] :=
-    BuildTemplate[k, r, rawList, RawExpansion];
+    Association["k" -> k, "r" -> r, "rawList" -> rawList];
 
-BuildTemplate[k_Integer, r_Real, rawList_List, expansion_] :=
-    Association["k" -> k, "r" -> r, "rawList" -> rawList, "expansionFunction" -> expansion];
+BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_] :=
+    Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> postExpansionFn];
 
-BuildTemplate[k_Integer, r_Real, rawList_List, expansion_, N_Integer] :=
-    Association["k" -> k, "r" -> r, "rawList" -> rawList, "expansionFunction" -> expansion, "N" -> N];
+BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_, N_Integer] :=
+    Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> postExpansionFn, "N" -> N];
 
 BaseTemplate[k_Integer, r_Real] :=
     With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
