@@ -3,6 +3,4 @@
 (* :Author: mverardo *)
 (* :Date: 26/07/15 *)
 
-Get["CATemplates`TemplateOperations`Expansion`RawExpansion`"];
-
 Get["CATemplates`TemplateOperations`Expansion`ExpandTemplate`"];

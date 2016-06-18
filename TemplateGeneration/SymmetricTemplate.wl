@@ -3,8 +3,7 @@
 BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`",
   {
     "CATemplates`Basic`",
-    "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Expansion`RawExpansion`"
+    "CATemplates`CATemplate`"
   }];
 
 
@@ -33,7 +32,7 @@ SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, 
     systems = MapThread[Join[#1, #2] &, {equations, inequations}];
     systems = systems /. x__ == y__ -> Rule[x, y] ;
     templateLists = OldBaseTemplate[k, r] /. systems;
-    BuildTemplate[k, r, #, RawExpansion] & /@ templateLists
+    BuildTemplate[k, r, #] & /@ templateLists
   ];
 
 

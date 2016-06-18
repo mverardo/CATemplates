@@ -25,7 +25,59 @@ report = TestReport[{
   VerificationTest[
     With[
       {T = BuildTemplate[3, 1.0, {1 + x7, 0, 1, 0, 0, 1, 0, 0}, ModK, 3]},
-      Sort[ExpandTemplate[T]] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 0}, {2, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 0}}]]}];
+      Sort[ExpandTemplate[T]] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 0}, {2, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 0}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {}]},
+      ExpandTemplate[T] === {{}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
+      ExpandTemplate[T] === Tuples[{0, 1}, 8]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
+      ExpandTemplate[T, 0] === {0, 0, 0, 0, 0, 0, 0, 0}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
+      ExpandTemplate[T, 4] === {0, 0, 0, 0, 0, 1, 0, 0}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, x1, 0, 1}]},
+      Sort[ExpandTemplate[T]] === Sort[{{0, 1, 0, 0, 1}, {0, 1, 1, 0, 1}}]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[3, 1.0, {0, 2, x1, 0, 1}]},
+      Sort[ExpandTemplate[T]] === Sort[{{0, 2, 0, 0, 1}, {0, 2, 1, 0, 1}, {0, 2, 2, 0, 1}}]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[3, 1.0, {0, 1, 0, 2, x1}]},
+      Sort[ExpandTemplate[T]] === Sort[{{0, 1, 0, 2, 0}, {0, 1, 0, 2, 1}, {0, 1, 0, 2, 2}}]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, 0, 1, 0, 1, 0, 1}]},
+      ExpandTemplate[T] === {{0, 1, 0, 1, 0, 1, 0, 1}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, 0, 1, 0, 1, 0, x0}]},
+      Sort @ ExpandTemplate[T] === Sort @ {{0, 1, 0, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 1, 0, 0}}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, 0, 1, 0, 1, 0, x0}]},
+      ExpandTemplate[T, 0] === {0, 1, 0, 1, 0, 1, 0, 0}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, 0, 1, 0, 1, 0, x0}]},
+      ExpandTemplate[T, 1] === {0, 1, 0, 1, 0, 1, 0, 1}]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {x7, 1, 0, 1, 0, 1, 0, x0}]},
+      Sort[ExpandTemplate[T]] === Sort[{{0, 1, 0, 1, 0, 1, 0, 1}, {0, 1, 0, 1, 0, 1, 0, 0}, {1, 1, 0, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 0, 1, 0, 0}}]]],
+  VerificationTest[
+    With[
+      {T = BuildTemplate[2, 1.0, {0, 1, 0, 1, 0, 1, 0, 1 + x0}]},
+      Sort @ ExpandTemplate[T] === Sort @ {{0, 1, 0, 1, 0, 1, 0, 2}, {0, 1, 0, 1, 0, 1, 0, 1}}]]}];
 
 Print["ExpandTemplate"]
 PrintTestResults[report];

@@ -1,8 +1,4 @@
-BeginPackage["CATemplates`CATemplate`",
-  {
-    "CATemplates`TemplateOperations`Expansion`RawExpansion`"
-  }
-];
+BeginPackage["CATemplates`CATemplate`"];
 
 BuildTemplate::usage=
     "BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function]
@@ -38,7 +34,7 @@ BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_, N_Integer] :=
 
 BaseTemplate[k_Integer, r_Real] :=
     With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
-      BuildTemplate[k, r, list, RawExpansion]];
+      BuildTemplate[k, r, list]];
 
 k[t_Association] := t[["k"]];
 
