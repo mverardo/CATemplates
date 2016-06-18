@@ -21,6 +21,8 @@ kAryRuleTemplate::usage="kAryRuleTemplate[t_] = Gets the kAryRuleTemplate which 
 
 expansionFunction::usage="expansionFunction[t_] = Gets the expansion function used by template t.";
 
+postExpansionFn::usage="postExpansionFn[t_] = Gets the post expansion function used by template t.";
+
 Begin["`Private`"];
 
 BuildTemplate[k_Integer, r_Real, rawList_List] :=
@@ -44,6 +46,8 @@ kAryRuleTemplate[t_Association] := t[["rawList"]];
 
 expansionFunction[t_Association] := t[["expansionFunction"]];
 
-End[]; (* `Private` *)
+postExpansionFn[t_Association] := t[["postExpansionFn"]];
+
+End[];
 
 EndPackage[];
