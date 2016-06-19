@@ -16,12 +16,12 @@ Begin["`Private`"];
 
 TemplateIntersection[template1_Association, template2_Association] :=
     With[{
-      k = template1[["k"]],
-      r = template1[["r"]],
-      expansion = template1[["expansionFunction"]],
-      rawTemplate1 = RawTemplate[template1[["rawList"]]],
-      rawTemplate2 = RawTemplate[template2[["rawList"]]],
-      imprisonmentExpressions = Join[ImprisonmentExpressions[template1[["rawList"]]], ImprisonmentExpressions[template2[["rawList"]]]]},
+      k = k[template1],
+      r = r[template1],
+      expansion = postExpansionFn[template1],
+      rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
+      rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]],
+      imprisonmentExpressions = Join[ImprisonmentExpressions[kAryRuleTemplate[template1]], ImprisonmentExpressions[kAryRuleTemplate[template2]]]},
       If[imprisonmentExpressions === {},
         BuildTemplate[k, r, RawIntersection[rawTemplate1, rawTemplate2], expansion],
         BuildTemplate[k, r, RestrictedTemplateIntersection[rawTemplate1, rawTemplate2, imprisonmentExpressions], expansion]]];

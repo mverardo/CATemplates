@@ -21,7 +21,7 @@ CaptiveNeighborhood[nb_List, k_Integer] :=
         True                       , TemplateVarFromNeighbourhood[nb, k] \[Element] nbRange]];
 
 CaptiveTemplate[k_Integer: 2, r_Real: 1.0] :=
- BuildTemplate[k, r, CaptiveNeighborhood[#, k] & /@ AllNeighbourhoods[k, r], Composition[FilterNotAllowed, FilterOutOfRange]];
+ BuildTemplate[k, r, CaptiveNeighborhood[#, k] & /@ AllNeighbourhoods[k, r], {FilterNotAllowed, FilterOutOfRange}];
 
 End[];
 EndPackage[];

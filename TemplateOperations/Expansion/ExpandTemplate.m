@@ -28,10 +28,24 @@ Expansion[template_Association, i_Integer] :=
     With[{variables = RuleTemplateVars[template]},
       kAryRuleTemplate[template] /. TransformationRules[variables, Substitution[i, k[template], variables]]];
 
+(* Takes a list of 2 args Functions, fixes their firstArgument as firstArgument and composes a new one-arg Function. *)
+PartialComposition[postExpansionFns_List, firstArgument_] :=
+    Fold[Composition, Partial[#, firstArgument] & /@ postExpansionFns];
+
+(* If there is no postExpansionFn: *)
+PostExpansion[template_Association, i_Integer, postExpansionFn_ /; MissingQ[postExpansionFn]] :=
+    Expansion[template, i];
+
+(* If there is one postExpansionFn: *)
+PostExpansion[template_Association, i_Integer, postExpansionFn_Symbol] :=
+    Partial[postExpansionFn, template] @ Expansion[template, i];
+
+(* If there is a list of postExpansionFns: *)
+PostExpansion[template_Association, i_Integer, postExpansionFns_List] :=
+    PartialComposition[postExpansionFns, template] @ Expansion[template, i];
+
 ExpandTemplate[template_Association, i_Integer] :=
-    If[MissingQ[postExpansionFn[template]],
-      Expansion[template, i],
-      Partial[postExpansionFn[template], template] @ Expansion[template, i]];
+    PostExpansion[template, i, postExpansionFn[template]];
 
 ExpandTemplate[template_Association] :=
     ExpandTemplate[template, #] & /@ SubstitutionRange[template];
