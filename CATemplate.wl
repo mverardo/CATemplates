@@ -1,4 +1,4 @@
-BeginPackage["CATemplates`CATemplate`"];
+BeginPackage["CATemplates`CATemplate`", {"CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
 
 BuildTemplate::usage=
     "BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function]
@@ -24,7 +24,7 @@ templateMod::usage="templateMod[t_] = Gets a templateMod number used by template
 Begin["`Private`"];
 
 BuildTemplate[k_Integer, r_Real, rawList_List] :=
-    Association["k" -> k, "r" -> r, "rawList" -> rawList];
+    Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> IdentityFn];
 
 BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_] :=
     Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> postExpansionFn];

@@ -3,6 +3,8 @@
 (* :Author: mverardo *)
 (* :Date: 26/07/15 *)
 
+Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"];
+
 Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`"];
 
 Get["CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterNotAllowed`"];
