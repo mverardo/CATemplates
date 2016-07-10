@@ -27,11 +27,11 @@ ModularIntersection[template1_, template2_, k_] :=
 
 ModularTemplateIntersection[template1_Association, template2_Association] :=
     With[{
-      k = template1[["k"]],
-      r = template1[["r"]],
-      expansion = template1[["expansionFunction"]],
-      rawTemplate1 = template1[["rawList"]],
-      rawTemplate2 = template2[["rawList"]]},
+      k = k[template1],
+      r = r[template1],
+      expansion = postExpansionFn[template1],
+      rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
+      rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]]},
       BuildTemplate[k, r, ModularIntersection[rawTemplate1, rawTemplate2, k], expansion]];
 
 
