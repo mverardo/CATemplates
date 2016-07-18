@@ -12,7 +12,7 @@ SubstitutionRangeVar::usage = "bl1";
 ExpandVar::usage = "bl1";
 ExpandVars::usage = "bl1";
 InvalidSubSets::usage = "bl1";
-ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Integer:2] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
+ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Real:1] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
 
 Begin["`Private`"];
 PossibleInvalidSubsets[intemplate_Association] := PossibleInvalidSubsets[intemplate[["rawList"]]];
@@ -37,22 +37,25 @@ InvalidSubSets[intemplate_Association] := Module[{possibleInvalids = PossibleInv
   MapThread[ExpandVars, {possibleInvalids, SubstitutionRangeVar[#, intemplate[["k"]]]& /@ possibleInvalids}]
 ];
 
-ExceptionTemplates[intemplate_] :=
-    ExceptionTemplates[intemplate, 2, 1];
+ExceptionTemplates[intemplate_Association] :=
+    ExceptionTemplates[intemplate[["rawList"]], intemplate[["k"]], intemplate[["r"]]];
 
-ExceptionTemplates[intemplate_, k_ /; k === 2, r_Integer : 1] :=
-    Module[{invalidSubsSets, filteredInvalidSubsSets, result = {}},
+ExceptionTemplates[intemplate_List] :=
+    ExceptionTemplates[intemplate, 2, 1.0];
+
+ExceptionTemplates[intemplate_List, k_ /; k === 2, r_Real : 1.0] :=
+    Module[{invalidSubsSets, filteredInvalidSubsSets, baseTemplate = OldBaseTemplate[k, r], result = {}},
       invalidSubsSets = Union[
         SortBy[InvalidSubSets[intemplate, k], Total]
       ];
       If[invalidSubsSets =!= {},
         filteredInvalidSubsSets = MinimizedRuleSets[invalidSubsSets];
-        result = (OldBaseTemplate[k, r] /. #) & /@ filteredInvalidSubsSets;
+        result = (baseTemplate /. #) & /@ filteredInvalidSubsSets;
       ];
       result
     ];
 
-ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
+ExceptionTemplates[intemplate_List, k_Integer:2, r_Real : 1.0] :=
     MapThread[If[#2 === _, #1, #2]&, {OldBaseTemplate[k, r], #}]& /@ Union[(If[NumberQ[#], #, _]& /@ #)& /@ ((OldBaseTemplate[k, r] /. #[[1]])& /@ Cases[{#[[2]], #[[1]] /. #[[2]]}& /@ Flatten[Outer[List, {#[[1]]}, #[[2]], 1]& /@ ({#[[2]], MapThread[#1 -> #2&, {#[[1]], #[[2]]}]& /@ #[[1]]}& /@ ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]}& /@ ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]}& /@ ({RuleTemplateVars[{#}], #}& /@ Select[intemplate, (Depth[#] > 1)&])))), 2], {_, x_ /; \[Not]MemberQ[Range[0, k - 1], x]}])]
 
 End[];

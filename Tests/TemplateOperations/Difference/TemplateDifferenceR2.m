@@ -26,7 +26,7 @@ outTotR2  = ExpandTemplate[outTotT2];
         (*t1 = colorBT2,*)
         (*t2 = colorBT2*)
       (*},*)
-        (*diffa = TemplateDifference[t1, t2];*)
+        (*diffa = TemplateDifferenceDirect[t1, t2];*)
         (*ra = ExpandTemplate /@ diffa;*)
         (*fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];*)
         (*expectedr = {};*)
@@ -38,7 +38,7 @@ outTotR2  = ExpandTemplate[outTotT2];
         (*r1 = colorBR2,*)
         (*r2 = stateCR2*)
       (*},*)
-        (*diffa = TemplateDifference[t1, t2];*)
+        (*diffa = TemplateDifferenceDirect[t1, t2];*)
         (*ra = ExpandTemplate /@ diffa;*)
         (*fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];*)
         (*expected = Complement[r1,r2];*)
@@ -51,7 +51,7 @@ outTotR2  = ExpandTemplate[outTotT2];
         (*r1 = colorBR2,*)
         (*r2 = totalR2*)
       (*},*)
-        (*diffa = TemplateDifference[t1, t2];*)
+        (*diffa = TemplateDifferenceDirect[t1, t2];*)
         (*ra = ExpandTemplate /@ diffa;*)
         (*fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];*)
         (*expected = Complement[r1,r2];*)
@@ -64,7 +64,7 @@ outTotR2  = ExpandTemplate[outTotT2];
         (*r1 = colorBR2,*)
         (*r2 = outTotR2*)
       (*},*)
-        (*diffa = TemplateDifference[t1, t2];*)
+        (*diffa = TemplateDifferenceDirect[t1, t2];*)
         (*ra = ExpandTemplate /@ diffa;*)
         (*fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];*)
         (*expected = Complement[r1,r2];*)
@@ -83,7 +83,7 @@ stateCTDiffTest2 = TestReport[
         r1 = stateCR2,
         r2 = colorBR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -96,7 +96,7 @@ stateCTDiffTest2 = TestReport[
         r1 = stateCR2,
         r2 = stateCR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expectedr = {};
@@ -108,7 +108,7 @@ stateCTDiffTest2 = TestReport[
         r1 = stateCR2,
         r2 = totalR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -121,7 +121,7 @@ stateCTDiffTest2 = TestReport[
         r1 = stateCR2,
         r2 = outTotR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -141,7 +141,7 @@ stateCTDiffTest2 = TestReport[
         r1 = totalR2,
         r2 = colorBR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -154,7 +154,7 @@ stateCTDiffTest2 = TestReport[
         r1 = totalR2,
         r2 = stateCR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -167,7 +167,7 @@ stateCTDiffTest2 = TestReport[
         r1 = totalR2,
         r2 = totalR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -180,7 +180,7 @@ stateCTDiffTest2 = TestReport[
         r1 = totalR2,
         r2 = outTotR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -199,7 +199,7 @@ stateCTDiffTest2 = TestReport[
         r1 = outTotR2,
         r2 = colorBR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -212,7 +212,7 @@ stateCTDiffTest2 = TestReport[
         r1 = outTotR2,
         r2 = stateCR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -225,7 +225,7 @@ stateCTDiffTest2 = TestReport[
         r1 = outTotR2,
         r2 = totalR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
@@ -238,7 +238,7 @@ stateCTDiffTest2 = TestReport[
         r1 = outTotR2,
         r2 = outTotR2
       },
-        diffa = TemplateDifference[t1, t2];
+        diffa = TemplateDifferenceDirect[t1, t2];
         ra = ExpandTemplate /@ diffa;
         fra = Sort[FromDigits[#, 2] & /@DeleteDuplicates[Join@@ra]];
         expected = Complement[r1,r2];
