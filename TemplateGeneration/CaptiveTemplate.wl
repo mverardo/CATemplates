@@ -4,7 +4,9 @@ BeginPackage["CATemplates`TemplateGeneration`CaptiveTemplate`",
   {
     "CATemplates`Basic`",
     "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Expansion`RestrictedExpansion`"
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterNotAllowed`",
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`"
+
   }];
 
 CaptiveTemplate::usage="Generates a template representative of all the captive rules of a given space (defined by k and r)."
@@ -19,7 +21,7 @@ CaptiveNeighborhood[nb_List, k_Integer] :=
         True                       , TemplateVarFromNeighbourhood[nb, k] \[Element] nbRange]];
 
 CaptiveTemplate[k_Integer: 2, r_Real: 1.0] :=
- BuildTemplate[k, r, CaptiveNeighborhood[#, k] & /@ AllNeighbourhoods[k, r], RestrictedExpansion];
+ BuildTemplate[k, r, CaptiveNeighborhood[#, k] & /@ AllNeighbourhoods[k, r], {FilterNotAllowed, FilterOutOfRange}];
 
 End[];
 EndPackage[];

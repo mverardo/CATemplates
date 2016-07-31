@@ -3,8 +3,7 @@
 BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`",
   {
     "CATemplates`Basic`",
-    "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Expansion`RawExpansion`"
+    "CATemplates`CATemplate`"
   }];
 
 
@@ -27,13 +26,13 @@ AggregatedTemplateList[k_Integer: 2, r_Real: 1.0, aggregatorFunction_ ] :=
 TotalisticTemplate[k_Integer: 2, r_Real: 1.0] :=
     With[
       {templateList = AggregatedTemplateList[k, r, {#, Plus @@ #} &]},
-      BuildTemplate[k, r, templateList, RawExpansion]
+      BuildTemplate[k, r, templateList]
     ];
 
 OuterTotalisticTemplate[k_Integer: 2, r_Real: 1.0] :=
     With[
       {templateList = AggregatedTemplateList[k, r, {#, FromDigits[ToString[(Plus @@ #) - #[[Ceiling[Length[#]/2]]]] <> ToString[#[[Ceiling[Length[#]/2]]]]]} &]},
-      BuildTemplate[k, r, templateList, RawExpansion]
+      BuildTemplate[k, r, templateList]
     ];
 
 End[];

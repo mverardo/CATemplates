@@ -4,8 +4,8 @@ BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`",
   {
     "CATemplates`Basic`",
     "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Expansion`FilteredExpansion`",
-    "CATemplates`TemplateOperations`Expansion`ModNExpansion`"
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`",
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`TemplateMod`"
   }];
 
 
@@ -47,14 +47,14 @@ StateConservingTemplate[k_Integer: 2, r_Real: 1.0] :=
     Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, DefaultSolve[]];
       replacementRules = ConstantsToVariables[First[solutions]];
-      BuildTemplate[k, r, basetemplate /. replacementRules, FilteredExpansion]
+      BuildTemplate[k, r, basetemplate /. replacementRules, FilterOutOfRange]
     ];
 
 ModNStateConservingTemplate[N_Integer: 2, k_Integer: 2, r_Real: 1.0] :=
     Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, ModularSolve[N]];
       replacementRules = ConstantsToVariables[First[solutions]];
-      BuildTemplate[k, r, basetemplate /. replacementRules, ModNExpansion, N]
+      BuildTemplate[k, r, basetemplate /. replacementRules, TemplateMod, N]
     ];
 
 End[];
