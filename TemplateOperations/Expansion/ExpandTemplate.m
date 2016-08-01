@@ -18,6 +18,11 @@ ExpandTemplate[T_Template, i_Integer] := performs the ith expansion on template 
 
 Begin["`Private`"];
 
+SubstitutionRange[template_Association] :=
+    If[kAryRuleTemplate[template] === {},
+      {},
+      Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1]];
+
 Substitution[i_, k_, variables_] :=
     Reverse[IntegerDigits[i, k, Length[variables]]];
 

@@ -28,10 +28,6 @@ report = TestReport[{
       Sort[ExpandTemplate[T]] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 0}, {2, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 0}}]],
   VerificationTest[
     With[
-      {T = BuildTemplate[2, 1.0, {}]},
-      ExpandTemplate[T] === {{}}]],
-  VerificationTest[
-    With[
       {T = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
       ExpandTemplate[T] === Tuples[{0, 1}, 8]]],
   VerificationTest[
@@ -133,10 +129,6 @@ Print["ExpandTemplate + FilterNotAllowed"];
 PrintTestResults[filterNotAllowedReport];
 
 modKReport = TestReport[{
-  VerificationTest[
-    With[
-      {T = BuildTemplate[2, 1.0, {}, ModK, 2]},
-      ExpandTemplate[T] === {{}}]],
   VerificationTest[
     With[
       {T = BuildTemplate[2, 1.0, {2 - x0, x0}, ModK, 2]},

@@ -57,9 +57,6 @@ Begin["`Private`"];
 SetAttributes[Partial, HoldAll];
 Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 
-SubstitutionRange[template_Association] :=
-    Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1];
-
 OldBaseTemplate[k_Integer: 2, r_: 1] :=
   Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
