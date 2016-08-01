@@ -34,8 +34,8 @@ BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_] :=
 BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_, N_Integer] :=
     Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> postExpansionFn, "N" -> N];
 
-EmptyTemplate[] :=
-    BuildTemplate[2, 1.0, {}];
+EmptyTemplate[k_Integer:2, r_Real:1.0] :=
+    BuildTemplate[k, r, {}];
 
 BaseTemplate[k_Integer, r_Real] :=
     With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
