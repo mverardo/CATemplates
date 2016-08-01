@@ -28,14 +28,6 @@ buildTemplateReport = TestReport[{
 
 PrintTestResults[buildTemplateReport];
 
-emptyTemplateReport = TestReport[{
-  VerificationTest[EmptyTemplate[] === BuildTemplate[2, 1.0, {}]],
-  (*Expanding the EmptyTemplate yields {}. *)
-  VerificationTest[ExpandTemplate[EmptyTemplate[]] === {}]
-}];
-
-PrintTestResults[emptyTemplateReport];
-
 baseTemplateReport = TestReport[{
   VerificationTest[
     With[

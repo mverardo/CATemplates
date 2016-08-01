@@ -9,8 +9,6 @@ BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function, N_Integer]
 
 BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template for the space of radius r k-ary rules.";
 
-EmptyTemplate::usage="EmptyTemplate[] := Gives the empty template.";
-
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
 
 r::usage="r[t_] = Gets the radius (r) of the family represented by template t.";
@@ -33,9 +31,6 @@ BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_] :=
 
 BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_, N_Integer] :=
     Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> postExpansionFn, "N" -> N];
-
-EmptyTemplate[k_Integer:2, r_Real:1.0] :=
-    BuildTemplate[k, r, {}];
 
 BaseTemplate[k_Integer, r_Real] :=
     With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
