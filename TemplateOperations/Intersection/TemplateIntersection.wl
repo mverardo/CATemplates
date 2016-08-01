@@ -4,19 +4,33 @@ BeginPackage[
   "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
   {
     "CATemplates`Basic`",
-    "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Intersection`Common`"
+    "CATemplates`CATemplate`"
   }];
 
-RawIntersection::usage= "RawIntersection[t1_List, t2_List]: Receives two templates t1 and t2, and finds a third template that represents their intersection. Both arguments should be raw templates, i.e. templates that don't have special sintax constructs.";
+EquationSystem::usage="EquationSystem[t1_List, t2_List]: Receives two templates, t1 and t2, and returns an equation system in which every slot of t1 is equal to the corresponding slot in t2. Ex: EquationSystem[{x1, x0}, {1, x0}] results in {x1 == 1, x0 == x0}.";
 
-ModularTemplateIntersection::usage = "TemplateIntersection[template1_Association, template2_Association]: Receives two modular templates template1 and template2, and finds a third template that represents their intersection.";
+ReplacementRules::usage = "
+ReplacementRules[t1_List, t2_List]: Takes two templates t1 and t2, and returns the replacement rules that could be applied to t1 or t2 in order to find an intersection of both. Returns {} if there is no possible intersection, or {{}} if they are both templates are the same.
+ReplacementRules[t1_List, t2_List, k_Integer]: Takes two templates t1 and t2, and returns the replacement rules that could be applied to t1 or t2 in order to find an intersection of both. Assumes both templates are modular.
+";
 
 TemplateIntersection::usage = "TemplateIntersection[template1_Association, template2_Association]: Receives two templates template1 and template2, and finds a third template that represents their intersection.";
 
-RestrictedTemplateIntersection::usage="RestrictedTemplateIntersection[rawTemplate1_List, rawTemplate2_List, imprisonmentExpressions_List]: Receives rawTemplate1, rawTemplate2, and a list of imprisonment expressions, and returns the intersection of rawTemplate1 and rawTemplate2 with the corresponding value restrictions taken in account.";
-
 Begin["`Private`"];
+
+EquationSystem[template1_List,template2_List]:=
+    Equal @@ # & /@ Transpose[{template1, template2}];
+
+ReplacementRules[template1_Association, template2_Association]:=
+    Module[{
+      k = k[template1],
+      rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
+      rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]],
+      templateVars},
+      templateVars = SortBy[Union[Flatten[RuleTemplateVars[#] & /@ {rawTemplate1, rawTemplate2}, 1]], FromDigits[StringDrop[SymbolName[#],1]] &];
+      If[ModTemplateQ[template1] || ModTemplateQ[template2],
+        Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], Reverse[templateVars], Modulus -> k]],
+        Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], templateVars]]]];
 
 VarAssignmentsToImprisonmentExpressions::usage="ToImprisonmentExpression[varAssignments_List]: Receives a list of assignments for a template's variables and returns the equivalent ImprisonmentExpressions."
 VarAssignmentsToImprisonmentExpressions[varAssignments_List] :=
@@ -41,16 +55,6 @@ ValueRestrictionIntersection[currentIntersectionResult_, valueRestrictions_, rep
 
 ModTemplateQ[template_Association] := False;
 
-(*TODO: Move this logic to ReplacementRules function*)
-ReplacementRulesIntern[template1_Association, template2_Association] :=
-    With[{
-      k = k[template1],
-      rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
-      rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]]},
-      If[ModTemplateQ[template1] || ModTemplateQ[template2],
-        ReplacementRules[rawTemplate1, rawTemplate2, k],
-        ReplacementRules[rawTemplate1, rawTemplate2]]];
-
 SimpleIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
       coreTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
@@ -58,7 +62,6 @@ SimpleIntersection[replacementRules_, template1_Association, template2_Associati
       If[replacementRules == {},
         {},
         First[Union[coreTemplate1 /.replacementRules, coreTemplate2 /. replacementRules]]]]
-
 
 ModIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
@@ -68,7 +71,6 @@ ModIntersection[replacementRules_, template1_Association, template2_Association]
         (*When a modular template returns 2 different sets of replacement rules, they both have equivalent expansions.
           For that reason, only the first set is taken into account. *)
         coreTemplate1 /. ConstantsToVariables[First[replacementRules]]]];
-
 
 IntersectionFn[template1_Association, template2_Association] :=
     If[ModTemplateQ[template1] || ModTemplateQ[template2],
@@ -80,7 +82,7 @@ TemplateIntersection[template1_Association, template2_Association] :=
       k = k[template1],
       r = r[template1],
       expansion = postExpansionFn[template1],
-      replacementRules = ReplacementRulesIntern[template1, template2],
+      replacementRules = ReplacementRules[template1, template2],
       intersectionFn = IntersectionFn[template1, template2],
       valueRestrictions = Join[ImprisonmentExpressions[kAryRuleTemplate[template1]], ImprisonmentExpressions[kAryRuleTemplate[template2]]],
       intersectionResult},
