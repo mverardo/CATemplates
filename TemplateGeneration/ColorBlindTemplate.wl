@@ -4,7 +4,7 @@ BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
   {
     "CATemplates`Basic`",
     "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Intersection`ModularTemplateIntersection`",
+    "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`"
   }];
 
