@@ -4,7 +4,7 @@ BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
   {
     "CATemplates`Basic`",
     "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Intersection`ModularTemplateIntersection`",
+    "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`"
   }];
 
@@ -64,7 +64,7 @@ VariantReplacementRules[nbEqClasses_, permutation_, k_] :=
 ColorBlindTemplate[k_Integer: 2, r_Real: 1.0] :=
     With[
       {cbTemplates = ColorBlindTemplate[#, k, r] & /@ PossibleStateReplacements[k]},
-      Fold[ModularTemplateIntersection[#2, #1]&, cbTemplates[[1]], Rest[cbTemplates]]
+      Fold[TemplateIntersection[#2, #1]&, cbTemplates[[1]], Rest[cbTemplates]]
     ];
 
 ColorBlindTemplate[permutation_List, k_Integer: 2, r_Real: 1.0] :=
