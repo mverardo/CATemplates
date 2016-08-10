@@ -115,7 +115,9 @@ TemplateIntersection[template1_Association, template2_Association] :=
       intersectionResult},
 
       intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, template2], valueRestrictions, replacementRules];
-      BuildTemplate[k, r, intersectionResult, expansion]];
+      If[ValidTemplateCoreQ[intersectionResult],
+        BuildTemplate[k, r, intersectionResult, expansion],
+        BuildTemplate[k, r, {}, expansion]]];
 
 (* The intersection between two sets of templates is given by the outer product of the intersection over the sets. *)
 TemplateIntersection[x_List, y_List] :=

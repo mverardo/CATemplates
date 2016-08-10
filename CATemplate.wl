@@ -9,6 +9,8 @@ BuildTemplate[k_Integer, r_Real, rawList_List, expansion_Function, N_Integer]
 
 BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template for the space of radius r k-ary rules.";
 
+ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
+
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
 
 r::usage="r[t_] = Gets the radius (r) of the family represented by template t.";
@@ -23,6 +25,8 @@ templateMod::usage="templateMod[t_] = Gets a templateMod number used by template
 
 Begin["`Private`"];
 
+(* Builder functions *)
+
 BuildTemplate[k_Integer, r_Real, rawList_List] :=
     Association["k" -> k, "r" -> r, "rawList" -> rawList, "postExpansionFn" -> IdentityFn];
 
@@ -35,6 +39,13 @@ BuildTemplate[k_Integer, r_Real, rawList_List, postExpansionFn_, N_Integer] :=
 BaseTemplate[k_Integer, r_Real] :=
     With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
       BuildTemplate[k, r, list]];
+
+(* Validators *)
+
+ValidTemplateCoreQ[templateCore_] :=
+    And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ templateCore);
+
+(* Accessor functions *)
 
 k[t_Association] := t[["k"]];
 
