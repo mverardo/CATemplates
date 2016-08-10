@@ -39,8 +39,8 @@ EquationSystem[template1_List,template2_List]:=
 ReplacementRules[template1_Association, template2_Association]:=
     Module[{
       k = k[template1],
-      rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
-      rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]],
+      rawTemplate1 = RawTemplate[templateCore[template1]],
+      rawTemplate2 = RawTemplate[templateCore[template2]],
       templateVars},
       templateVars = SortBy[Union[Flatten[TemplateCoreVars[#] & /@ {rawTemplate1, rawTemplate2}, 1]], FromDigits[StringDrop[SymbolName[#],1]] &];
       If[ModIntersectionNeededQ[template1, template2],
@@ -70,15 +70,15 @@ ValueRestrictionIntersection[currentIntersectionResult_, valueRestrictions_, rep
 
 SimpleIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
-      coreTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
-      coreTemplate2 = RawTemplate[kAryRuleTemplate[template2]]},
+      coreTemplate1 = RawTemplate[templateCore[template1]],
+      coreTemplate2 = RawTemplate[templateCore[template2]]},
       If[replacementRules == {},
         {},
         First[Union[coreTemplate1 /.replacementRules, coreTemplate2 /. replacementRules]]]]
 
 ModIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
-      coreTemplate1 = RawTemplate[kAryRuleTemplate[template1]]},
+      coreTemplate1 = RawTemplate[templateCore[template1]]},
       If[replacementRules == {},
         {},
         (*When a modular template returns 2 different sets of replacement rules, they both have equivalent expansions.
@@ -111,7 +111,7 @@ TemplateIntersection[template1_Association, template2_Association] :=
       expansion = PostExpansionFnFight[template1, template2],
       replacementRules = ReplacementRules[template1, template2],
       intersectionFn = IntersectionFn[template1, template2],
-      valueRestrictions = Join[ImprisonmentExpressions[kAryRuleTemplate[template1]], ImprisonmentExpressions[kAryRuleTemplate[template2]]],
+      valueRestrictions = Join[ImprisonmentExpressions[templateCore[template1]], ImprisonmentExpressions[templateCore[template2]]],
       intersectionResult},
 
       intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, template2], valueRestrictions, replacementRules];

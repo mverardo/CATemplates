@@ -19,7 +19,7 @@ ExpandTemplate[T_Template, i_Integer] := performs the ith expansion on template 
 Begin["`Private`"];
 
 SubstitutionRange[template_Association] :=
-    If[kAryRuleTemplate[template] === {},
+    If[templateCore[template] === {},
       {},
       Range[0, (template[["k"]]^Length[TemplateCoreVars[template]])-1]];
 
@@ -31,7 +31,7 @@ TransformationRules[variables_, substitution_] :=
 
 Expansion[template_Association, i_Integer] :=
     With[{variables = TemplateCoreVars[template]},
-      kAryRuleTemplate[template] /. TransformationRules[variables, Substitution[i, k[template], variables]]];
+      templateCore[template] /. TransformationRules[variables, Substitution[i, k[template], variables]]];
 
 (* Takes a list of 2 args Functions, fixes their firstArgument as firstArgument and composes a new one-arg Function. *)
 PartialComposition[postExpansionFns_List, firstArgument_] :=
