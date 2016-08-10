@@ -42,7 +42,7 @@ ReplacementRules[template1_Association, template2_Association]:=
       rawTemplate1 = RawTemplate[kAryRuleTemplate[template1]],
       rawTemplate2 = RawTemplate[kAryRuleTemplate[template2]],
       templateVars},
-      templateVars = SortBy[Union[Flatten[RuleTemplateVars[#] & /@ {rawTemplate1, rawTemplate2}, 1]], FromDigits[StringDrop[SymbolName[#],1]] &];
+      templateVars = SortBy[Union[Flatten[TemplateCoreVars[#] & /@ {rawTemplate1, rawTemplate2}, 1]], FromDigits[StringDrop[SymbolName[#],1]] &];
       If[ModIntersectionNeededQ[template1, template2],
         Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], Reverse[templateVars], Modulus -> k]],
         Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], templateVars]]]];

@@ -11,6 +11,8 @@ BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template 
 
 ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
 
+TemplateCoreVars::usage = "TemplateCoreVars[templateCore_List] := Gives all variables from a templateCore.";
+
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
 
 r::usage="r[t_] = Gets the radius (r) of the family represented by template t.";
@@ -46,6 +48,15 @@ ValidTemplateCoreQ[templateCore_] :=
     And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ templateCore);
 
 (* Accessor functions *)
+
+TemplateCoreVars[template_Association] :=
+    TemplateCoreVars[kAryRuleTemplate[template]];
+
+TemplateCoreVars[templateCore_List] :=
+    With[{
+      symbols = Union[Cases[templateCore, _Symbol, Infinity]],
+      byIndex = FromDigits[StringDrop[SymbolName[#],1]] &},
+      SortBy[symbols, byIndex]];
 
 k[t_Association] := t[["k"]];
 

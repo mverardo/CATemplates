@@ -10,7 +10,6 @@ PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results o
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
 
 OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
-RuleTemplateVars::usage = "Extracts the variable names used in a rule template and returns them in a list. The names are given in lexicographical order; for instance, RuleTemplateVars[MaxSymmTemplate[{BWLR, BW, LR}, 2, 1]] returns {x2, x1, x0}. If the template is in the k-ary form, the function returns {}.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
 TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
 TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
@@ -59,10 +58,11 @@ Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 OldBaseTemplate[k_Integer: 2, r_: 1] :=
   Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
+(*Deprecated!!*)
 RuleTemplateVars[ruletemplate_Association] :=
     RuleTemplateVars[ruletemplate[["rawList"]]];
-
-RuleTemplateVars[ruletemplate_] := 
+(*Deprecated!!*)
+RuleTemplateVars[ruletemplate_] :=
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
 TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=

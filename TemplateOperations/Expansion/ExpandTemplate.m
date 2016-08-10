@@ -21,7 +21,7 @@ Begin["`Private`"];
 SubstitutionRange[template_Association] :=
     If[kAryRuleTemplate[template] === {},
       {},
-      Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1]];
+      Range[0, (template[["k"]]^Length[TemplateCoreVars[template]])-1]];
 
 Substitution[i_, k_, variables_] :=
     Reverse[IntegerDigits[i, k, Length[variables]]];
@@ -30,7 +30,7 @@ TransformationRules[variables_, substitution_] :=
     MapThread[#1 -> #2 &, {variables, substitution}];
 
 Expansion[template_Association, i_Integer] :=
-    With[{variables = RuleTemplateVars[template]},
+    With[{variables = TemplateCoreVars[template]},
       kAryRuleTemplate[template] /. TransformationRules[variables, Substitution[i, k[template], variables]]];
 
 (* Takes a list of 2 args Functions, fixes their firstArgument as firstArgument and composes a new one-arg Function. *)
