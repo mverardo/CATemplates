@@ -60,7 +60,7 @@ OldBaseTemplate[k_Integer: 2, r_: 1] :=
 
 (*Deprecated!!*)
 RuleTemplateVars[ruletemplate_Association] :=
-    RuleTemplateVars[ruletemplate[["rawList"]]];
+    RuleTemplateVars[ruletemplate[["core"]]];
 (*Deprecated!!*)
 RuleTemplateVars[ruletemplate_] :=
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]

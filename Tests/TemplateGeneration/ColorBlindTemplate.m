@@ -13,7 +13,7 @@ TestAllPermutations[ruleTable_, k_] :=
     And @@ (TestTable[ruleTable, #, k] & /@ PossibleStateReplacements[k]);
 
 report = TestReport[{
-  VerificationTest[ColorBlindTemplate[2][["rawList"]] === SymmetricTemplate[BWTransform, 8][[1]][["rawList"]]],
+  VerificationTest[templateCore[ColorBlindTemplate[2]] === templateCore[SymmetricTemplate[BWTransform, 8][[1]]]],
   VerificationTest[And @@ (TestAllPermutations[#, 3] & /@ ExpandTemplate[ColorBlindTemplate[3]]) === True]
 }];
 
