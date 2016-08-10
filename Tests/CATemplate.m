@@ -74,6 +74,20 @@ ValidTemplateCoreQReport = TestReport[{
 
 PrintTestResults[ValidTemplateCoreQReport];
 
+Print["TemplateCoreVars"];
+
+TemplateCoreVarsReport = TestReport[{
+  VerificationTest[TemplateCoreVars[{1,2,3,4}] === {}],
+  VerificationTest[TemplateCoreVars[{1,2,3,x0}] === {x0}],
+  VerificationTest[TemplateCoreVars[{x3,2,3,x0}] === {x0, x3}],
+  VerificationTest[TemplateCoreVars[{y3,2,3,y0}] === {y0, y3}],
+  VerificationTest[TemplateCoreVars[{x3 \[Element] {1,0},2,3,x0}] === {x0, x3}],
+  VerificationTest[TemplateCoreVars[OldBaseTemplate[]] === {x0, x1, x2, x3, x4, x5, x6, x7}],
+  VerificationTest[TemplateCoreVars[BaseTemplate[2, 1.0]] === {x0, x1, x2, x3, x4, x5, x6, x7}]
+}];
+
+PrintTestResults[TemplateCoreVarsReport];
+
 Print["accessorFns"];
 
 accessorFnsReport = TestReport[{
