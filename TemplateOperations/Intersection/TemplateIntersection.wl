@@ -4,10 +4,11 @@ BeginPackage[
   "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
   {
     "CATemplates`Basic`",
-    "CATemplates`CATemplate`",
-    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`",
-    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`TemplateMod`"
+    "CATemplates`CATemplate`"
   }];
+
+(* Imported with a Get[] (<<) so we can get all sub-packages at once. *)
+<< CATemplates`TemplateOperations`Expansion`PostExpansionFn`;
 
 EquationSystem::usage="EquationSystem[t1_List, t2_List]: Receives two templates, t1 and t2, and returns an equation system in which every slot of t1 is equal to the corresponding slot in t2. Ex: EquationSystem[{x1, x0}, {1, x0}] results in {x1 == 1, x0 == x0}.";
 
@@ -21,14 +22,12 @@ TemplateIntersection::usage = "TemplateIntersection[template1_Association, templ
 Begin["`Private`"];
 
 ModTemplateQ[template_Association] :=
-    Or[
-      postExpansionFn[template] === ModK,
-      postExpansionFn[template] === TemplateMod];
+    Or[postExpansionFn[template] === ModK,
+       postExpansionFn[template] === TemplateMod];
 
 ModIntersectionNeededQ[template1_Association, template2_Association] :=
-    And[
-      ModTemplateQ[template1],
-      ModTemplateQ[template2]];
+    And[ModTemplateQ[template1],
+        ModTemplateQ[template2]];
 
 EquationSystem[template1_List,template2_List]:=
     Equal @@ # & /@ Transpose[{template1, template2}];
@@ -87,11 +86,22 @@ IntersectionFn[template1_Association, template2_Association] :=
       ModIntersection,
       SimpleIntersection];
 
+WinningPostExpansionFn[FilterOutOfRange, ModK] := FilterOutOfRange;
+WinningPostExpansionFn[ModK, FilterOutOfRange] := FilterOutOfRange;
+
+WinningPostExpansionFn[e1_, e2_] := e1;
+
+PostExpansionFnFight[template1_Association, template2_Association] :=
+    With[{
+      expansion1 = postExpansionFn[template1],
+      expansion2 = postExpansionFn[template2]},
+      WinningPostExpansionFn[expansion1, expansion2]];
+
 TemplateIntersection[template1_Association, template2_Association] :=
     Module[{
       k = k[template1],
       r = r[template1],
-      expansion = postExpansionFn[template1],
+      expansion = PostExpansionFnFight[template1, template2],
       replacementRules = ReplacementRules[template1, template2],
       intersectionFn = IntersectionFn[template1, template2],
       valueRestrictions = Join[ImprisonmentExpressions[kAryRuleTemplate[template1]], ImprisonmentExpressions[kAryRuleTemplate[template2]]],
