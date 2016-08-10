@@ -19,6 +19,10 @@ ReplacementRules[t1_List, t2_List, k_Integer]: Takes two templates t1 and t2, an
 
 TemplateIntersection::usage = "TemplateIntersection[template1_Association, template2_Association]: Receives two templates template1 and template2, and finds a third template that represents their intersection.";
 
+
+WinningPostExpansionFn::usage="remove";
+PostExpansionFnFight::usage="remove";
+
 Begin["`Private`"];
 
 ModTemplateQ[template_Association] :=
@@ -88,6 +92,9 @@ IntersectionFn[template1_Association, template2_Association] :=
 
 WinningPostExpansionFn[FilterOutOfRange, ModK] := FilterOutOfRange;
 WinningPostExpansionFn[ModK, FilterOutOfRange] := FilterOutOfRange;
+
+WinningPostExpansionFn[IdentityFn, expansion_] := expansion;
+WinningPostExpansionFn[expansion_, IdentityFn] := expansion;
 
 WinningPostExpansionFn[e1_, e2_] := e1;
 
