@@ -28,6 +28,8 @@ buildTemplateReport = TestReport[{
 
 PrintTestResults[buildTemplateReport];
 
+Print["BaseTemplate"];
+
 baseTemplateReport = TestReport[{
   VerificationTest[
     With[
@@ -55,6 +57,24 @@ baseTemplateReport = TestReport[{
       BaseTemplate[2, 2.0] === expectedTemplate]]}];
 
 PrintTestResults[baseTemplateReport];
+
+Print["ValidTemplateCoreQ"];
+
+ValidTemplateCoreQReport = TestReport[{
+  VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5}] === True],
+  VerificationTest[ValidTemplateCoreQ[OldBaseTemplate[]] === True],
+  VerificationTest[ValidTemplateCoreQ[{1x2, 2x1, 3x0}] === True],
+  (* We can have fractions as long as they are multiplying a variable *)
+  VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5/2x1}] === True],
+  VerificationTest[ValidTemplateCoreQ[{1,2,3-x2,4+x1,5/2x1}] === True],
+  VerificationTest[ValidTemplateCoreQ[{1/2,2,3,4,5}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,2/4,3-x2,4+x1,5/2x1}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,1.0,3-x2,4,5}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,2,"bla",4,5}] === False]}];
+
+PrintTestResults[ValidTemplateCoreQReport];
+
+Print["accessorFns"];
 
 accessorFnsReport = TestReport[{
   VerificationTest[k[BaseTemplate[2, 1.0]] === 2],
