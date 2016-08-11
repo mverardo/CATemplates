@@ -7,26 +7,28 @@ Print["BuildTemplate"];
 buildTemplateReport = TestReport[{
   VerificationTest[
     With[
-      {expectedTemplate = <|"k" -> 2, "r" -> 1.0, "rawList" -> {x7, x6, x5, x4, x3, x2, x1, x0}, "postExpansionFn" -> IdentityFn|>},
+      {expectedTemplate = <|"k" -> 2, "r" -> 1.0, "core" -> {x7, x6, x5, x4, x3, x2, x1, x0}, "postExpansionFn" -> IdentityFn|>},
       BuildTemplate[2, 1.0, {x7, x6, x5, x4, x3, x2, x1, x0}] === expectedTemplate]],
   VerificationTest[
     With[
-      {expectedTemplate = <|"k" -> 2, "r" -> 1.0, "rawList" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> IdentityFn|>},
+      {expectedTemplate = <|"k" -> 2, "r" -> 1.0, "core" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> IdentityFn|>},
       BuildTemplate[2, 1.0, {x7, 1, x5, x4, 1, x2, x1, 0}] === expectedTemplate]],
   VerificationTest[
     With[
-      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "rawList" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2] |>},
+      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "core" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2] |>},
       BuildTemplate[3, 1.5, {x7, 1, x5, x4, 1, x2, x1, 0}, Function[{x,y}, 2]] === expectedTemplate]],
   VerificationTest[
     With[
-      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "rawList" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2], "N" -> 2|>},
+      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "core" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2], "N" -> 2|>},
       BuildTemplate[3, 1.5, {x7, 1, x5, x4, 1, x2, x1, 0}, Function[{x,y}, 2], 2] === expectedTemplate]],
   VerificationTest[
     With[
-      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "rawList" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2], "N" -> 3|>},
+      {expectedTemplate = <|"k" -> 3, "r" -> 1.5, "core" -> {x7, 1, x5, x4, 1, x2, x1, 0}, "postExpansionFn" -> Function[{x,y}, 2], "N" -> 3|>},
       BuildTemplate[3, 1.5, {x7, 1, x5, x4, 1, x2, x1, 0}, Function[{x,y}, 2], 3] === expectedTemplate]]}];
 
 PrintTestResults[buildTemplateReport];
+
+Print["BaseTemplate"];
 
 baseTemplateReport = TestReport[{
   VerificationTest[
@@ -56,13 +58,45 @@ baseTemplateReport = TestReport[{
 
 PrintTestResults[baseTemplateReport];
 
+Print["ValidTemplateCoreQ"];
+
+ValidTemplateCoreQReport = TestReport[{
+  VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5}] === True],
+  VerificationTest[ValidTemplateCoreQ[OldBaseTemplate[]] === True],
+  VerificationTest[ValidTemplateCoreQ[{1x2, 2x1, 3x0}] === True],
+  (* We can have fractions as long as they are multiplying a variable *)
+  VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5/2x1}] === True],
+  VerificationTest[ValidTemplateCoreQ[{1,2,3-x2,4+x1,5/2x1}] === True],
+  VerificationTest[ValidTemplateCoreQ[{1/2,2,3,4,5}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,2/4,3-x2,4+x1,5/2x1}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,1.0,3-x2,4,5}] === False],
+  VerificationTest[ValidTemplateCoreQ[{1,2,"bla",4,5}] === False]}];
+
+PrintTestResults[ValidTemplateCoreQReport];
+
+Print["TemplateCoreVars"];
+
+TemplateCoreVarsReport = TestReport[{
+  VerificationTest[TemplateCoreVars[{1,2,3,4}] === {}],
+  VerificationTest[TemplateCoreVars[{1,2,3,x0}] === {x0}],
+  VerificationTest[TemplateCoreVars[{x3,2,3,x0}] === {x0, x3}],
+  VerificationTest[TemplateCoreVars[{y3,2,3,y0}] === {y0, y3}],
+  VerificationTest[TemplateCoreVars[{x3 \[Element] {1,0},2,3,x0}] === {x0, x3}],
+  VerificationTest[TemplateCoreVars[OldBaseTemplate[]] === {x0, x1, x2, x3, x4, x5, x6, x7}],
+  VerificationTest[TemplateCoreVars[BaseTemplate[2, 1.0]] === {x0, x1, x2, x3, x4, x5, x6, x7}]
+}];
+
+PrintTestResults[TemplateCoreVarsReport];
+
+Print["accessorFns"];
+
 accessorFnsReport = TestReport[{
   VerificationTest[k[BaseTemplate[2, 1.0]] === 2],
   VerificationTest[k[BaseTemplate[3, 1.0]] === 3],
   VerificationTest[r[BaseTemplate[2, 1.0]] === 1.0],
   VerificationTest[r[BaseTemplate[2, 2.0]] === 2.0],
   VerificationTest[postExpansionFn[BuildTemplate[2, 2.0, {}, FilterOutOfRange]] === FilterOutOfRange],
-  VerificationTest[kAryRuleTemplate[BaseTemplate[2, 1.0]] === {x7,x6,x5,x4,x3,x2,x1,x0}]
+  VerificationTest[templateCore[BaseTemplate[2, 1.0]] === {x7,x6,x5,x4,x3,x2,x1,x0}]
 }];
 
 PrintTestResults[accessorFnsReport];

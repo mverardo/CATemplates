@@ -14,9 +14,9 @@ report = TestReport[{
   VerificationTest[
     Sort[FromDigits[#, 2] & /@ ExpandTemplate[ModNStateConservingTemplate[2]]] == {132, 150, 170, 184, 204, 222, 226, 240}],
   VerificationTest[
-    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[2][["rawList"]]]],
+    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[2][["core"]]]],
   VerificationTest[
-    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[3][["rawList"]]]]
+    PreservesIndexVariableDualityQ[ModNStateConservingTemplate[3][["core"]]]]
 }];
 
 PrintTestResults[report];
