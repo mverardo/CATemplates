@@ -1,4 +1,5 @@
 (* ::Package:: *)
+
 BeginPackage["CATemplates`Basic`"];
 
 BooleanFromRule::usage="Transforms a rule into boolean form.";
@@ -9,8 +10,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
 OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
-ValidTemplateQ::usage = "Determines if a template has avalid form.";
-RuleTemplateVars::usage = "Extracts the variable names used in a rule template and returns them in a list. The names are given in lexicographical order; for instance, RuleTemplateVars[MaxSymmTemplate[{BWLR, BW, LR}, 2, 1]] returns {x2, x1, x0}. If the template is in the k-ary form, the function returns {}.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
 TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
 TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
@@ -37,19 +36,14 @@ Begin["`Private`"];
 SetAttributes[Partial, HoldAll];
 Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 
-SubstitutionRange[template_Association] :=
-    Range[0, (template[["k"]]^Length[RuleTemplateVars[template]])-1];
-
 OldBaseTemplate[k_Integer: 2, r_: 1] :=
   Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
-ValidTemplateQ[template_] :=
-  And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ template);
-
+(*Deprecated!!*)
 RuleTemplateVars[ruletemplate_Association] :=
-    RuleTemplateVars[ruletemplate[["rawList"]]];
-
-RuleTemplateVars[ruletemplate_] :=
+    RuleTemplateVars[ruletemplate[["core"]]];
+(*Deprecated!!*)
+RuleTemplateVars[ruletemplate_] := 
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
 TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=
@@ -101,13 +95,25 @@ BWLRTransform[parameter_] :=
 LRBWTransform[parameter_] :=
   BWTransform[LRTransform[parameter]]
 
-AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
+AllNeighbourhoods[k_Integer : 2, r_ : 1] := 
   Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]];
 
-RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
-  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
+RuleTable[rnum_Integer, k_Integer: 2, r_: 1] := 
+  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 
 
-KAryFromRuleTable[ruleTable_] :=
+
+
+
+
+
+
+
+
+
+
+\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
+
+KAryFromRuleTable[ruleTable_] := 
   #[[2]] & /@ ruleTable;
 
 RuleTableFromKAry[kAryRuleTable_, k_Integer: 2, r_: 1] :=
@@ -121,11 +127,23 @@ RuleOutputFromNeighbourhood[neighbourhood_List, rnum_Integer, k_Integer: 2, r_: 
 RuleOutputFromNeighbourhood[neighbourhood_List, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
   RuleOutputFromNeighbourhood[FromDigits[neighbourhood, k], kAryRuleTable, k, r];
 
-RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer: 2, r_: 1] :=
+RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer: 2, r_: 1] := 
   RuleOutputFromNeighbourhood[neighbourhoodindex, KAryFromRuleTable[RuleTable[rnum, k, r]], k, r];
 
 RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
-  Extract[kAryRuleTable, {\!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
+  Extract[kAryRuleTable, {
+
+
+
+
+
+
+
+
+
+
+\!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
+
 
 PossibleStateReplacements[k_Integer: 2] :=
   With[
@@ -177,7 +195,7 @@ RuleSetFromDNFF[minimizeBooleanExpression_] := Module[{RootExpressionToSubSet, E
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
 
 
-CorrespondsToNeighborhoodQ[symbol_, nbIndex_] :=
+CorrespondsToNeighborhoodQ[symbol_, nbIndex_] := 
   (FromDigits[StringDrop[SymbolName[symbol], 1]] === nbIndex);
 
 
@@ -185,7 +203,7 @@ PreservesIndexVariableDualityQ[template_] :=
   And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
 
 
-ConstantsToVariables[replacementRules_List] :=
+ConstantsToVariables[replacementRules_List] := 
   Module[{freeVariableReplacementRules},
 	freeVariableReplacementRules = Reverse /@ Select[Sort[replacementRules], MatchQ[#,Rule[_Symbol, C[_]]]&];
 	replacementRules /. freeVariableReplacementRules
@@ -193,11 +211,10 @@ ConstantsToVariables[replacementRules_List] :=
 
 
 PrintTestResults[testReport_] :=
-    Module[{},
-      Print["Suceeded: " <> ToString[testReport["TestsSucceededCount"]]];
+    Module[{red = "\033[0;31m", green = "\033[0;32m", noColor = "\033[0m"},
+      Print[green <> "Suceeded: " <> ToString[testReport["TestsSucceededCount"]] <> noColor];
       If[testReport["TestsFailedCount"] > 0,
-        Print["Failed: " <> ToString[testReport["TestsFailedCount"]] <> "; Indices:" <> ToString[testReport["TestsFailedIndices"]]];
-      ];
+        Print[red <> "Failed: " <> ToString[testReport["TestsFailedCount"]]<> "; Indices:" <> ToString[testReport["TestsFailedIndices"]] <> noColor]];
     ];
 
 End[];

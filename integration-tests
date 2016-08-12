@@ -1,0 +1,4 @@
+#!/bin/sh
+
+find IntegrationTests -name "*.m" -print0 | xargs -0 -I % sh -c 'echo %; math -script %'
+

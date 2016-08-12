@@ -3,7 +3,8 @@
 BeginPackage[
   "CATemplates`TemplateOperations`Difference`ExceptionTemplates`",
   {
-    "CATemplates`Basic`"
+    "CATemplates`Basic`",
+    "CATemplates`CATemplate`"
   }
 ];
 
@@ -18,27 +19,36 @@ Begin["`Private`"];
 PossibleInvalidSubsets[intemplate_Association] := PossibleInvalidSubsets[intemplate[["rawList"]]];
 PossibleInvalidSubsets[intemplate_List] := Select[intemplate, (Depth[#] > 1) &];
 
-SubstitutionRangeVar[var_, k_Integer : 2] := Range[0, (k^Length[RuleTemplateVars[var]]) - 1];
+SubstitutionRangeVar[var_, k_Integer : 2] := Range[0, k^Length[TemplateCoreVars[{var}]] - 1];
 
-ExpandVar[var_, i_Integer, k_Integer : 2] := Module[{variables = RuleTemplateVars[var], substitution, transformationRules, result},
-  substitution = Reverse[IntegerDigits[i, k, Length[variables]]];
+ExpandVar[var_, i_Integer] := Module[{variables = TemplateCoreVars[{var}], substitution, transformationRules, result},
+  substitution = Reverse[IntegerDigits[i, 2, Length[variables]]];
   transformationRules = MapThread[#1 -> #2 &, {variables, substitution}];
   result = var /. transformationRules;
-  If[result >= k|| result < 0, transformationRules, (##) &[]]
+  If[result >= 2|| result < 0, transformationRules, (##) &[]]
 ];
-ExpandVars[var_, range_, k_Integer : 2] := Module[{result}, result = ExpandVar[var, #, k]& /@ range; If[result == {}, (##) &[], result]];
+ExpandVars[vars_, range_] :=
+    Module[{result}, result = Map[ExpandVar[vars, #] &, range];
+    If[result == {}, Nothing, result]];
 
-InvalidSubSets[intemplate_List, k_Integer : 2] := Module[{possibleInvalids = PossibleInvalidSubsets[intemplate], result},
-  result = MapThread[ExpandVars, {possibleInvalids, SubstitutionRangeVar[#, k]& /@ possibleInvalids}];
-  If[result == {}, {}, Flatten[result,1]]
-];
+InvalidSubSets[intemplate_List] :=
+    Module[{possibleInvalids = PossibleInvalidSubsets[intemplate],
+      result},
+      result =
+          MapThread[
+            ExpandVars, {possibleInvalids,
+            SubstitutionRangeVar[#, 2] & /@ possibleInvalids}];
+      If[result == {}, {}, Flatten[result, 1]]];
 
 InvalidSubSets[intemplate_Association] := Module[{possibleInvalids = PossibleInvalidSubsets[intemplate]},
   MapThread[ExpandVars, {possibleInvalids, SubstitutionRangeVar[#, intemplate[["k"]]]& /@ possibleInvalids}]
 ];
 
 ExceptionTemplates[intemplate_Association] :=
-    ExceptionTemplates[intemplate[["rawList"]], intemplate[["k"]], intemplate[["r"]]];
+    Module[{exceptionTemplates},
+      exceptionTemplates = ExceptionTemplates[intemplate[["core"]], intemplate[["k"]], intemplate[["r"]]];
+      BuildTemplate[intemplate[["k"]], intemplate[["r"]], #] & /@ exceptionTemplates
+    ];
 
 ExceptionTemplates[intemplate_List] :=
     ExceptionTemplates[intemplate, 2, 1.0];
@@ -46,7 +56,7 @@ ExceptionTemplates[intemplate_List] :=
 ExceptionTemplates[intemplate_List, k_ /; k === 2, r_Real : 1.0] :=
     Module[{invalidSubsSets, filteredInvalidSubsSets, baseTemplate = OldBaseTemplate[k, r], result = {}},
       invalidSubsSets = Union[
-        SortBy[InvalidSubSets[intemplate, k], Total]
+        SortBy[InvalidSubSets[intemplate], Total]
       ];
       If[invalidSubsSets =!= {},
         filteredInvalidSubsSets = MinimizedRuleSets[invalidSubsSets];
@@ -56,7 +66,7 @@ ExceptionTemplates[intemplate_List, k_ /; k === 2, r_Real : 1.0] :=
     ];
 
 ExceptionTemplates[intemplate_List, k_Integer:2, r_Real : 1.0] :=
-    MapThread[If[#2 === _, #1, #2]&, {OldBaseTemplate[k, r], #}]& /@ Union[(If[NumberQ[#], #, _]& /@ #)& /@ ((OldBaseTemplate[k, r] /. #[[1]])& /@ Cases[{#[[2]], #[[1]] /. #[[2]]}& /@ Flatten[Outer[List, {#[[1]]}, #[[2]], 1]& /@ ({#[[2]], MapThread[#1 -> #2&, {#[[1]], #[[2]]}]& /@ #[[1]]}& /@ ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]}& /@ ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]}& /@ ({RuleTemplateVars[{#}], #}& /@ Select[intemplate, (Depth[#] > 1)&])))), 2], {_, x_ /; \[Not]MemberQ[Range[0, k - 1], x]}])]
+    MapThread[If[#2 === _, #1, #2]&, {OldBaseTemplate[k, r], #}]& /@ Union[(If[NumberQ[#], #, _]& /@ #)& /@ ((OldBaseTemplate[k, r] /. #[[1]])& /@ Cases[{#[[2]], #[[1]] /. #[[2]]}& /@ Flatten[Outer[List, {#[[1]]}, #[[2]], 1]& /@ ({#[[2]], MapThread[#1 -> #2&, {#[[1]], #[[2]]}]& /@ #[[1]]}& /@ ({First@Outer[List, {#[[1]]}, #[[2]], 1], #[[3]]}& /@ ({#[[1]], Tuples[Range[0, k - 1], Length[#[[1]]]], #[[2]]}& /@ ({TemplateCoreVars[{#}], #}& /@ Select[intemplate, (Depth[#] > 1)&])))), 2], {_, x_ /; \[Not]MemberQ[Range[0, k - 1], x]}])]
 
 End[];
 EndPackage[];

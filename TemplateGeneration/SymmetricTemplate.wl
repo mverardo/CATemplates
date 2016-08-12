@@ -1,6 +1,10 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`", {"CATemplates`Basic`", "CATemplates`TemplateGeneration`TemplateFactory`", "CATemplates`TemplateOperations`Expansion`RawExpansion`"}];
+BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`",
+  {
+    "CATemplates`Basic`",
+    "CATemplates`CATemplate`"
+  }];
 
 
 SymmetricTemplate::usage="SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, templateQuantity_: All] := Returns a set of templates representative of all the rules in a space given by k and r that share a symmetryValue according to transform.";
@@ -28,7 +32,7 @@ SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, 
     systems = MapThread[Join[#1, #2] &, {equations, inequations}];
     systems = systems /. x__ == y__ -> Rule[x, y] ;
     templateLists = OldBaseTemplate[k, r] /. systems;
-    BuildTemplate[k, r, #, RawExpansion] & /@ templateLists
+    BuildTemplate[k, r, #] & /@ templateLists
   ];
 
 

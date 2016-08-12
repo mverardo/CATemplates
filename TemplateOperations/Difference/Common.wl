@@ -1,6 +1,8 @@
 (* ::Package:: *)
 
-BeginPackage["CATemplates`TemplateOperations`Difference`Common`", "CATemplates`Basic`"];
+BeginPackage["CATemplates`TemplateOperations`Difference`Common`", {
+  "CATemplates`Basic`",
+  "CATemplates`CATemplate`"}];
 
 
 DualEquationSystem::usage = "bl2";
@@ -25,7 +27,7 @@ DualEquationSystem[template1_List, template2_List] :=
 
 DifferenceReplacementRules[template1_List, template2_List, modulus_Integer : 0] :=
     Module[{
-      templateVars = SortBy[Union[Flatten[{RuleTemplateVars[template1], RuleTemplateVars[template2]}, 1]],
+      templateVars = SortBy[Union[Flatten[{TemplateCoreVars[template1], TemplateCoreVars[template2]}, 1]],
         FromDigits[StringDrop[SymbolName[#], 1]] &],
       dualEquationSystem
     },
