@@ -1,8 +1,8 @@
 BeginPackage["CATemplates`CATemplate`", {"CATemplates`CA`", "CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
 
-TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
-
 TemplateCoreVars::usage = "TemplateCoreVars[templateCore_List] := Gives all variables from a templateCore.";
+TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
+RawCore::usage="RawCore[t_List]: Receives a template core and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
 
 BuildTemplate::usage=
     "BuildTemplate[k_Integer, r_Real, core_List, expansion_Function]
@@ -44,6 +44,8 @@ TemplateCoreVars[templateCore_List] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
     Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
+
+RawCore[template_]:= template /. Element[x_,set_] -> x;
 
 (* Builder functions *)
 

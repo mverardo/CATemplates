@@ -7,8 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-RawTemplate::usage="RawTemplate[t_List]: Receives a template t, and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
-
 
 ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a template t, and returns all of the expressions of the form x \[Element] {__}.";
 
@@ -42,9 +40,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-
-RawTemplate[template_]:= template /. Element[x_,set_] -> x;
 
 
 ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Infinity]
