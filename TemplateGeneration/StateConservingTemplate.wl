@@ -47,14 +47,14 @@ ModularSolve[N_Integer] :=
 StateConservingTemplate[k_Integer: 2, r_Real: 1.0] :=
     Module[{basetemplate = BaseTemplateCore[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, DefaultSolve[]];
-      replacementRules = ConstantsToVariables[First[solutions]];
+      replacementRules = CoreVarsFromConstants[First[solutions]];
       BuildTemplate[k, r, basetemplate /. replacementRules, FilterOutOfRange]
     ];
 
 ModNStateConservingTemplate[N_Integer: 2, k_Integer: 2, r_Real: 1.0] :=
     Module[{basetemplate = BaseTemplateCore[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, ModularSolve[N]];
-      replacementRules = ConstantsToVariables[First[solutions]];
+      replacementRules = CoreVarsFromConstants[First[solutions]];
       BuildTemplate[k, r, basetemplate /. replacementRules, TemplateMod, N]
     ];
 

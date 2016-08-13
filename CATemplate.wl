@@ -1,8 +1,13 @@
-BeginPackage["CATemplates`CATemplate`", {"CATemplates`CA`", "CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
+BeginPackage["CATemplates`CATemplate`",
+  {
+    "CATemplates`CA`",
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"
+  }];
 
 TemplateCoreVars::usage = "TemplateCoreVars[templateCore_List] := Gives all variables from a templateCore.";
 TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
 RawCore::usage="RawCore[t_List]: Receives a template core and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
+CoreVarsFromConstants::usage = "CoreVarsFromConstants[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template core variable, preserving the index-variable duality.";
 
 BuildTemplate::usage=
     "BuildTemplate[k_Integer, r_Real, core_List, expansion_Function]
@@ -33,7 +38,10 @@ templateMod::usage="templateMod[t_] = Gets a templateMod number used by template
 
 Begin["`Private`"];
 
-(* template core funcitions *)
+(* template core functions *)
+
+BaseTemplateCore[k_Integer:2, r_Real:1.0] :=
+    Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1];
 
 TemplateCoreVars[template_Association] :=
     TemplateCoreVars[templateCore[template]];
@@ -49,6 +57,10 @@ TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
 
 RawCore[template_]:= template /. Element[x_,set_] -> x;
 
+CoreVarsFromConstants[replacementRules_List] :=
+    With[{freeVariableReplacementRules = Reverse /@ Select[Sort[replacementRules], MatchQ[#,Rule[_Symbol, C[_]]]&]},
+      replacementRules /. freeVariableReplacementRules];
+
 (* Builder functions *)
 
 BuildTemplate[k_Integer, r_Real, core_List] :=
@@ -59,9 +71,6 @@ BuildTemplate[k_Integer, r_Real, core_List, postExpansionFn_] :=
 
 BuildTemplate[k_Integer, r_Real, core_List, postExpansionFn_, N_Integer] :=
     Association["k" -> k, "r" -> r, "core" -> core, "postExpansionFn" -> postExpansionFn, "N" -> N];
-
-BaseTemplateCore[k_Integer:2, r_Real:1.0] :=
-    Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1];
 
 BaseTemplate[k_Integer:2, r_Real:1.0] :=
     BuildTemplate[k, r, BaseTemplateCore[k,r]];
@@ -88,7 +97,6 @@ postExpansionFn[t_Association] := t[["postExpansionFn"]];
 valueRestrictions[template_Association]:=
     Cases[templateCore[template], x_ \[Element] set_, Infinity];
 
-(* Adapters *)
 End[];
 
 EndPackage[];

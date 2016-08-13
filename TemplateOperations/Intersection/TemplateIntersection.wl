@@ -88,7 +88,7 @@ ModIntersection[replacementRules_, template1_Association, template2_Association]
         {},
         (*When a modular template returns 2 different sets of replacement rules, they both have equivalent expansions.
           For that reason, only the first set is taken into account. *)
-        coreTemplate1 /. ConstantsToVariables[First[replacementRules]]]];
+        coreTemplate1 /. CoreVarsFromConstants[First[replacementRules]]]];
 
 IntersectionFn[template1_Association, template2_Association] :=
     If[ModIntersectionNeededQ[template1, template2],
