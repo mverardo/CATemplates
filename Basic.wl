@@ -7,10 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-BWTransform::usage = "Performs the Black-White transform in a rule table, transition, neighbourhood or transition output.";
-LRTransform::usage = "Performs the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
-BWLRTransform::usage = "Performs the Black-White transform followed by the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
-LRBWTransform::usage = "Performs the Left-Right transform followed by the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 AllNeighbourhoods::usage = "Creates all possible  k^(2r+1)neighbourhoods.";
 KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its k-ary representation.";
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
@@ -58,38 +54,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-BWTransform[parameter_] :=
-  (*Se o parametro for a rule table inteira*)
-  If[MatchQ[parameter, {{x_List, y_}, __}],
-    (*Mapeio a pr\[OAcute]pria transforma\[CCedilla]\[ATilde]o em cada transi\[CCedilla]\[ATilde]o, fa\[CCedilla]o um Sort pela vizinhan\[CCedilla]a e inverto a ordem*)
-    Reverse[SortBy[BWTransform /@ parameter, First]],
-    (*Faz a transforma\[CCedilla]\[ATilde]o em vizinhan\[CCedilla]as, outputs, ou transi\[CCedilla]\[OTilde]es no formato {{vizinhan\[CCedilla]a}, output}*)
-    1 - parameter
-  ]
-
-LRTransform[parameter_] :=
- (*Se o parametro for a rule table inteira*)
-  If[MatchQ[parameter, {{x_List, y_}, __}],
-    (*Mapeio a pr\[OAcute]pria transforma\[CCedilla]\[ATilde]o em cada transi\[CCedilla]\[ATilde]o, fa\[CCedilla]o um Sort pela vizinhan\[CCedilla]a e inverto a ordem*)
-    Reverse[SortBy[LRTransform /@ parameter, First]],
-    (*Se o parametro for um par {{vizinhan\[CCedilla]a}, output}*)
-    If[MatchQ[parameter, {x_List, y_}],
-      {Reverse [parameter[[1]]], parameter[[2]]},
-      (*Se o parametro for apenas a vizinhan\[CCedilla]a*)
-      If[MatchQ[parameter, x_List],
-        Reverse[parameter],
-        (*Se for apenas o output*)
-        parameter
-      ]
-    ]
-  ]
-
-BWLRTransform[parameter_] :=
-  LRTransform[BWTransform[parameter]]
-
-LRBWTransform[parameter_] :=
-  BWTransform[LRTransform[parameter]]
 
 AllNeighbourhoods[k_Integer : 2, r_ : 1] := 
   Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]];
