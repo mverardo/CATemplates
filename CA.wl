@@ -5,12 +5,14 @@ RuleQ::usage = "Finds out if expression has a rule form. Eg: {{0,1,1}, 1}";
 NeighborhoodQ::usage = "Finds out if expression has a neighborhood form. Eg: {0,1,1}";
 
 AllNeighbourhoods::usage = "Creates all possible  k^(2r+1)neighbourhoods of a given space.";
+RuleTable::usage = "Creates the rule table of a rule by its index. ";
 
 BWTransform::usage = "Performs the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 LRTransform::usage = "Performs the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
 BWLRTransform::usage = "Performs the Black-White transform followed by the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
 LRBWTransform::usage = "Performs the Left-Right transform followed by the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 
+RuleTableFromKAry::usage= "Converts a k-ary rule table to its classical representation.";
 KAryFromRuleTable::usage = "Converts a rule table to its k-ary representation.";
 RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
 
@@ -32,7 +34,13 @@ NeighborhoodQ[expression_] :=
 AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
     Tuples[Range[k - 1, 0, -1], Floor[2 r + 1]];
 
+RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
+    RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], Power[k, Floor[2 r + 1]], k, r]];
+
 (* Adapters *)
+
+RuleTableFromKAry[kAryRuleTable_, k_Integer: 2, r_: 1] :=
+    MapThread[List[#1, #2] &, {Tuples[Range[k - 1, 0, -1], Floor[2 r + 1]], kAryRuleTable}];
 
 KAryFromRuleTable[ruleTable_] :=
     #[[2]] & /@ ruleTable;

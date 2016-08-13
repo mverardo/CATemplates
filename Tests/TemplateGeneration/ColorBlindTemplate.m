@@ -10,7 +10,7 @@ TestTable[karyTable_, permutation_, k_] :=
     ];
 
 TestAllPermutations[ruleTable_, k_] :=
-    And @@ (TestTable[ruleTable, #, k] & /@ PossibleStateReplacements[k]);
+    And @@ (TestTable[ruleTable, #, k] & /@ PossiblePermutations[k]);
 
 report = TestReport[{
   VerificationTest[templateCore[ColorBlindTemplate[2]] === templateCore[SymmetricTemplate[BWTransform, 8][[1]]]],

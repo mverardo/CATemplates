@@ -7,17 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-
-RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
-RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
-
-
-ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Integer:2] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
-
-
-PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
-
-
 RawTemplate::usage="RawTemplate[t_List]: Receives a template t, and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
 
 
@@ -53,33 +42,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-RuleTable[rnum_Integer, k_Integer: 2, r_: 1] := 
-  RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 
-
-
-
-
-
-
-
-
-
-
-
-\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
-
-RuleTableFromKAry[kAryRuleTable_, k_Integer: 2, r_: 1] :=
-  MapThread[List[#1, #2] &,
-    {Tuples[Range[k - 1, 0, -1], Floor[2 r + 1]],
-    kAryRuleTable}];
-
-
-PossibleStateReplacements[k_Integer: 2] :=
-  With[
-    {permuts = Permutations[Range[0, k - 1]]},
-    MapThread[Thread[#1 -> #2] &, {Table[First@permuts, {Length[permuts] - 1}], Rest@permuts}]
-  ];
 
 
 RawTemplate[template_]:= template /. Element[x_,set_] -> x;
