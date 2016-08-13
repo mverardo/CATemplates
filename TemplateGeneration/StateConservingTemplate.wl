@@ -29,7 +29,7 @@ BFEquations[template_, k_, r_, relevantNBs_]:=
 
 BFSolutions[k_Integer: 2, r_Real: 1.0, solveFunction_Function] :=
     Module[{
-      basetemplate = OldBaseTemplate[k,r],
+      basetemplate = BaseTemplateCore[k,r],
       relevantNeighbourhoods = Join[{Table[0, {2 r + 1}]}, Cases[AllNeighbourhoods[k, r], {x_ /; x != 0, ___}]],
       vars, equations, solutions},
       vars = TemplateVarFromNeighbourhood[#,k] & /@ relevantNeighbourhoods;
@@ -44,14 +44,14 @@ ModularSolve[N_Integer] :=
     Function[{equations, vars}, Solve[equations, vars, Module->N]];
 
 StateConservingTemplate[k_Integer: 2, r_Real: 1.0] :=
-    Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
+    Module[{basetemplate = BaseTemplateCore[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, DefaultSolve[]];
       replacementRules = ConstantsToVariables[First[solutions]];
       BuildTemplate[k, r, basetemplate /. replacementRules, FilterOutOfRange]
     ];
 
 ModNStateConservingTemplate[N_Integer: 2, k_Integer: 2, r_Real: 1.0] :=
-    Module[{basetemplate = OldBaseTemplate[k,r], solutions, replacementRules},
+    Module[{basetemplate = BaseTemplateCore[k,r], solutions, replacementRules},
       solutions = BFSolutions[k, r, ModularSolve[N]];
       replacementRules = ConstantsToVariables[First[solutions]];
       BuildTemplate[k, r, basetemplate /. replacementRules, TemplateMod, N]

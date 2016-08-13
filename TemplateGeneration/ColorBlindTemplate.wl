@@ -72,7 +72,7 @@ ColorBlindTemplate[permutation_List, k_Integer: 2, r_Real: 1.0] :=
       neighbourhoods = Reverse[AllNeighbourhoods[k, r]];
       nbEqClasses = PartitionByPermutation[neighbourhoods, permutation];
       replacementRules = Join[InvariantReplacementRules[nbEqClasses, permutation, k], VariantReplacementRules[nbEqClasses, permutation, k]];
-      BuildTemplate[k, r, OldBaseTemplate[k, r] /. replacementRules, ModK]
+      BuildTemplate[k, r, BaseTemplateCore[k, r] /. replacementRules, ModK]
     ];
 
 End[];

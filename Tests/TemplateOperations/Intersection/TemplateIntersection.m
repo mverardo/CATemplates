@@ -5,25 +5,25 @@
 report = TestReport[{
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, ConstantArray[0, 8]]},
       TemplateIntersection[t1, t2] === t2]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, ConstantArray[1, 8]]},
       TemplateIntersection[t1, t2] === t2]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
+      t1 = BaseTemplate[2, 1.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[2, 2]]},
+      t1 = BaseTemplate[2, 2.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[2, 3]]},
+      t1 = BaseTemplate[2, 3.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
@@ -33,14 +33,14 @@ report = TestReport[{
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}],
       result = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}]},
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
     With[{
       t1 = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}],
-      t2 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t2 = BaseTemplate[2, 1.0],
       result = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}]},
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[

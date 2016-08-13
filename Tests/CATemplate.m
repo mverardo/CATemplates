@@ -62,7 +62,7 @@ Print["ValidTemplateCoreQ"];
 
 ValidTemplateCoreQReport = TestReport[{
   VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5}] === True],
-  VerificationTest[ValidTemplateCoreQ[OldBaseTemplate[]] === True],
+  VerificationTest[ValidTemplateCoreQ[BaseTemplateCore[]] === True],
   VerificationTest[ValidTemplateCoreQ[{1x2, 2x1, 3x0}] === True],
   (* We can have fractions as long as they are multiplying a variable *)
   VerificationTest[ValidTemplateCoreQ[{1,2,3,4,5/2x1}] === True],
@@ -82,7 +82,7 @@ TemplateCoreVarsReport = TestReport[{
   VerificationTest[TemplateCoreVars[{x3,2,3,x0}] === {x0, x3}],
   VerificationTest[TemplateCoreVars[{y3,2,3,y0}] === {y0, y3}],
   VerificationTest[TemplateCoreVars[{x3 \[Element] {1,0},2,3,x0}] === {x0, x3}],
-  VerificationTest[TemplateCoreVars[OldBaseTemplate[]] === {x0, x1, x2, x3, x4, x5, x6, x7}],
+  VerificationTest[TemplateCoreVars[BaseTemplateCore[]] === {x0, x1, x2, x3, x4, x5, x6, x7}],
   VerificationTest[TemplateCoreVars[BaseTemplate[2, 1.0]] === {x0, x1, x2, x3, x4, x5, x6, x7}]
 }];
 

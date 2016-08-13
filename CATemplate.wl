@@ -7,6 +7,8 @@ BuildTemplate::usage=
 BuildTemplate[k_Integer, r_Real, core_List, expansion_Function, N_Integer]
   <N> is the value of modulus used by the template generator to create <core>.";
 
+BaseTemplateCore::usage="BaseTemplateCore[k_Integer, r_Real] := Gives only the core of BaseTemplate[k, r].";
+
 BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template for the space of radius r k-ary rules.";
 
 ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
@@ -38,9 +40,11 @@ BuildTemplate[k_Integer, r_Real, core_List, postExpansionFn_] :=
 BuildTemplate[k_Integer, r_Real, core_List, postExpansionFn_, N_Integer] :=
     Association["k" -> k, "r" -> r, "core" -> core, "postExpansionFn" -> postExpansionFn, "N" -> N];
 
-BaseTemplate[k_Integer, r_Real] :=
-    With[{list = Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1]},
-      BuildTemplate[k, r, list]];
+BaseTemplateCore[k_Integer:2, r_Real:1.0] :=
+    Symbol["x" <> ToString[#]] & /@ Range[(k^(Ceiling[r * 2] + 1)) -1, 0, -1];
+
+BaseTemplate[k_Integer:2, r_Real:1.0] :=
+    BuildTemplate[k, r, BaseTemplateCore[k,r]];
 
 (* Validators *)
 

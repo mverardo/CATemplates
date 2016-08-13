@@ -7,7 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
 TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
 TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
@@ -52,9 +51,6 @@ Begin["`Private`"];
 
 SetAttributes[Partial, HoldAll];
 Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
-
-OldBaseTemplate[k_Integer: 2, r_: 1] :=
-  Symbol["x" <> ToString[#]] & /@ Range[(\!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]r*2\[RightCeiling] + 1\)]\)) - 1, 0, -1];
 
 (*Deprecated!!*)
 RuleTemplateVars[ruletemplate_Association] :=
@@ -177,10 +173,6 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 
 ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
-
-
-ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
-  MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
 
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];

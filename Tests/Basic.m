@@ -5,7 +5,7 @@
 Print["RawTemplate"];
 
 rawTemplateReport = TestReport[{
-  VerificationTest[RawTemplate[OldBaseTemplate[]] === OldBaseTemplate[]],
+  VerificationTest[RawTemplate[BaseTemplateCore[]] === BaseTemplateCore[]],
   VerificationTest[RawTemplate[{x8, 0, x6, 0, x4, 0, x2, 0}] === {x8, 0, x6, 0, x4, 0, x2, 0}],
   VerificationTest[RawTemplate[{x2 \[Element] {0, 2}, x0, x0}] === {x2, x0, x0}],
   VerificationTest[RawTemplate[{x2, x1 \[Element] {0, 2}, x0}] === {x2, x1, x0}]}];

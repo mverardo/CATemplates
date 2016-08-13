@@ -31,7 +31,7 @@ SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, 
     inequations = (#[[1]] == 1 - #[[2]]) & /@ # & /@ unequalComplements;
     systems = MapThread[Join[#1, #2] &, {equations, inequations}];
     systems = systems /. x__ == y__ -> Rule[x, y] ;
-    templateLists = OldBaseTemplate[k, r] /. systems;
+    templateLists = BaseTemplateCore[k, r] /. systems;
     BuildTemplate[k, r, #] & /@ templateLists
   ];
 
