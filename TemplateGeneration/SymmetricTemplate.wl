@@ -3,48 +3,14 @@
 BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`",
   {
     "CATemplates`Basic`",
+    "CATemplates`CA`",
     "CATemplates`CATemplate`"
   }];
 
-BWTransform::usage = "Performs the Black-White transform in a rule table, transition, neighbourhood or transition output.";
-LRTransform::usage = "Performs the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
-BWLRTransform::usage = "Performs the Black-White transform followed by the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
-LRBWTransform::usage = "Performs the Left-Right transform followed by the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 SymmetricTemplate::usage="SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, templateQuantity_: All] := Returns a set of templates representative of all the rules in a space given by k and r that share a symmetryValue according to transform.";
 
 
 Begin["`Private`"];
-
-RuleTableQ[expression_] :=
-    MatchQ[expression, {{x_List, y_}, __}];
-
-RuleQ[expression_] :=
-    MatchQ[expression, {x_List, y_}];
-
-NeighborhoodQ[expression_] :=
-    MatchQ[expression, x_List];
-
-BWTransform[ruleTable_ /; RuleTableQ[ruleTable]] :=
-    Reverse[SortBy[BWTransform /@ ruleTable, First]];
-
-BWTransform[rule_] :=
-    1 - rule;
-
-LRTransform[ruleTable_ /; RuleTableQ[ruleTable]] :=
-    Reverse[SortBy[LRTransform /@ ruleTable, First]];
-
-LRTransform[rule_ /; RuleQ[rule]] :=
-    {Reverse [rule[[1]]], rule[[2]]};
-
-LRTransform[neighborhood_ /; NeighborhoodQ[neighborhood]] :=
-    Reverse[neighborhood];
-
-LRTransform[neighborhood_] :=
-    neighborhood;
-
-BWLRTransform := Composition[LRTransform, BWTransform];
-
-LRBWTransform := Composition[BWTransform, LRTransform];
 
 SymmetricTemplate[transform_, symmetryValue_Integer, k_Integer: 2, r_Real: 1.0, templateQuantity_: All] :=
   Module[

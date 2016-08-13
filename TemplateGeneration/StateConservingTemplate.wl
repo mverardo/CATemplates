@@ -3,6 +3,7 @@
 BeginPackage["CATemplates`TemplateGeneration`BFConservationTemplate`",
   {
     "CATemplates`Basic`",
+    "CATemplates`CA`",
     "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterOutOfRange`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`TemplateMod`"

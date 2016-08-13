@@ -7,7 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-AllNeighbourhoods::usage = "Creates all possible  k^(2r+1)neighbourhoods.";
 KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its k-ary representation.";
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
@@ -54,9 +53,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-AllNeighbourhoods[k_Integer : 2, r_ : 1] := 
-  Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]];
 
 RuleTable[rnum_Integer, k_Integer: 2, r_: 1] := 
   RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], 

@@ -1,4 +1,4 @@
-BeginPackage["CATemplates`CATemplate`", {"CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
+BeginPackage["CATemplates`CATemplate`", {"CATemplates`CA`", "CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
 
 TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
 
