@@ -7,9 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
-TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
-TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
 NeighborhoodFromTemplateVar::usage = "Returns the neighbourhood corresponding to a given template symbol";
 BWTransform::usage = "Performs the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 LRTransform::usage = "Performs the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
@@ -59,16 +56,6 @@ RuleTemplateVars[ruletemplate_Association] :=
 RuleTemplateVars[ruletemplate_] :=
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
-TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=
-  With[{neighbourhoodCount = k^(2 r + 1)},
-    If[n <= neighbourhoodCount,
-      IntegerDigits[#, k, \[LeftFloor]2 r + 1\[RightFloor]] & /@ Range[neighbourhoodCount - 1, (neighbourhoodCount - n), -1],
-      Throw["n can't be bigger than k^(2r+1)"]
-    ]
-  ]
-
-TemplateFromNeighbourhoods[neighbourhoods_List] :=
- Symbol["x" <> ToString[FromDigits[#, 2]]] & /@ neighbourhoods;
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];

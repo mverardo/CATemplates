@@ -1,5 +1,9 @@
 BeginPackage["CATemplates`CATemplate`", {"CATemplates`TemplateOperations`Expansion`PostExpansionFn`IdentityFn`"}];
 
+TemplateVarFromNeighbourhood::usage = "Returns the template symbol orresponding to a given neighbourhood";
+
+TemplateCoreVars::usage = "TemplateCoreVars[templateCore_List] := Gives all variables from a templateCore.";
+
 BuildTemplate::usage=
     "BuildTemplate[k_Integer, r_Real, core_List, expansion_Function]
   Builds a template that represents the subspace of the CA space given by k and r, described by the variables in <core>.
@@ -12,8 +16,6 @@ BaseTemplateCore::usage="BaseTemplateCore[k_Integer, r_Real] := Gives only the c
 BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template for the space of radius r k-ary rules.";
 
 ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
-
-TemplateCoreVars::usage = "TemplateCoreVars[templateCore_List] := Gives all variables from a templateCore.";
 
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
 
@@ -28,6 +30,20 @@ postExpansionFn::usage="postExpansionFn[t_] = Gets the post expansion function u
 templateMod::usage="templateMod[t_] = Gets a templateMod number used by template t.";
 
 Begin["`Private`"];
+
+(* template core funcitions *)
+
+TemplateCoreVars[template_Association] :=
+    TemplateCoreVars[templateCore[template]];
+
+TemplateCoreVars[templateCore_List] :=
+    With[{
+      symbols = Union[Cases[templateCore, _Symbol, Infinity]],
+      byIndex = FromDigits[StringDrop[SymbolName[#],1]] &},
+      SortBy[symbols, byIndex]];
+
+TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
+    Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
 
 (* Builder functions *)
 
@@ -52,15 +68,6 @@ ValidTemplateCoreQ[templateCore_] :=
     And @@ (MatchQ[#, (_Symbol | _Integer | _Plus | _Times | _ \[Element] {__})] & /@ templateCore);
 
 (* Accessor functions *)
-
-TemplateCoreVars[template_Association] :=
-    TemplateCoreVars[templateCore[template]];
-
-TemplateCoreVars[templateCore_List] :=
-    With[{
-      symbols = Union[Cases[templateCore, _Symbol, Infinity]],
-      byIndex = FromDigits[StringDrop[SymbolName[#],1]] &},
-      SortBy[symbols, byIndex]];
 
 k[t_Association] := t[["k"]];
 
