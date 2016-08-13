@@ -7,10 +7,10 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its k-ary representation.";
+
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
-RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
+
 
 ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Integer:2] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
 
@@ -69,36 +69,10 @@ RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
 
 \!\(\*SuperscriptBox[\(k\), \(\[LeftCeiling]2  r\[RightCeiling] + 1\)]\)], k, r];
 
-KAryFromRuleTable[ruleTable_] := 
-  #[[2]] & /@ ruleTable;
-
 RuleTableFromKAry[kAryRuleTable_, k_Integer: 2, r_: 1] :=
   MapThread[List[#1, #2] &,
-    {Tuples[Range[k - 1, 0, -1], \[LeftFloor]2 r + 1\[RightFloor]],
+    {Tuples[Range[k - 1, 0, -1], Floor[2 r + 1]],
     kAryRuleTable}];
-
-RuleOutputFromNeighbourhood[neighbourhood_List, rnum_Integer, k_Integer: 2, r_: 1] :=
-  RuleOutputFromNeighbourhood[FromDigits[neighbourhood, k], KAryFromRuleTable[RuleTable[rnum, k, r]], k, r];
-
-RuleOutputFromNeighbourhood[neighbourhood_List, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
-  RuleOutputFromNeighbourhood[FromDigits[neighbourhood, k], kAryRuleTable, k, r];
-
-RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, rnum_Integer, k_Integer: 2, r_: 1] := 
-  RuleOutputFromNeighbourhood[neighbourhoodindex, KAryFromRuleTable[RuleTable[rnum, k, r]], k, r];
-
-RuleOutputFromNeighbourhood[neighbourhoodindex_Integer, kAryRuleTable_List, k_Integer: 2, r_: 1] :=
-  Extract[kAryRuleTable, {
-
-
-
-
-
-
-
-
-
-
-\!\(\*SuperscriptBox[\(k\), \(\[LeftFloor]2  r + 1\[RightFloor]\)]\) - neighbourhoodindex}];
 
 
 PossibleStateReplacements[k_Integer: 2] :=
