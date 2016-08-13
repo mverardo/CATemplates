@@ -2,7 +2,6 @@
 
 BeginPackage["CATemplates`TemplateGeneration`SymmetricTemplate`",
   {
-    "CATemplates`Basic`",
     "CATemplates`CA`",
     "CATemplates`CATemplate`"
   }];

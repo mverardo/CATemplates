@@ -2,7 +2,6 @@
 
 BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
   {
-    "CATemplates`Basic`",
     "CATemplates`CA`",
     "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",

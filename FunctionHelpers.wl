@@ -1,7 +1,4 @@
-(* ::Package:: *)
-
-BeginPackage["CATemplates`Basic`"];
-
+BeginPackage["CATemplates`FunctionHelpers`"];
 
 Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
 
@@ -11,4 +8,5 @@ SetAttributes[Partial, HoldAll];
 Partial[f_, as__] := Function[Null, f[as, ##], HoldAll];
 
 End[];
+
 EndPackage[];

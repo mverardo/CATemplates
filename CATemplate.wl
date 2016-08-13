@@ -15,25 +15,17 @@ BuildTemplate::usage=
   <expansion> is the function used by ExpandTemplate to expand the built template.
 BuildTemplate[k_Integer, r_Real, core_List, expansion_Function, N_Integer]
   <N> is the value of modulus used by the template generator to create <core>.";
-
 BaseTemplateCore::usage="BaseTemplateCore[k_Integer, r_Real] := Gives only the core of BaseTemplate[k, r].";
-
 BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template for the space of radius r k-ary rules.";
 
 ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
 
 valueRestrictions::usage="valueRestrictions[t_Association]: Gets the value restrictions imposed on template t. Currently, returns all expressions of the form x \[Element] {__} present in the t's core.";
-
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
-
 r::usage="r[t_] = Gets the radius (r) of the family represented by template t.";
-
 templateCore::usage="templateCore[t_] = Gets the core of template t (list of variables + fixed positions).";
-
 expansionFunction::usage="expansionFunction[t_] = Gets the expansion function used by template t.";
-
 postExpansionFn::usage="postExpansionFn[t_] = Gets the post expansion function used by template t.";
-
 templateMod::usage="templateMod[t_] = Gets a templateMod number used by template t.";
 
 Begin["`Private`"];

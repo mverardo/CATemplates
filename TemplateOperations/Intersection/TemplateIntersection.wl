@@ -3,7 +3,6 @@
 BeginPackage[
   "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
   {
-    "CATemplates`Basic`",
     "CATemplates`CATemplate`"
   }];
 
@@ -52,12 +51,12 @@ ReplacementRules[template1_Association, template2_Association]:=
 EquationsFromValueRestrictions[imprisonmentExpression_]:=
     Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
-VarAssignmentsToImprisonmentExpressions::usage="ToImprisonmentExpression[varAssignments_List]: Receives a list of assignments for a template's variables and returns the equivalent ImprisonmentExpressions."
-VarAssignmentsToImprisonmentExpressions[varAssignments_List] :=
+ValueRestrictionsFromVarAssignments::usage="ToImprisonmentExpression[varAssignments_List]: Receives a list of assignments for a template's variables and returns the equivalent ImprisonmentExpressions."
+ValueRestrictionsFromVarAssignments[varAssignments_List] :=
     #[[1,1]] \[Element] Union[Last /@ #] & /@ Transpose[varAssignments];
 
-ImprisonmentExpressionsToReplacementRules::usage = "ImprisonmentExpressionToReplacementRules[imprisonmentExpressions_List]: Takes a list of imprisonment expressions, and returns a list of replacement rules to be applied to a template."
-ImprisonmentExpressionsToReplacementRules[imprisonmentExpressions_List] :=
+ReplacementRulesFromValueRestrictions::usage = "ImprisonmentExpressionToReplacementRules[imprisonmentExpressions_List]: Takes a list of imprisonment expressions, and returns a list of replacement rules to be applied to a template."
+ReplacementRulesFromValueRestrictions[imprisonmentExpressions_List] :=
     If[Length[#[[2]]] == 1, #[[1]] -> #[[2,1]],#[[1]] -> #]& /@ imprisonmentExpressions;
 
 ValueRestrictionIntersection[{}, valueRestrictions_, replacementRules_] := {};
@@ -71,7 +70,7 @@ ValueRestrictionIntersection[currentIntersectionResult_, valueRestrictions_, rep
       If[varAssignments === {},
         {},
         currentIntersectionResult /.
-            ImprisonmentExpressionsToReplacementRules[VarAssignmentsToImprisonmentExpressions[varAssignments]]]];
+            ReplacementRulesFromValueRestrictions[ValueRestrictionsFromVarAssignments[varAssignments]]]];
 
 SimpleIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
