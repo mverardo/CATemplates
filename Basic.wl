@@ -7,8 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
-
 OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
 TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
