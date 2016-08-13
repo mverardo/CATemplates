@@ -7,13 +7,12 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-FreeVariableQ::usage = "FreeVariableQ[expression_]: Receives an expression, and returns true if the expression is a free variable and false otherwise.";
 
 
-CorrespondsToNeighborhoodQ::usage = "CorrespondsToNeighborhoodQ[freeVariable_Symbol, nbIndex_Integer]: Receives a free variable expression and a neighborhood index, and returns true if the variable's index corresponds to the received nb index.";
 
 
-PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template_]: Receives a template and returns true if the template preserver the index-variable diality.";
+
+
 
 
 ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
@@ -33,19 +32,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-
-
-FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
-
-
-CorrespondsToNeighborhoodQ[symbol_, nbIndex_] := 
-  (FromDigits[StringDrop[SymbolName[symbol], 1]] === nbIndex);
-
-
-PreservesIndexVariableDualityQ[template_] :=
-  And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
-
 
 ConstantsToVariables[replacementRules_List] := 
   Module[{freeVariableReplacementRules},
