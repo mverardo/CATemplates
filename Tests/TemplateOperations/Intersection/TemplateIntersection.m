@@ -98,6 +98,8 @@ report = TestReport[{
 
 PrintTestResults[report];
 
+Print["mod"];
+
 modReport = TestReport[{
   VerificationTest[
     With[{
@@ -135,6 +137,8 @@ modReport = TestReport[{
 
 PrintTestResults[modReport];
 
+Print["constantsToVariables"];
+
 constantsToVariablesReport = TestReport[{
   VerificationTest[
     ConstantsToVariables[{x0 -> C[1]}] === {x0 -> x0}],
@@ -146,3 +150,13 @@ constantsToVariablesReport = TestReport[{
     ConstantsToVariables[{x3 -> 1 + C[1] + C[2], x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] == {x3 -> 1 + x0 + x1, x2 -> 1 + x0,   x1 -> x1, x0 -> x0}]}]
 
 PrintTestResults[constantsToVariablesReport];
+
+Print["EquationsFromValueRestrictions"];
+
+valueRestrictionsReport = TestReport[{
+  VerificationTest[EquationsFromValueRestrictions[x1 \[Element] {0, 1}] === (x1 == 0 || x1 == 1)],
+  VerificationTest[EquationsFromValueRestrictions[x2 \[Element] {0, 1}] === (x2 == 0 || x2 == 1)],
+  VerificationTest[EquationsFromValueRestrictions[x2 \[Element] {0, 1, 2}] === (x2 == 0 || x2 == 1 || x2 == 2)]
+}];
+
+PrintTestResults[valueRestrictionsReport];

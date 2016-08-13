@@ -17,6 +17,8 @@ BaseTemplate::usage="BaseTemplate[k_Integer, r_Real] := Gives the base template 
 
 ValidTemplateCoreQ::usage = "Determines if a template core has a valid sintax.";
 
+valueRestrictions::usage="valueRestrictions[t_Association]: Gets the value restrictions imposed on template t. Currently, returns all expressions of the form x \[Element] {__} present in the t's core.";
+
 k::usage="k[t_] = Gets the number of possible states (k) for cells of the space represented by template t.";
 
 r::usage="r[t_] = Gets the radius (r) of the family represented by template t.";
@@ -83,6 +85,10 @@ expansionFunction[t_Association] := t[["expansionFunction"]];
 
 postExpansionFn[t_Association] := t[["postExpansionFn"]];
 
+valueRestrictions[template_Association]:=
+    Cases[templateCore[template], x_ \[Element] set_, Infinity];
+
+(* Adapters *)
 End[];
 
 EndPackage[];

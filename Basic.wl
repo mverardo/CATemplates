@@ -7,13 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-
-ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a template t, and returns all of the expressions of the form x \[Element] {__}.";
-
-
-ValueRestrictions::usage = "ValueRestrictions[imprisonmentExpression_]: Returns an expression that represents the value restricions dictated by an ImprisonmentExpression. Example: ValueRestrictions[x1 \[Element] {0,1}] -> x1 == 0 || x1 == 1";
-
-
 FreeVariableQ::usage = "FreeVariableQ[expression_]: Receives an expression, and returns true if the expression is a free variable and false otherwise.";
 
 
@@ -41,12 +34,6 @@ RuleTemplateVars[ruletemplate_] :=
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
 
-
-ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Infinity]
-
-
-ValueRestrictions[imprisonmentExpression_]:=
- Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];

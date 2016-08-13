@@ -12,6 +12,8 @@ BeginPackage[
 
 EquationSystem::usage="EquationSystem[t1_List, t2_List]: Receives two templates, t1 and t2, and returns an equation system in which every slot of t1 is equal to the corresponding slot in t2. Ex: EquationSystem[{x1, x0}, {1, x0}] results in {x1 == 1, x0 == x0}.";
 
+EquationsFromValueRestrictions::usage="EquationsFromValueRestrictions[valueRestrictions_] translates value restrictions into equations. Eg: EquationsFromValueRestrictions[x1 \[Element] {0,1}] -> x1 == 0 || x1 == 1";
+
 ReplacementRules::usage = "
 ReplacementRules[t1_List, t2_List]: Takes two templates t1 and t2, and returns the replacement rules that could be applied to t1 or t2 in order to find an intersection of both. Returns {} if there is no possible intersection, or {{}} if they are both templates are the same.
 ReplacementRules[t1_List, t2_List, k_Integer]: Takes two templates t1 and t2, and returns the replacement rules that could be applied to t1 or t2 in order to find an intersection of both. Assumes both templates are modular.
@@ -47,6 +49,9 @@ ReplacementRules[template1_Association, template2_Association]:=
         Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], Reverse[templateVars], Modulus -> k]],
         Quiet[Solve[EquationSystem[rawTemplate1, rawTemplate2], templateVars]]]];
 
+EquationsFromValueRestrictions[imprisonmentExpression_]:=
+    Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
+
 VarAssignmentsToImprisonmentExpressions::usage="ToImprisonmentExpression[varAssignments_List]: Receives a list of assignments for a template's variables and returns the equivalent ImprisonmentExpressions."
 VarAssignmentsToImprisonmentExpressions[varAssignments_List] :=
     #[[1,1]] \[Element] Union[Last /@ #] & /@ Transpose[varAssignments];
@@ -61,7 +66,7 @@ ValueRestrictionIntersection[currentIntersectionResult_, {}, replacementRules_] 
 
 ValueRestrictionIntersection[currentIntersectionResult_, valueRestrictions_, replacementRules_] :=
     With[{
-      varAssignments = Quiet[Solve[First[(ValueRestrictions /@ valueRestrictions) /. replacementRules]]]},
+      varAssignments = Quiet[Solve[First[(EquationsFromValueRestrictions /@ valueRestrictions) /. replacementRules]]]},
       (* If varAssignments === {}, variable restrictions can't be satisfied on both templates (the system has no solution). Thus, no intersection. *)
       If[varAssignments === {},
         {},
@@ -111,10 +116,10 @@ TemplateIntersection[template1_Association, template2_Association] :=
       expansion = PostExpansionFnFight[template1, template2],
       replacementRules = ReplacementRules[template1, template2],
       intersectionFn = IntersectionFn[template1, template2],
-      valueRestrictions = Join[ImprisonmentExpressions[templateCore[template1]], ImprisonmentExpressions[templateCore[template2]]],
+      restrictions = Join[valueRestrictions[template1], valueRestrictions[template2]],
       intersectionResult},
 
-      intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, template2], valueRestrictions, replacementRules];
+      intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, template2], restrictions, replacementRules];
       If[ValidTemplateCoreQ[intersectionResult],
         BuildTemplate[k, r, intersectionResult, expansion],
         BuildTemplate[k, r, {}, expansion]]];
