@@ -7,7 +7,6 @@ Partial::usage = "Partial[f_, args__] := partially applies arguments args to fun
 
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
 
-NeighborhoodFromTemplateVar::usage = "Returns the neighbourhood corresponding to a given template symbol";
 BWTransform::usage = "Performs the Black-White transform in a rule table, transition, neighbourhood or transition output.";
 LRTransform::usage = "Performs the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
 BWLRTransform::usage = "Performs the Black-White transform followed by the Left-Right transform in a rule table, transition, neighbourhood or transition output.";
@@ -59,9 +58,6 @@ RuleTemplateVars[ruletemplate_] :=
 
 TemplateVarFromNeighbourhood[neighbourhood_List, k_Integer: 2] :=
   Symbol["x" <> ToString@FromDigits[neighbourhood, k]];
-
-NeighborhoodFromTemplateVar[templateVar_Symbol, k_Integer: 2, r_Integer: 1] :=
- IntegerDigits[FromDigits[StringDrop[ToString@templateVar, 1]], k, 2*r + 1];
 
 BWTransform[parameter_] :=
   (*Se o parametro for a rule table inteira*)
