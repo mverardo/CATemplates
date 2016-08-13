@@ -10,4 +10,4 @@ rawTemplateReport = TestReport[{
   VerificationTest[RawCore[{x2 \[Element] {0, 2}, x0, x0}] === {x2, x0, x0}],
   VerificationTest[RawCore[{x2, x1 \[Element] {0, 2}, x0}] === {x2, x1, x0}]}];
 
-PrintTestResults[rawTemplateReport];
+PrintReport[rawTemplateReport];

@@ -54,4 +54,4 @@ report = TestReport[{
   VerificationTest[
     Sort[Union @@ (ExpandTemplate /@ SymmetricTemplate[BWLRTransform, 8])] == RulesWithSymmetry[BWLRTransform, 8]]}];
 
-PrintTestResults[report];
+PrintReport[report];

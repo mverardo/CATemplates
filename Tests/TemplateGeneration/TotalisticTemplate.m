@@ -31,4 +31,4 @@ report = TestReport[{
       {expectedTemplate = <|"k" -> 3, "r" -> 1.0, "core" -> {x26, x17, x8, x23, x14, x5, x20, x11, x2, x17, x8, x7, x14, x5, x4, x11, x2, x1, x8, x7, x6, x5, x4, x3, x2, x1, x0}, "postExpansionFn" -> IdentityFn |>},
       OuterTotalisticTemplate[3, 1.0] === expectedTemplate]]}];
 
-PrintTestResults[report];
+PrintReport[report];

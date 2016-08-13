@@ -20,4 +20,4 @@ report = TestReport[{
     FilterNotAllowed[BuildTemplate[3, 1.0, {x1 \[Element] {0, 2}, x0}], {2, 1}] === {2, 1}]
 }];
 
-PrintTestResults[report];
+PrintReport[report];

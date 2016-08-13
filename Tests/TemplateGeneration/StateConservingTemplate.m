@@ -30,4 +30,4 @@ report = TestReport[{
     PreservesIndexVariableDualityQ[ModNStateConservingTemplate[3][["core"]]]]
 }];
 
-PrintTestResults[report];
+PrintReport[report];

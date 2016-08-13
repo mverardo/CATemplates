@@ -96,7 +96,7 @@ report = TestReport[{
       result = BuildTemplate[2, 1.0, {0, 1, 1}]},
       TemplateIntersection[t1, t2] === result]]}];
 
-PrintTestResults[report];
+PrintReport[report];
 
 Print["mod"];
 
@@ -135,7 +135,7 @@ modReport = TestReport[{
         result = BuildTemplate[3, 1.0, {1, 0}, ModK]},
         TemplateIntersection[i1, i2] === result]]]}];
 
-PrintTestResults[modReport];
+PrintReport[modReport];
 
 Print["CoreVarsFromConstants"];
 
@@ -149,7 +149,7 @@ CoreVarsFromConstantsReport = TestReport[{
   VerificationTest[
     CoreVarsFromConstants[{x3 -> 1 + C[1] + C[2], x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] == {x3 -> 1 + x0 + x1, x2 -> 1 + x0,   x1 -> x1, x0 -> x0}]}]
 
-PrintTestResults[CoreVarsFromConstantsReport];
+PrintReport[CoreVarsFromConstantsReport];
 
 Print["EquationsFromValueRestrictions"];
 
@@ -159,4 +159,4 @@ valueRestrictionsReport = TestReport[{
   VerificationTest[EquationsFromValueRestrictions[x2 \[Element] {0, 1, 2}] === (x2 == 0 || x2 == 1 || x2 == 2)]
 }];
 
-PrintTestResults[valueRestrictionsReport];
+PrintReport[valueRestrictionsReport];

@@ -9,3 +9,5 @@ Get["CATemplates`CATemplate`"];
 Get["CATemplates`TemplateOperations`"];
 
 Get["CATemplates`TemplateGeneration`"];
+
+Get["CATemplates`TestHelpers`"];

@@ -15,4 +15,4 @@ report = TestReport[{
   VerificationTest[
     FilterOutOfRange[BuildTemplate[3, 1.0, {}], {1,1,0,2,0,1,0,1}] === {1,1,0,2,0,1,0,1}]}];
 
-PrintTestResults[report];
+PrintReport[report];

@@ -17,4 +17,4 @@ report = TestReport[{
   VerificationTest[And @@ (TestAllPermutations[#, 3] & /@ ExpandTemplate[ColorBlindTemplate[3]]) === True]
 }];
 
-PrintTestResults[report];
+PrintReport[report];

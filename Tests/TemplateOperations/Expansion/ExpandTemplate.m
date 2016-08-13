@@ -76,7 +76,7 @@ report = TestReport[{
       Sort @ ExpandTemplate[T] === Sort @ {{0, 1, 0, 1, 0, 1, 0, 2}, {0, 1, 0, 1, 0, 1, 0, 1}}]]}];
 
 Print["ExpandTemplate"]
-PrintTestResults[report];
+PrintReport[report];
 
 FilterOutOfRangeReport = TestReport[{
   VerificationTest[
@@ -109,7 +109,7 @@ FilterOutOfRangeReport = TestReport[{
       Sort @ ExpandTemplate[T] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 1, 0, 0}}]]}];
 
 Print["ExpandTemplate + FilterOutOfRange"];
-PrintTestResults[FilterOutOfRangeReport];
+PrintReport[FilterOutOfRangeReport];
 
 filterNotAllowedReport = TestReport[{
   VerificationTest[
@@ -126,7 +126,7 @@ filterNotAllowedReport = TestReport[{
     ExpandTemplate[BuildTemplate[3, 1.0, {0, 2, x1 \[Element] {0, 1}, 0, 1}, FilterNotAllowed]] === {{0, 2, 0, 0, 1}, {0, 2, 1, 0, 1}}]}]
 
 Print["ExpandTemplate + FilterNotAllowed"];
-PrintTestResults[filterNotAllowedReport];
+PrintReport[filterNotAllowedReport];
 
 modKReport = TestReport[{
   VerificationTest[
@@ -181,7 +181,7 @@ modKReport = TestReport[{
       Sort @ ExpandTemplate[T] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 0, 0}}]]}];
 
 Print["ExpandTemplate + ModK"];
-PrintTestResults[modKReport];
+PrintReport[modKReport];
 
 TemplateModReport = TestReport[{
   VerificationTest[
@@ -218,4 +218,4 @@ TemplateModReport = TestReport[{
       Sort @ ExpandTemplate[T] === Sort @ {{1, 0, 1, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 0, 0}}]]}];
 
 Print["ExpandTemplate + TemplateMod"];
-PrintTestResults[TemplateModReport];
+PrintReport[TemplateModReport];
