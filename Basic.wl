@@ -2,13 +2,13 @@
 
 BeginPackage["CATemplates`Basic`"];
 
-
+BooleanFromRule::usage="Transforms a rule into boolean form.";
+ConjunctionFromRuleSet::usage="Transforms a rule set into a boolean conjunction";
+DNFFromRuleSet::usage="Transforms a set of set of rules into a DNF form boolean expression";
+MinimizedRuleSets::usage = "Minimize a subset boolean expression";
 Partial::usage = "Partial[f_, args__] := partially applies arguments args to function f.";
-
 PrintTestResults::usage = "PrintTestResults[testReport_] := Prints the results of a testReport in a terminal friendly manner";
-
 SubstitutionRange::usage = "SubstitutionRange[template_Association] := Gives a range from 0 to the maximum possible substitution the template could have";
-
 OldBaseTemplate::usage = "Gives the base template for a radius r k-ary rule.";
 TakeNeighbourhoods::usage = "Returns the n first neighborhoods from a given space.";
 TemplateFromNeighbourhoods::usage = "Builds a template given a list of neighbourhoods. Converts the neighbourhoods to symbols in the form xN, where N is the decimal conversion of the k-ary neighbourhood.";
@@ -23,33 +23,14 @@ KAryFromRuleTable::usage = "Auxiliary function that converts a rule table to its
 RuleTableFromKAry::usage= "Auxiliary function that converts k-ary rule table to its classical representation.";
 RuleTable::usage = "Creates the rule table of rnum, under Wolfram\.b4s lexicographic order. ";
 RuleOutputFromNeighbourhood::usage="Yields the output bit of a given neighbourhood from rule rnum. The neighbourhood may be given as the k-ary sequence that defines it, or as the decimal number it represents (e.g, decimal 6 for neighbourhood {0, 1, 1, 0}, etc).";
-
-ExceptionTemplates::usage= "ExceptionTemplates[t_List, k_Integer:2, r_Integer:2] generate all the templates with variable assignments that make the template t with k colors and r range invalid.";
-
-
 PossibleStateReplacements::usage="Retorna todas as permuta\[CCedilla]\[OTilde]es poss\[IAcute]veis de estados de acordo com k.";
-
-
 RawTemplate::usage="RawTemplate[t_List]: Receives a template t, and drops any special sintax construct from it. Currently, it removes expressions of the form x \[Element] {__}.";
-
-
 ImprisonmentExpressions::usage="ImprisonmentExpressions[t_List]: Receives a template t, and returns all of the expressions of the form x \[Element] {__}.";
-
-
 ValueRestrictions::usage = "ValueRestrictions[imprisonmentExpression_]: Returns an expression that represents the value restricions dictated by an ImprisonmentExpression. Example: ValueRestrictions[x1 \[Element] {0,1}] -> x1 == 0 || x1 == 1";
-
-
 FreeVariableQ::usage = "FreeVariableQ[expression_]: Receives an expression, and returns true if the expression is a free variable and false otherwise.";
-
-
 CorrespondsToNeighborhoodQ::usage = "CorrespondsToNeighborhoodQ[freeVariable_Symbol, nbIndex_Integer]: Receives a free variable expression and a neighborhood index, and returns true if the variable's index corresponds to the received nb index.";
-
-
 PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template_]: Receives a template and returns true if the template preserver the index-variable diality.";
-
-
 ConstantsToVariables::usage = "ConstantsToVariables[replacementRules_]: Receives a list of replacement rules, and converts any symbol of the type C[i_Integer] into its corresponding template variable, preserving the index-variable duality."
-
 Begin["`Private`"];
 
 SetAttributes[Partial, HoldAll];
@@ -62,7 +43,7 @@ OldBaseTemplate[k_Integer: 2, r_: 1] :=
 RuleTemplateVars[ruletemplate_Association] :=
     RuleTemplateVars[ruletemplate[["core"]]];
 (*Deprecated!!*)
-RuleTemplateVars[ruletemplate_] :=
+RuleTemplateVars[ruletemplate_] := 
   SortBy[Union[Cases[ruletemplate, _Symbol, Infinity]], FromDigits[StringDrop[SymbolName[#],1]]&]
 
 TakeNeighbourhoods[n_Integer, k_Integer: 2, r_Integer: 1] :=
@@ -180,10 +161,36 @@ ImprisonmentExpressions[template_List]:= Cases[template, x_ \[Element] set_ ,Inf
 ValueRestrictions[imprisonmentExpression_]:=
  Apply[Or,imprisonmentExpression[[1]] == #&/@ imprisonmentExpression[[2]]];
 
+RemoveContainedSubsSets[allSubSet_List, subSet_List] :=
+ Module[{listToRemove, result},
+  listToRemove = ContainsAll[#, subSet] && subSet =!= # & /@ allSubSet;
+  result = MapThread[If[! #2, #1, ## &[]] &, {allSubSet, listToRemove}]
+];
 
-ExceptionTemplates[intemplate_, k_Integer:2, r_Integer:1] :=
-  MapThread[If[#2=== _,#1,#2]&,{OldBaseTemplate[k,r],#}]&/@Union[(If[NumberQ[#],#,_]&/@#)&/@((OldBaseTemplate[k,r]/.#[[1]])&/@Cases[{#[[2]],#[[1]]/.#[[2]]}&/@Flatten[Outer[List,{#[[1]]},#[[2]],1]&/@({#[[2]],MapThread[#1->#2&,{#[[1]],#[[2]]}]&/@#[[1]]}&/@({First@Outer[List,{#[[1]]},#[[2]],1],#[[3]]}&/@({#[[1]],Tuples[Range[0,k-1],Length[#[[1]]]],#[[2]]}&/@({RuleTemplateVars[{#}],#}&/@Select[intemplate,(Depth[#]>1)&])))),2],{_,x_/;\[Not]MemberQ[Range[0,k-1],x]}])]
+BooleanFromRule[x_ /; x[[2]] == 0] := Not[x[[1]]];
+BooleanFromRule[x_ /; x[[2]] == 1] := x[[1]];
 
+ConjunctionFromRuleSet[ruleSet_List] :=
+    Apply[And, Map[BooleanFromRule, ruleSet]];
+
+DNFFromRuleSet[ruleSet_List] :=
+    Apply[Or, Map[ConjunctionFromRuleSet, ruleSet]];
+
+MinimizedRuleSets[ruleSets_List] :=
+    RuleSetFromDNFF[BooleanMinimize[DNFFromRuleSet[ruleSets]]];
+
+RuleSetFromDNFF[minimizeBooleanExpression_] := Module[{RootExpressionToSubSet, ExpressionToSubSet, LeafExpressionToSubSet},
+  RootExpressionToSubSet[expr_ /; Head[expr] === Or] := Map[ExpressionToSubSet, expr, {1}] /. And -> List /. Or -> List;
+  RootExpressionToSubSet[expr_] := {ExpressionToSubSet[expr]} /. And -> List /. Or -> List;
+
+  ExpressionToSubSet[expr_ /; Head[expr] === And] := Map[LeafExpressionToSubSet, expr];
+  ExpressionToSubSet[expr_] := {LeafExpressionToSubSet[expr]};
+
+  LeafExpressionToSubSet[expr_ /; Head[expr] === Symbol] := expr -> 1;
+  LeafExpressionToSubSet[expr_ /; Head[expr] === Not] := expr[[1]] -> 0;
+
+  result = RootExpressionToSubSet[minimizeBooleanExpression]
+];
 
 FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
 
@@ -207,7 +214,7 @@ PrintTestResults[testReport_] :=
     Module[{red = "\033[0;31m", green = "\033[0;32m", noColor = "\033[0m"},
       Print[green <> "Suceeded: " <> ToString[testReport["TestsSucceededCount"]] <> noColor];
       If[testReport["TestsFailedCount"] > 0,
-        Print[red <> "Failed: " <> ToString[testReport["TestsFailedCount"]] <> noColor]];
+        Print[red <> "Failed: " <> ToString[testReport["TestsFailedCount"]]<> "; Indices:" <> ToString[testReport["TestsFailedIndices"]] <> noColor]];
     ];
 
 End[];
