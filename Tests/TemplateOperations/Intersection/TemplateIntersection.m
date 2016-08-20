@@ -5,25 +5,25 @@
 report = TestReport[{
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, ConstantArray[0, 8]]},
       TemplateIntersection[t1, t2] === t2]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, ConstantArray[1, 8]]},
       TemplateIntersection[t1, t2] === t2]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]]},
+      t1 = BaseTemplate[2, 1.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[2, 2]]},
+      t1 = BaseTemplate[2, 2.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[2, 3]]},
+      t1 = BaseTemplate[2, 3.0]},
       TemplateIntersection[t1, t1] === t1]],
   VerificationTest[
     With[{
@@ -33,14 +33,14 @@ report = TestReport[{
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
     With[{
-      t1 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t1 = BaseTemplate[2, 1.0],
       t2 = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}],
       result = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}]},
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
     With[{
       t1 = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}],
-      t2 = BuildTemplate[2, 1.0, OldBaseTemplate[]],
+      t2 = BaseTemplate[2, 1.0],
       result = BuildTemplate[2, 1.0, {x7, 0, x5, 0, x3, 0, x1, 0}]},
       TemplateIntersection[t1, t2] === result]],
   VerificationTest[
@@ -96,7 +96,9 @@ report = TestReport[{
       result = BuildTemplate[2, 1.0, {0, 1, 1}]},
       TemplateIntersection[t1, t2] === result]]}];
 
-PrintTestResults[report];
+PrintReport[report];
+
+Print["mod"];
 
 modReport = TestReport[{
   VerificationTest[
@@ -133,16 +135,28 @@ modReport = TestReport[{
         result = BuildTemplate[3, 1.0, {1, 0}, ModK]},
         TemplateIntersection[i1, i2] === result]]]}];
 
-PrintTestResults[modReport];
+PrintReport[modReport];
 
-constantsToVariablesReport = TestReport[{
-  VerificationTest[
-    ConstantsToVariables[{x0 -> C[1]}] === {x0 -> x0}],
-  VerificationTest[
-    ConstantsToVariables[{x1 -> C[2], x0 -> C[1]}] === {x1 -> x1, x0 -> x0}],
-  VerificationTest[
-    ConstantsToVariables[{x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] === {x2 -> 1 + x0, x1 -> x1, x0 -> x0}],
-  VerificationTest[
-    ConstantsToVariables[{x3 -> 1 + C[1] + C[2], x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] == {x3 -> 1 + x0 + x1, x2 -> 1 + x0,   x1 -> x1, x0 -> x0}]}]
+Print["CoreVarsFromConstants"];
 
-PrintTestResults[constantsToVariablesReport];
+CoreVarsFromConstantsReport = TestReport[{
+  VerificationTest[
+    CoreVarsFromConstants[{x0 -> C[1]}] === {x0 -> x0}],
+  VerificationTest[
+    CoreVarsFromConstants[{x1 -> C[2], x0 -> C[1]}] === {x1 -> x1, x0 -> x0}],
+  VerificationTest[
+    CoreVarsFromConstants[{x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] === {x2 -> 1 + x0, x1 -> x1, x0 -> x0}],
+  VerificationTest[
+    CoreVarsFromConstants[{x3 -> 1 + C[1] + C[2], x2 -> 1 + C[1], x1 -> C[2], x0 -> C[1]}] == {x3 -> 1 + x0 + x1, x2 -> 1 + x0,   x1 -> x1, x0 -> x0}]}]
+
+PrintReport[CoreVarsFromConstantsReport];
+
+Print["EquationsFromValueRestrictions"];
+
+valueRestrictionsReport = TestReport[{
+  VerificationTest[EquationsFromValueRestrictions[x1 \[Element] {0, 1}] === (x1 == 0 || x1 == 1)],
+  VerificationTest[EquationsFromValueRestrictions[x2 \[Element] {0, 1}] === (x2 == 0 || x2 == 1)],
+  VerificationTest[EquationsFromValueRestrictions[x2 \[Element] {0, 1, 2}] === (x2 == 0 || x2 == 1 || x2 == 2)]
+}];
+
+PrintReport[valueRestrictionsReport];

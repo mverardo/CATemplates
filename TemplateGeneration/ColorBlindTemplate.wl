@@ -2,17 +2,24 @@
 
 BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
   {
-    "CATemplates`Basic`",
+    "CATemplates`CA`",
     "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`"
   }];
 
 
+PossiblePermutations::usage="Generates a list of all color permutations possible for a given k";
 ColorBlindTemplate::usage="Generates a template representative of all the color blind rules of a given space (defined by k and r).";
 
 
 Begin["`Private`"];
+
+PossiblePermutations[k_Integer: 2] :=
+    With[
+      {permuts = Permutations[Range[0, k - 1]]},
+      MapThread[Thread[#1 -> #2] &, {Table[First@permuts, {Length[permuts] - 1}], Rest@permuts}]
+    ];
 
 EquivalenceClassByPermutation::usage="Finds the equivalence class of a neighbourhood given by a permutation";
 EquivalenceClassByPermutation[nb_, permutation_] :=
@@ -63,7 +70,7 @@ VariantReplacementRules[nbEqClasses_, permutation_, k_] :=
 
 ColorBlindTemplate[k_Integer: 2, r_Real: 1.0] :=
     With[
-      {cbTemplates = ColorBlindTemplate[#, k, r] & /@ PossibleStateReplacements[k]},
+      {cbTemplates = ColorBlindTemplate[#, k, r] & /@ PossiblePermutations[k]},
       Fold[TemplateIntersection[#2, #1]&, cbTemplates[[1]], Rest[cbTemplates]]
     ];
 
@@ -72,7 +79,7 @@ ColorBlindTemplate[permutation_List, k_Integer: 2, r_Real: 1.0] :=
       neighbourhoods = Reverse[AllNeighbourhoods[k, r]];
       nbEqClasses = PartitionByPermutation[neighbourhoods, permutation];
       replacementRules = Join[InvariantReplacementRules[nbEqClasses, permutation, k], VariantReplacementRules[nbEqClasses, permutation, k]];
-      BuildTemplate[k, r, OldBaseTemplate[k, r] /. replacementRules, ModK]
+      BuildTemplate[k, r, BaseTemplateCore[k, r] /. replacementRules, ModK]
     ];
 
 End[];

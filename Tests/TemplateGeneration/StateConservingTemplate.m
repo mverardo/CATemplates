@@ -2,6 +2,17 @@
 
 << CATemplates`;
 
+FreeVariableQ::usage = "FreeVariableQ[expression_]: Receives an expression, and returns true if the expression is a free variable and false otherwise.";
+FreeVariableQ[expression_] := MatchQ[expression, _Symbol];
+
+CorrespondsToNeighborhoodQ::usage = "CorrespondsToNeighborhoodQ[freeVariable_Symbol, nbIndex_Integer]: Receives a free variable expression and a neighborhood index, and returns true if the variable's index corresponds to the received nb index.";
+CorrespondsToNeighborhoodQ[symbol_, nbIndex_] :=
+    (FromDigits[StringDrop[SymbolName[symbol], 1]] === nbIndex);
+
+PreservesIndexVariableDualityQ::usage = "PreservesIndexVariableDualityQ[template_]: Receives a template and returns true if the template preserver the index-variable diality.";
+PreservesIndexVariableDualityQ[template_] :=
+    And @@ (MapIndexed[(!FreeVariableQ[#1]) || (CorrespondsToNeighborhoodQ[#1, First[#2] - 1]) &, Reverse[template]]);
+
 report = TestReport[{
   VerificationTest[
     StateConservingTemplate[] === BuildTemplate[2, 1.0, {1,1+x2-x3,1-x2,1-x1-x2,x3,x2,x1,0}, FilterOutOfRange]],
@@ -19,4 +30,4 @@ report = TestReport[{
     PreservesIndexVariableDualityQ[ModNStateConservingTemplate[3][["core"]]]]
 }];
 
-PrintTestResults[report];
+PrintReport[report];

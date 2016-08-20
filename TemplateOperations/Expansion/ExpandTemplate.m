@@ -1,15 +1,7 @@
-(* Mathematica Package         *)
-(* Created by IntelliJ IDEA    *)
-
-(* :Title: ExpandTemplate     *)
-(* :Context: ExpandTemplate`  *)
-(* :Author: mverardo            *)
-(* :Date: 26/07/15              *)
-
 BeginPackage["CATemplates`TemplateOperations`Expansion`ExpandTemplate`",
   {
-    "CATemplates`Basic`",
-    "CATemplates`CATemplate`"
+    "CATemplates`CATemplate`",
+    "CATemplates`FunctionHelpers`"
   }];
 
 ExpandTemplate::usage =

@@ -37,4 +37,4 @@ report = TestReport[{
   VerificationTest[TestIntersection[First[SymmetricTemplate[BWLRTransform, 8, 2, 1.0]], OuterTotalisticTemplate[2, 1.0]]],
   VerificationTest[TestIntersection[TotalisticTemplate[2, 1.0], OuterTotalisticTemplate[2, 1.0]]]}];
 
-PrintTestResults[report];
+PrintReport[report];
