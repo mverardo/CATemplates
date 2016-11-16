@@ -35,7 +35,7 @@ AllNeighbourhoods[k_Integer : 2, r_ : 1] :=
     Tuples[Range[k - 1, 0, -1], Floor[2 r + 1]];
 
 RuleTable[rnum_Integer, k_Integer: 2, r_: 1] :=
-    RuleTableFromKAry[PadLeft[IntegerDigits[rnum, k], Power[k, Floor[2 r + 1]], k, r]];
+    RuleTableFromKAry[IntegerDigits[rnum, k, Power[k, Floor[2 r + 1]]], k, r];
 
 (* Adapters *)
 
