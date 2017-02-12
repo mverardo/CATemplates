@@ -2,19 +2,19 @@
 
 << CATemplates`;
 
-TestTable[karyTable_, permutation_, k_] :=
+ColorBlindForPermutationQ[karyTable_, permutation_, k_] :=
     Module[
       {ruleTable},
       ruleTable = RuleTableFromKAry[karyTable, k];
       Reverse[Sort[(ruleTable /. permutation)]] == ruleTable
     ];
 
-TestAllPermutations[ruleTable_, k_] :=
-    And @@ (TestTable[ruleTable, #, k] & /@ PossiblePermutations[k]);
+ColorBlindQ[ruleTable_, k_] :=
+    And @@ (ColorBlindForPermutationQ[ruleTable, #, k] & /@ PossiblePermutations[k]);
 
 report = TestReport[{
   VerificationTest[templateCore[ColorBlindTemplate[2]] === templateCore[SymmetricTemplate[BWTransform, 8][[1]]]],
-  VerificationTest[And @@ (TestAllPermutations[#, 3] & /@ ExpandTemplate[ColorBlindTemplate[3]]) === True]
+  VerificationTest[And @@ (ColorBlindQ[#, 3] & /@ ExpandTemplate[ColorBlindTemplate[3]]) === True]
 }];
 
 PrintReport[report];

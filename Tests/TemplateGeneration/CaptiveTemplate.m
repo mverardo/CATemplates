@@ -2,9 +2,15 @@
 
 << CATemplates`;
 
+CaptiveQ[karyTable_, k_, r_] :=
+    With[{ruleTable = RuleTableFromKAry[karyTable, k, r]},
+      And @@ (MemberQ[#[[1]], #[[2]]] & /@ ruleTable)];
+
 report = TestReport[{
   VerificationTest[
     CaptiveTemplate[2, 1.0] === BuildTemplate[2, 1.0, {1, x6, x5, x4, x3, x2, x1, 0}, {FilterNotAllowed, FilterOutOfRange}]],
+  VerificationTest[
+    And @@ (CaptiveQ[#, 2, 1.0] & /@ ExpandTemplate[CaptiveTemplate[2, 1.0]]) === True],
   VerificationTest[
     CaptiveTemplate[3, 1.0] === BuildTemplate[3, 1.0, {2, x25 \[Element] {1, 2},
       x24 \[Element] {0, 2}, x23 \[Element] {1, 2}, x22 \[Element] {1, 2},
