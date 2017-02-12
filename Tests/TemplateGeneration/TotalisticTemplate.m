@@ -5,11 +5,21 @@
 
 << CATemplates`;
 
+SameOutputQ[group_] :=
+    Equal @@ (group[[All, 2]])
+
+TotalisticQ[karyTable_, k_, r_] :=
+    With[{ruleTable = RuleTableFromKAry[karyTable, k, r]},
+      With[{groups = GroupBy[ruleTable, Plus @@ (#[[1]]) &]},
+        And @@ (SameOutputQ /@ (Values[groups]))]];
+
 report = TestReport[{
   VerificationTest[
     With[
       {expectedTemplate = <|"k" -> 2, "r" -> 1.0, "core" -> {x7, x3, x3, x1, x3, x1, x1, x0}, "postExpansionFn" -> IdentityFn |>},
       TotalisticTemplate[2, 1.0] === expectedTemplate]],
+  VerificationTest[
+    (And @@ (TotalisticQ[#, 2, 1.0] & /@ ExpandTemplate[TotalisticTemplate[2, 1.0]])) === True],
   VerificationTest[
     With[
       {expectedTemplate = <|"k" -> 2, "r" -> 2.0, "core" -> {x31, x15, x15, x7, x15, x7, x7, x3, x15, x7, x7, x3, x7, x3, x3, x1, x15, x7, x7, x3, x7, x3, x3, x1, x7, x3, x3, x1, x3, x1, x1, x0}, "postExpansionFn" -> IdentityFn |>},
