@@ -35,7 +35,7 @@ Out[6] = {{1,1,1,0,1,0,0,0},{0,1,1,0,1,0,0,1},{1,0,0,1,0,1,1,0},{0,0,0,1,0,1,1,1
 (* Here is where things get fun!
    We can generate templates for bigger (potentially huge) spaces.
    Let's try to increase r a little: *)
-In[7] = tr5 = With[{k=2, r=5.0}, TemplateIntersection[ColorBlindTemplate[k, r], TotalisticTemplate[k, r]]];
+In[7] = $RecursionLimit = Infinity; tr5 = With[{k=2, r=5.0}, TemplateIntersection[ColorBlindTemplate[k, r], TotalisticTemplate[k, r]]];
 
 (* Note we just found templates representatives of all binary radius 5.0 colorblind rules,
    did the same for totalistic rules and intersected the sets.
