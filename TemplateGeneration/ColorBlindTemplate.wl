@@ -5,6 +5,7 @@ BeginPackage["CATemplates`TemplateGeneration`ColorBlindTemplate`",
     "CATemplates`CA`",
     "CATemplates`CATemplate`",
     "CATemplates`TemplateOperations`Intersection`TemplateIntersection`",
+    "CATemplates`TemplateOperations`Expansion`PostExpansionFn`FilterNotAllowed`",
     "CATemplates`TemplateOperations`Expansion`PostExpansionFn`ModK`"
   }];
 
@@ -79,7 +80,7 @@ ColorBlindTemplate[permutation_List, k_Integer: 2, r_Real: 1.0] :=
       neighbourhoods = Reverse[AllNeighbourhoods[k, r]];
       nbEqClasses = PartitionByPermutation[neighbourhoods, permutation];
       replacementRules = Join[InvariantReplacementRules[nbEqClasses, permutation, k], VariantReplacementRules[nbEqClasses, permutation, k]];
-      BuildTemplate[k, r, BaseTemplateCore[k, r] /. replacementRules, ModK]
+      BuildTemplate[k, r, BaseTemplateCore[k, r] /. replacementRules, {FilterNotAllowed, ModK}]
     ];
 
 End[];
