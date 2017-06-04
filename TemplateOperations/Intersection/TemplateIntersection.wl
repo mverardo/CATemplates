@@ -28,7 +28,9 @@ Begin["`Private`"];
 
 ModTemplateQ[template_Association] :=
     Or[postExpansionFn[template] === ModK,
-       postExpansionFn[template] === TemplateMod];
+       postExpansionFn[template] === TemplateMod,
+       MemberQ[postExpansionFn[template], ModK],
+       MemberQ[postExpansionFn[template], TemplateMod]];
 
 ModIntersectionNeededQ[template1_Association, template2_Association] :=
     And[ModTemplateQ[template1],

@@ -133,6 +133,16 @@ modReport = TestReport[{
         i1 = TemplateIntersection[t1, t2],
         i2 = TemplateIntersection[t1, t3],
         result = BuildTemplate[3, 1.0, {1, 0}, ModK]},
+        TemplateIntersection[i1, i2] === result]]],
+  VerificationTest[(*Should work even if ModK is in a list of postExpansionFns*)
+    With[{
+      t1 = BuildTemplate[3, 1.0, {x1, x0}, {FilterNotAllowed, ModK}],
+      t2 = BuildTemplate[3, 1.0, {4, x0}, {FilterNotAllowed, ModK}],
+      t3 = BuildTemplate[3, 1.0, {x1, 0}, {FilterNotAllowed, ModK}]},
+      With[{
+        i1 = TemplateIntersection[t1, t2],
+        i2 = TemplateIntersection[t1, t3],
+        result = BuildTemplate[3, 1.0, {1, 0}, {FilterNotAllowed, ModK}]},
         TemplateIntersection[i1, i2] === result]]]}];
 
 PrintReport[modReport];
