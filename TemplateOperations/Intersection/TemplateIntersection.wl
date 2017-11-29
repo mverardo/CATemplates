@@ -96,8 +96,8 @@ IntersectionFn[template1_Association, template2_Association] :=
       ModIntersection,
       SimpleIntersection];
 
-WinningPostExpansionFn[FilterOutOfRange, ModK] := FilterOutOfRange;
-WinningPostExpansionFn[ModK, FilterOutOfRange] := FilterOutOfRange;
+WinningPostExpansionFn[FilterOutOfRange, _] := FilterOutOfRange;
+WinningPostExpansionFn[_, FilterOutOfRange] := FilterOutOfRange;
 
 WinningPostExpansionFn[IdentityFn, expansion_] := expansion;
 WinningPostExpansionFn[expansion_, IdentityFn] := expansion;
