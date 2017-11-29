@@ -94,6 +94,12 @@ report = TestReport[{
       t1 = BuildTemplate[2, 1.0, {x2 \[Element] {0, 2}, x1 \[Element] {0, 1}, x0}],
       t2 = BuildTemplate[2, 1.0, {x2  \[Element] {0, 1}, x0 \[Element] {1, 2}, x0}],
       result = BuildTemplate[2, 1.0, {0, 1, 1}]},
+      TemplateIntersection[t1, t2] === result]],
+  VerificationTest[
+    With[{
+      t1 = BuildTemplate[2, 1.0, {1, x, 1, 0}],
+      t2 = BuildTemplate[2, 1.0, {1, 1, 1-x, x}],
+      result = BuildTemplate[2, 1.0, {1, 1, 1, 0}]},
       TemplateIntersection[t1, t2] === result]]}];
 
 PrintReport[report];
