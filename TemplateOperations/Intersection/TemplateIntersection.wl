@@ -45,8 +45,6 @@ RenameCoreVars[template_Association, from_String, to_String] :=
 
 XVarsToYVars[symbol_] := RenameCoreVars[symbol, "x", "y"];
 
-YVarsToXVars[symbol_] := RenameCoreVars[symbol, "y", "x"];
-
 ModTemplateQ[template_Association] :=
     Or[postExpansionFn[template] === ModK,
        postExpansionFn[template] === TemplateMod,
@@ -101,7 +99,7 @@ SimpleIntersection[replacementRules_, template1_Association, template2_Associati
       coreTemplate2 = RawCore[templateCore[template2]]},
       If[replacementRules == {},
         {},
-        First[Union[coreTemplate1 /.replacementRules, coreTemplate2 /. replacementRules]]]]
+        First[Union[coreTemplate1 /.replacementRules, coreTemplate2 /. replacementRules]]]];
 
 ModIntersection[replacementRules_, template1_Association, template2_Association] :=
     With[{
@@ -117,8 +115,8 @@ IntersectionFn[template1_Association, template2_Association] :=
       ModIntersection,
       SimpleIntersection];
 
-WinningPostExpansionFn[FilterOutOfRange, ModK] := FilterOutOfRange;
-WinningPostExpansionFn[ModK, FilterOutOfRange] := FilterOutOfRange;
+WinningPostExpansionFn[FilterOutOfRange, _] := FilterOutOfRange;
+WinningPostExpansionFn[_, FilterOutOfRange] := FilterOutOfRange;
 
 WinningPostExpansionFn[IdentityFn, expansion_] := expansion;
 WinningPostExpansionFn[expansion_, IdentityFn] := expansion;
