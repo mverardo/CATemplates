@@ -70,10 +70,6 @@ If you don't want to clone the repository directly inside $UserBaseDirectory, yo
 
 #Running unit tests
 
-Give execution permission to the "test" script inside the project's root:
-
-    $ chmod +x test
-
 Run the script:
 
     $ ./test
