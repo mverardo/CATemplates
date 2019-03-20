@@ -130,20 +130,19 @@ PostExpansionFnFight[template1_Association, template2_Association] :=
       WinningPostExpansionFn[expansion1, expansion2]];
 
 TemplateIntersection[template1_Association, template2_Association] :=
-    With[{renamedTemplate2 = XVarsToYVars[template2]},
-      Module[{
-        k = k[template1],
-        r = r[template1],
-        expansion = PostExpansionFnFight[template1, template2],
-        replacementRules = ReplacementRules[template1, renamedTemplate2],
-        intersectionFn = IntersectionFn[template1, template2],
-        restrictions = Join[valueRestrictions[template1], valueRestrictions[template2]],
-        intersectionResult},
+    Module[{
+      k = k[template1],
+      r = r[template1],
+      expansion = PostExpansionFnFight[template1, template2],
+      replacementRules = ReplacementRules[template1, template2],
+      intersectionFn = IntersectionFn[template1, template2],
+      restrictions = Join[valueRestrictions[template1], valueRestrictions[template2]],
+      intersectionResult},
 
-        intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, renamedTemplate2], restrictions, replacementRules];
-        If[ValidTemplateCoreQ[intersectionResult],
-          BuildTemplate[k, r, intersectionResult, expansion],
-          BuildTemplate[k, r, {}, expansion]]]];
+      intersectionResult = ValueRestrictionIntersection[intersectionFn[replacementRules, template1, template2], restrictions, replacementRules];
+      If[ValidTemplateCoreQ[intersectionResult],
+        BuildTemplate[k, r, intersectionResult, expansion],
+        BuildTemplate[k, r, {}, expansion]]]
 
 (* The intersection between two sets of templates is given by the outer product of the intersection over the sets. *)
 TemplateIntersection[x_List, y_List] :=
